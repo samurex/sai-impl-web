@@ -1,0 +1,14 @@
+
+<h3>Data Instances in this pod</h3>
+
+<mat-card *ngFor="let entry of (data | async)">
+  {{entry.shapeTree}}
+  <hr>
+  <div *ngFor="let instance of entry.dataInstances">
+    {{instance}}
+  </div>
+</mat-card>
+
+<h3>Applications Registered in this pod</h3>
+
+

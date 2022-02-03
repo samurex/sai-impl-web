@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+  <span>Solid Authorization Agent</span>
+  <span class="spacer"></span>
+  <div *ngIf="webId">{{webId}}</div>
+  <span class="spacer"></span>
+  <span class="material-icons">search</span>
+<!--  TODO (angel) enable search only when logged in and in a searchable path -->
+<!--  <mat-form-field>-->
+<!--    <input matInput type="text" placeholder="Search">-->
+<!--  </mat-form-field>-->
+<!--  <span class="spacer"></span>-->
+  <button mat-raised-button (click)="logout.emit()">Log Out</button>
+</mat-toolbar>
