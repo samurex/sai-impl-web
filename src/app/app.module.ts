@@ -14,6 +14,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ConsentPanelComponent } from './views/consent-panel/consent-panel.component';
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     NavbarComponent,
     LoginComponent,
     DashboardComponent,
+    ConsentPanelComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +36,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatExpansionModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
