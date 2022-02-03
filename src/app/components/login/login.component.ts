@@ -21,6 +21,9 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    window.location.href = `${ENV.AUTH_URL}/login`;
+    this.http.post(`${ENV.AUTH_URL}/login`, {idp: this.loginForm.get('issuer')!.value || ENV.DEFAULT_IDP}, {responseType:'text'})
+      .subscribe(url => {
+        window.location.href = url;
+      });
   }
 }
