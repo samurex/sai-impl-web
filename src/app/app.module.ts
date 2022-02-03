@@ -16,6 +16,10 @@ import {MatInputModule} from "@angular/material/input";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ConsentPanelComponent } from './views/consent-panel/consent-panel.component';
 import {MatExpansionModule} from "@angular/material/expansion";
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ENV } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -37,6 +41,10 @@ import {MatExpansionModule} from "@angular/material/expansion";
     MatFormFieldModule,
     MatInputModule,
     MatExpansionModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),
   ],
   providers: [],
   bootstrap: [AppComponent]
