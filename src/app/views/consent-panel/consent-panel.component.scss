@@ -1,0 +1,73 @@
+
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+mat-expansion-panel-header {
+  height: auto !important;
+  padding-bottom: 10px;
+  padding-top: 10px;
+
+  img {
+    max-block-size: 75px;
+    border-radius: 50%;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.19);
+    border: solid 2px #FFF;
+  }
+
+}
+
+.content {
+  display: flex;
+  padding: 5px;
+  gap: 10px;
+}
+
+.text-content {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-evenly;
+
+  h3 {
+    color: #131415;
+  }
+
+  p {
+    font-size: 0.85rem;
+    color: #768692;
+  }
+
+  h3, p {
+    margin: 0px;
+  }
+}
+
+
+.access-need {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 60px;
+}
+
+.access-label-container {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 10px;
+
+  .label {
+    text-transform: capitalize;
+    padding: 10px 20px;
+    border-radius: 5%;
+    align-self: center;
+    background-color: #f7f7f7;
+  }
+}
+
+.access-need.even {
+  background-color: #fafafa;
+}
+
+:host ::ng-deep .mat-expansion-panel-body {
+  padding: 0;
+}
