@@ -36,11 +36,19 @@ mat-expansion-panel-header {
   p {
     font-size: 0.85rem;
     color: #768692;
+
   }
 
   h3, p {
     margin: 0px;
   }
+}
+
+a {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 10px;
 }
 
 

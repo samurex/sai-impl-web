@@ -5,38 +5,38 @@
     <mat-expansion-panel-header>
       <mat-panel-title>
         <div class="content">
-          <img src="{{consent.icon}}">
+          <img src="{{profile['thumbnail']}}">
           <div class="text-content">
-            <h3>{{consent.name}}</h3>
-            <p>{{consent.description}}</p>
-            <p><a href="{{consent.authorUrl}}" target="_blank">{{consent.author}}</a> • Authorized: {{ consent.authorizationDate | date}} </p>
+            <h3>{{profile["name"]}}</h3>
+            <p>{{profile["description"]}}</p>
+            <p>{{profile["author"]}}</p>
           </div>
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <div class="panel-content">
-<!--      TODO (angel) remove expanded, for testing only -->
-      <mat-expansion-panel *ngFor="let group of groups" expanded="true">
-        <mat-expansion-panel-header>
-          <div class="text-content">
-            <h3>{{group.name}}</h3>
-            <p>{{group.description}}</p>
-          </div>
-        </mat-expansion-panel-header>
-        <div class="access-need-panel">
-          <div class="access-need" *ngFor="let need of group.needs; let odd=odd; let even=even" [ngClass]="{odd: odd, even: even}">
-            <div class="text-content">
-              <h3>{{need.name}}</h3>
-              <p>{{need.description}}</p>
-            </div>
-            <div class="access-label-container">
-              <div *ngFor="let level of need.accessLevel" class="label">
-                {{level}}
-              </div>
-            </div>
-          </div>
-        </div>
-      </mat-expansion-panel>
-    </div>
+<!--    <div class="panel-content">-->
+<!--&lt;!&ndash;      TODO (angel) remove expanded, for testing only &ndash;&gt;-->
+<!--      <mat-expansion-panel *ngFor="let group of groups" expanded="true">-->
+<!--        <mat-expansion-panel-header>-->
+<!--          <div class="text-content">-->
+<!--            <h3>{{group.name}}</h3>-->
+<!--            <p>{{group.description}}</p>-->
+<!--          </div>-->
+<!--        </mat-expansion-panel-header>-->
+<!--        <div class="access-need-panel">-->
+<!--          <div class="access-need" *ngFor="let need of group.needs; let odd=odd; let even=even" [ngClass]="{odd: odd, even: even}">-->
+<!--            <div class="text-content">-->
+<!--              <h3>{{need.name}}</h3>-->
+<!--              <p>{{need.description}}</p>-->
+<!--            </div>-->
+<!--            <div class="access-label-container">-->
+<!--              <div *ngFor="let level of need.accessLevel" class="label">-->
+<!--                {{level}}-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </mat-expansion-panel>-->
+<!--    </div>-->
   </mat-expansion-panel>
 </mat-accordion>

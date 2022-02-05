@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Consent, ConsentGroup, ConsentNeed} from "../../models/consent";
+import type { ApplicationProfile } from '@janeirodigital/sai-server/dist/sai-api';
 
 @Component({
   selector: 'sai-consent-panel',
@@ -9,19 +9,21 @@ import {Consent, ConsentGroup, ConsentNeed} from "../../models/consent";
 export class ConsentPanelComponent implements OnInit {
 
   @Input()
-  consent!: Consent;
+  profile!: ApplicationProfile;
 
-  @Input()
-  groups!: ConsentGroup[];
+  // @Input()
+  // groups!: AccessConsent[];
 
   @Output()
   openAuthorUrl = new EventEmitter<void>();
-  @Output()
-  updateConsent = new EventEmitter<Consent>();
+  // @Output()
+  // updateConsent = new EventEmitter<ConsentGroup>();
 
   constructor() { }
 
   ngOnInit(): void {
+    // TODO (angel) remove
+    console.log(this.profile);
   }
 
   noop() {}

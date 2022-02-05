@@ -3,12 +3,12 @@
     "interfaces": [
         {
             "name": "Consent",
-            "id": "interface-Consent-854c9258479cc35696cdb5b655ea19898b7fdcf2610490b4ee119d37d1a6fe2e4e1ca48dfc18016b90d34296bf56e1a31dec999c0569e47543fc3d7816be3774",
+            "id": "interface-Consent-00d7a281309217c180b0ed61fa93a993224a2657efc3e38f3b75d7a7b415c6f31f596a67d49151af27159c7d3d64df92dd62d3dd7df77518eec85b80e85b9a65",
             "file": "src/app/models/consent.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "export interface Consent {\n  name: string;\n  description: string;\n  author: string;\n  authorUrl: string;\n  authorizationDate: Date;\n  iconUrl: string;\n}\n",
+            "sourceCode": "export enum ACCESS_LEVEL {\n  READ = 'read',\n  WRITE = 'write',\n  CONTROL = 'control',\n}\n\nexport interface Consent {\n  id: string;\n  name: string;\n  description: string;\n  author: string;\n  authorUrl: string;\n  authorizationDate: Date;\n  icon: string;\n}\n\nexport interface ConsentGroup {\n  id: string,\n  name: string,\n  description: string;\n  needs: ConsentNeed[];\n}\n\nexport interface ConsentNeed {\n  id: string;\n  name: string;\n  description: string;\n  accessLevel: ACCESS_LEVEL;\n}\n",
             "properties": [
                 {
                     "name": "author",
@@ -17,7 +17,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 5
+                    "line": 12
                 },
                 {
                     "name": "authorizationDate",
@@ -26,7 +26,7 @@
                     "type": "Date",
                     "optional": false,
                     "description": "",
-                    "line": 7
+                    "line": 14
                 },
                 {
                     "name": "authorUrl",
@@ -35,7 +35,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 6
+                    "line": 13
                 },
                 {
                     "name": "description",
@@ -44,16 +44,25 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 4
+                    "line": 11
                 },
                 {
-                    "name": "iconUrl",
+                    "name": "icon",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 8
+                    "line": 15
+                },
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 9
                 },
                 {
                     "name": "name",
@@ -62,7 +71,185 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 3
+                    "line": 10
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "ConsentGroup",
+            "id": "interface-ConsentGroup-00d7a281309217c180b0ed61fa93a993224a2657efc3e38f3b75d7a7b415c6f31f596a67d49151af27159c7d3d64df92dd62d3dd7df77518eec85b80e85b9a65",
+            "file": "src/app/models/consent.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export enum ACCESS_LEVEL {\n  READ = 'read',\n  WRITE = 'write',\n  CONTROL = 'control',\n}\n\nexport interface Consent {\n  id: string;\n  name: string;\n  description: string;\n  author: string;\n  authorUrl: string;\n  authorizationDate: Date;\n  icon: string;\n}\n\nexport interface ConsentGroup {\n  id: string,\n  name: string,\n  description: string;\n  needs: ConsentNeed[];\n}\n\nexport interface ConsentNeed {\n  id: string;\n  name: string;\n  description: string;\n  accessLevel: ACCESS_LEVEL;\n}\n",
+            "properties": [
+                {
+                    "name": "description",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 21
+                },
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 19
+                },
+                {
+                    "name": "name",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 20
+                },
+                {
+                    "name": "needs",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ConsentNeed[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 22
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "ConsentNeed",
+            "id": "interface-ConsentNeed-00d7a281309217c180b0ed61fa93a993224a2657efc3e38f3b75d7a7b415c6f31f596a67d49151af27159c7d3d64df92dd62d3dd7df77518eec85b80e85b9a65",
+            "file": "src/app/models/consent.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export enum ACCESS_LEVEL {\n  READ = 'read',\n  WRITE = 'write',\n  CONTROL = 'control',\n}\n\nexport interface Consent {\n  id: string;\n  name: string;\n  description: string;\n  author: string;\n  authorUrl: string;\n  authorizationDate: Date;\n  icon: string;\n}\n\nexport interface ConsentGroup {\n  id: string,\n  name: string,\n  description: string;\n  needs: ConsentNeed[];\n}\n\nexport interface ConsentNeed {\n  id: string;\n  name: string;\n  description: string;\n  accessLevel: ACCESS_LEVEL;\n}\n",
+            "properties": [
+                {
+                    "name": "accessLevel",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ACCESS_LEVEL",
+                    "optional": false,
+                    "description": "",
+                    "line": 29
+                },
+                {
+                    "name": "description",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 28
+                },
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 26
+                },
+                {
+                    "name": "name",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 27
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "ConsentsState",
+            "id": "interface-ConsentsState-6b514f135ff98f8d6322ca17a97b830e169cdcb580f2b11ec360cbaf1ba37ef68f0af3146fb584cebe2d0273221ddb8726ed80d39f7460221c0b7f385ccefee8",
+            "file": "src/app/reducers/consents.reducer.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import {createReducer} from \"@ngrx/store\";\n\nexport interface ConsentsState {\n  consentId: string;\n}\n\nexport const initialState: ConsentsState = {\n  consentId: 'consent-id-0001',\n};\n\nexport const consentReducer = createReducer(\n  initialState,\n)\n",
+            "properties": [
+                {
+                    "name": "consentId",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "CoreState",
+            "id": "interface-CoreState-2c3d59c4237d954aedb1537f5fe5ff03f24b6739ede5a1b83dc6ad21efc622a22d7b74abb5e0df5e718c9011a30d2c1933c4d913a8501011ec12d383a44300b6",
+            "file": "src/app/reducers/core.reducer.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import {createReducer} from \"@ngrx/store\";\n\nexport interface CoreState {\n  webId: string;\n}\n\nexport const initialState: CoreState = {\n  webId: 'https://me.provider.org',\n}\n\nexport const coreReducer = createReducer(\n  initialState,\n)\n",
+            "properties": [
+                {
+                    "name": "webId",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "State",
+            "id": "interface-State-428d777207988c768205c6bbc40c3d01a60942622f5694d51add49a9e5bd9bf86400dcd8778214acf31f797ddbc6ccb497534d5d8fe66e917b81586cf47e4731",
+            "file": "src/app/reducers/index.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import {\n  ActionReducer,\n  ActionReducerMap,\n  createFeatureSelector,\n  createSelector,\n  MetaReducer\n} from '@ngrx/store';\nimport { ENV } from '../../environments/environment';\n\nimport { CoreState, coreReducer } from \"./core.reducer\";\nimport { ConsentsState, consentReducer } from \"./consents.reducer\";\n\n\nexport interface State {\n  core: CoreState,\n  consent: ConsentsState,\n}\n\nexport const reducers: ActionReducerMap<State> = {\n  core: coreReducer,\n  consent: consentReducer,\n};\n\nexport const metaReducers: MetaReducer<State>[] = !ENV.production ? [] : [];\n",
+            "properties": [
+                {
+                    "name": "consent",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ConsentsState",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
+                },
+                {
+                    "name": "core",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "CoreState",
+                    "optional": false,
+                    "description": "",
+                    "line": 15
                 }
             ],
             "indexSignatures": [],
@@ -513,7 +700,7 @@
         },
         {
             "name": "ConsentPanelComponent",
-            "id": "component-ConsentPanelComponent-b8d3f95f7f0e8953764e90a34868ff0c3bae245dfd547e5693ae1134fef1ba73e48faa664273d762b1a6eddf6f014a75cd24f88e0db602632e28ad4f3c9dfaaa",
+            "id": "component-ConsentPanelComponent-19f32aa583bba78ed84dde302b4823b094de7e28f0d30464c950055f235eb5e88a9807421bd7086f5319d076af0d5839c2e5888a6597931881433aba98da0a0b",
             "file": "src/app/views/consent-panel/consent-panel.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -537,6 +724,14 @@
                     "line": 12,
                     "type": "Consent",
                     "decorators": []
+                },
+                {
+                    "name": "groups",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 15,
+                    "type": "ConsentGroup[]",
+                    "decorators": []
                 }
             ],
             "outputsClass": [
@@ -545,7 +740,7 @@
                     "defaultValue": "new EventEmitter<void>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 15,
+                    "line": 18,
                     "type": "EventEmitter"
                 },
                 {
@@ -553,7 +748,7 @@
                     "defaultValue": "new EventEmitter<Consent>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 17,
+                    "line": 20,
                     "type": "EventEmitter"
                 }
             ],
@@ -565,7 +760,17 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 21,
+                    "line": 24,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "noop",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 27,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -577,11 +782,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {Consent} from \"../../models/consent\";\n\n@Component({\n  selector: 'sai-consent-panel',\n  templateUrl: './consent-panel.component.html',\n  styleUrls: ['./consent-panel.component.scss']\n})\nexport class ConsentPanelComponent implements OnInit {\n\n  @Input()\n  consent!: Consent;\n\n  @Output()\n  openAuthorUrl = new EventEmitter<void>();\n  @Output()\n  updateConsent = new EventEmitter<Consent>();\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {Consent, ConsentGroup, ConsentNeed} from \"../../models/consent\";\n\n@Component({\n  selector: 'sai-consent-panel',\n  templateUrl: './consent-panel.component.html',\n  styleUrls: ['./consent-panel.component.scss']\n})\nexport class ConsentPanelComponent implements OnInit {\n\n  @Input()\n  consent!: Consent;\n\n  @Input()\n  groups!: ConsentGroup[];\n\n  @Output()\n  openAuthorUrl = new EventEmitter<void>();\n  @Output()\n  updateConsent = new EventEmitter<Consent>();\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n  noop() {}\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "",
+                    "data": "\n* {\n  box-sizing: border-box;\n  font-family: sans-serif;\n}\n\nmat-expansion-panel-header {\n  height: auto !important;\n  padding-bottom: 10px;\n  padding-top: 10px;\n\n  img {\n    max-block-size: 75px;\n    border-radius: 50%;\n    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.19);\n    border: solid 2px #FFF;\n  }\n\n}\n\n.content {\n  display: flex;\n  padding: 5px;\n  gap: 10px;\n}\n\n.text-content {\n  display: flex;\n  flex-flow: column nowrap;\n  justify-content: space-evenly;\n\n  h3 {\n    color: #131415;\n  }\n\n  p {\n    font-size: 0.85rem;\n    color: #768692;\n  }\n\n  h3, p {\n    margin: 0px;\n  }\n}\n\n\n.access-need {\n  display: flex;\n  justify-content: space-between;\n  padding: 15px 60px;\n}\n\n.access-label-container {\n  display: flex;\n  flex-flow: row nowrap;\n  gap: 10px;\n\n  .label {\n    text-transform: capitalize;\n    padding: 10px 20px;\n    border-radius: 5%;\n    align-self: center;\n    background-color: #f7f7f7;\n  }\n}\n\n.access-need.even {\n  background-color: #fafafa;\n}\n\n:host ::ng-deep .mat-expansion-panel-body {\n  padding: 0;\n}\n",
                     "styleUrl": "./consent-panel.component.scss"
                 }
             ],
@@ -592,16 +797,16 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 17
+                "line": 20
             },
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<p>consent-panel works!</p>\n"
+            "templateData": "\n<mat-accordion>\n<!--  TODO (angel) remove expanded property, for testing only -->\n  <mat-expansion-panel [expanded]=\"true\">\n    <mat-expansion-panel-header>\n      <mat-panel-title>\n        <div class=\"content\">\n          <img src=\"{{consent.icon}}\">\n          <div class=\"text-content\">\n            <h3>{{consent.name}}</h3>\n            <p>{{consent.description}}</p>\n            <p><a href=\"{{consent.authorUrl}}\" target=\"_blank\">{{consent.author}}</a> • Authorized: {{ consent.authorizationDate | date}} </p>\n          </div>\n        </div>\n      </mat-panel-title>\n    </mat-expansion-panel-header>\n    <div class=\"panel-content\">\n<!--      TODO (angel) remove expanded, for testing only -->\n      <mat-expansion-panel *ngFor=\"let group of groups\" expanded=\"true\">\n        <mat-expansion-panel-header>\n          <div class=\"text-content\">\n            <h3>{{group.name}}</h3>\n            <p>{{group.description}}</p>\n          </div>\n        </mat-expansion-panel-header>\n        <div class=\"access-need-panel\">\n          <div class=\"access-need\" *ngFor=\"let need of group.needs; let odd=odd; let even=even\" [ngClass]=\"{odd: odd, even: even}\">\n            <div class=\"text-content\">\n              <h3>{{need.name}}</h3>\n              <p>{{need.description}}</p>\n            </div>\n            <div class=\"access-label-container\">\n              <div *ngFor=\"let level of need.accessLevel\" class=\"label\">\n                {{level}}\n              </div>\n            </div>\n          </div>\n        </div>\n      </mat-expansion-panel>\n    </div>\n  </mat-expansion-panel>\n</mat-accordion>\n"
         },
         {
             "name": "DashboardComponent",
-            "id": "component-DashboardComponent-d06d3e0985d691c0dfba10524c584dd027ef68797868561019fb56d2c2d1876606e7e2a3744409c433fba6e9a00894481b8df4252672b09322fef4eb575c8e55",
+            "id": "component-DashboardComponent-ecc1a675c0547c0b362755945c6939029f366064a9deda03adaf0f7f7c1f5b2acf2622097cbb97719e6e038c33bbc654df2ed967adb0ad0205e0fffab2c8401b",
             "file": "src/app/components/dashboard/dashboard.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -658,7 +863,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 30,
+                    "line": 34,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -680,7 +885,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { HttpClient } from '@angular/common/http';\nimport { Component, OnInit } from '@angular/core';\nimport {Observable, tap } from 'rxjs';\nimport { ENV } from 'src/environments/environment';\nimport {StateService} from \"../../services/state.service\";\n\n@Component({\n  selector: 'sai-dashboard',\n  templateUrl: './dashboard.component.html',\n  styleUrls: ['./dashboard.component.scss']\n})\nexport class DashboardComponent implements OnInit {\n\n  data!: Observable<{shapeTree: string, dataInstances: string[]}[]>;\n  applications!: Observable<string[]>;\n\n  constructor(\n    public state: StateService,\n    private http: HttpClient,\n  ) { }\n\n  ngOnInit(): void {\n    this.data = this.http.get<{shapeTree: string, dataInstances: string[]}[]>(ENV.API_URL + '/data', { responseType: 'json' })\n      .pipe(tap(console.log));\n\n    this.applications = this.http.get(ENV.API_URL + '/applications', { responseType: 'json'})\n      .pipe(tap(console.log));\n  }\n\n  loadData() {\n  }\n}\n",
+            "sourceCode": "import { HttpClient } from '@angular/common/http';\nimport { Component, OnInit } from '@angular/core';\nimport {Observable, tap } from 'rxjs';\nimport { ENV } from 'src/environments/environment';\nimport {StateService} from \"../../services/state.service\";\n\n@Component({\n  selector: 'sai-dashboard',\n  templateUrl: './dashboard.component.html',\n  styleUrls: ['./dashboard.component.scss']\n})\nexport class DashboardComponent implements OnInit {\n\n  data!: Observable<{shapeTree: string, dataInstances: string[]}[]>;\n  applications!: Observable<string[]>;\n\n  constructor(\n    public state: StateService,\n    private http: HttpClient,\n  ) { }\n\n  ngOnInit(): void {\n    this.data = this.http.get<{shapeTree: string, dataInstances: string[]}[]>(ENV.API_URL + '/data', { responseType: 'json' })\n      .pipe(tap(() => console.log('Data:')))\n      .pipe(tap(console.log));\n\n    this.applications = this.http.get(ENV.API_URL + '/applications', { responseType: 'json'})\n      .pipe(tap(() => console.log('Applications:')))\n      .pipe(tap(console.log));\n\n    this.applications.subscribe(() => {});\n  }\n\n  loadData() {\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -810,7 +1015,7 @@
         },
         {
             "name": "LoginComponent",
-            "id": "component-LoginComponent-a9c75282eaf28587997091797796633819a4edf7b6775a8608f5f36fdfb607783c802e91ff394bb40d4a73755859c0742634f9b31bfe0664d60d1c8e9cd78f10",
+            "id": "component-LoginComponent-3a2b47bfb11dcaf7c5b37da6280c55838e9c36bc651b160a94659f2556d415bf333dd889e4e1d458524f967b2b01befcf50b685c3d5c678cecf64af89be33d8e",
             "file": "src/app/components/login/login.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -869,7 +1074,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { FormControl, FormGroup } from '@angular/forms';\nimport {HttpClient} from \"@angular/common/http\";\nimport { ENV } from \"../../../environments/environment\";\n\n@Component({\n  selector: 'sai-login',\n  templateUrl: './login.component.html',\n  styleUrls: ['./login.component.scss']\n})\nexport class LoginComponent implements OnInit {\n\n  loginForm = new FormGroup({\n    issuer: new FormControl(''),\n  })\n\n  constructor(\n    private http: HttpClient,\n  ) { }\n\n  ngOnInit(): void {}\n\n  onSubmit() {\n    window.location.href = `${ENV.AUTH_URL}/login`;\n  }\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { FormControl, FormGroup } from '@angular/forms';\nimport {HttpClient} from \"@angular/common/http\";\nimport { ENV } from \"../../../environments/environment\";\n\n@Component({\n  selector: 'sai-login',\n  templateUrl: './login.component.html',\n  styleUrls: ['./login.component.scss']\n})\nexport class LoginComponent implements OnInit {\n\n  loginForm = new FormGroup({\n    issuer: new FormControl(''),\n  })\n\n  constructor(\n    private http: HttpClient,\n  ) { }\n\n  ngOnInit(): void {}\n\n  onSubmit() {\n    this.http.post(`${ENV.AUTH_URL}/login`, {idp: this.loginForm.get('issuer')!.value || ENV.DEFAULT_IDP}, {responseType:'text'})\n      .subscribe(url => {\n        window.location.href = url;\n      });\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -987,7 +1192,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<mat-toolbar color=\"primary\">\n  <span>Solid Authorization Agent</span>\n  <span class=\"spacer\"></span>\n  <div *ngIf=\"webId\">{{webId}}</div>\n  <span class=\"spacer\"></span>\n  <span class=\"material-icons\">search</span>\n<!--  TODO (angel) enable search only when logged in and in a searchable path -->\n<!--  <mat-form-field>-->\n<!--    <input matInput type=\"text\" placeholder=\"Search\">-->\n<!--  </mat-form-field>-->\n<!--  <span class=\"spacer\"></span>-->\n  <button mat-raised-button (click)=\"logout.emit()\">Log Out</button>\n</mat-toolbar>\n"
+            "templateData": "<mat-toolbar color=\"primary\">\n  <span>Solid Authorization Agent</span>\n  <span class=\"spacer\"></span>\n  <div *ngIf=\"webId\">{{webId}}</div>\n  <span class=\"spacer\"></span>\n  <button *ngIf=\"!webId\" mat-raised-button (click)=\"logout.emit()\">Log Out</button>\n</mat-toolbar>\n"
         },
         {
             "name": "PageComponent",
@@ -1066,13 +1271,13 @@
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-c33cf4acfffbab15ee0730a3fd8858dd727ada8dad6c6c56ada91966afecf38149704cbcce64f60d401c1e8bb67645587617c79045478cd1a35ca2ff7ac8b856",
+            "id": "module-AppModule-d30ea930a0f032eb524280319dca601c25849a5d018968e6d0c23b4964aef0650327d978548e28c0b1a7a2f7ad8ed1cca6623595ee6501ef689e57a15ae9bfc0",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport {HttpClientModule} from \"@angular/common/http\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./views/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatCardModule} from \"@angular/material/card\";\nimport {ReactiveFormsModule} from \"@angular/forms\";\nimport {MatFormFieldModule} from \"@angular/material/form-field\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport { DashboardComponent } from './components/dashboard/dashboard.component';\nimport { ConsentPanelComponent } from './views/consent-panel/consent-panel.component';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    ConsentPanelComponent,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n  ],\n  providers: [],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport {HttpClientModule} from \"@angular/common/http\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./views/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatCardModule} from \"@angular/material/card\";\nimport {ReactiveFormsModule} from \"@angular/forms\";\nimport {MatFormFieldModule} from \"@angular/material/form-field\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport { DashboardComponent } from './components/dashboard/dashboard.component';\nimport { ConsentPanelComponent } from './views/consent-panel/consent-panel.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport { StoreModule } from '@ngrx/store';\nimport { reducers, metaReducers } from './reducers';\nimport { StoreDevtoolsModule } from '@ngrx/store-devtools';\nimport { ENV } from '../environments/environment';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    ConsentPanelComponent,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatExpansionModule,\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),\n  ],\n  providers: [],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -1159,10 +1364,56 @@
                     "elements": []
                 }
             ]
+        },
+        {
+            "name": "DemoMaterialModule",
+            "id": "module-DemoMaterialModule-5d159e157028bae8cca731a5e2be0f627b4ef55cc3c6c4b963eb0ba1a187119d6b663cab152c37deb07cdb74338a3b46fa51aa5d7c93ec90494896897096af73",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/material-module.ts",
+            "methods": [],
+            "sourceCode": "import {DragDropModule} from '@angular/cdk/drag-drop';\nimport {ScrollingModule} from '@angular/cdk/scrolling';\nimport {CdkTableModule} from '@angular/cdk/table';\nimport {CdkTreeModule} from '@angular/cdk/tree';\nimport {NgModule} from '@angular/core';\nimport {MatAutocompleteModule} from \"@angular/material/autocomplete\";\nimport { MatButtonModule } from '@angular/material/button';\nimport { MatCardModule } from '@angular/material/card';\nimport { MatBadgeModule } from \"@angular/material/badge\";\nimport { MatBottomSheetModule } from \"@angular/material/bottom-sheet\";\nimport { MatButtonToggleModule } from \"@angular/material/button-toggle\";\nimport { MatCheckboxModule } from \"@angular/material/checkbox\";\nimport { MatChipsModule } from \"@angular/material/chips\";\nimport { MatStepperModule } from \"@angular/material/stepper\";\nimport { MatDatepickerModule } from \"@angular/material/datepicker\";\nimport { MatDialogModule } from \"@angular/material/dialog\";\nimport { MatDividerModule } from \"@angular/material/divider\";\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport {MatGridListModule} from \"@angular/material/grid-list\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport {MatListModule} from \"@angular/material/list\";\nimport {MatMenuModule} from \"@angular/material/menu\";\nimport {MatNativeDateModule, MatRippleModule} from \"@angular/material/core\";\nimport {MatPaginatorModule} from \"@angular/material/paginator\";\nimport {MatProgressBarModule} from \"@angular/material/progress-bar\";\nimport {MatProgressSpinnerModule} from \"@angular/material/progress-spinner\";\nimport {MatRadioModule} from \"@angular/material/radio\";\nimport {MatSelectModule} from \"@angular/material/select\";\nimport {MatSidenavModule} from \"@angular/material/sidenav\";\nimport {MatSliderModule} from \"@angular/material/slider\";\nimport {MatSlideToggleModule} from \"@angular/material/slide-toggle\";\nimport {MatSnackBarModule} from \"@angular/material/snack-bar\";\nimport {MatSortModule} from \"@angular/material/sort\";\nimport {MatTableModule} from \"@angular/material/table\";\nimport {MatTabsModule} from \"@angular/material/tabs\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {MatTooltipModule} from \"@angular/material/tooltip\";\nimport {MatTreeModule} from \"@angular/material/tree\";\nimport {BrowserAnimationsModule} from \"@angular/platform-browser/animations\";\n\n@NgModule({\n  exports: [\n    CdkTableModule,\n    CdkTreeModule,\n    DragDropModule,\n    MatAutocompleteModule,\n    MatBadgeModule,\n    MatBottomSheetModule,\n    MatButtonModule,\n    MatButtonToggleModule,\n    MatCardModule,\n    MatCheckboxModule,\n    MatChipsModule,\n    MatStepperModule,\n    MatDatepickerModule,\n    MatDialogModule,\n    MatDividerModule,\n    MatExpansionModule,\n    MatGridListModule,\n    MatIconModule,\n    MatInputModule,\n    MatListModule,\n    MatMenuModule,\n    MatNativeDateModule,\n    MatPaginatorModule,\n    MatProgressBarModule,\n    MatProgressSpinnerModule,\n    MatRadioModule,\n    MatRippleModule,\n    MatSelectModule,\n    MatSidenavModule,\n    MatSliderModule,\n    MatSlideToggleModule,\n    MatSnackBarModule,\n    MatSortModule,\n    MatTableModule,\n    MatTabsModule,\n    MatToolbarModule,\n    MatTooltipModule,\n    MatTreeModule,\n    ScrollingModule,\n    BrowserAnimationsModule,\n  ]\n})\nexport class DemoMaterialModule {}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": []
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
         }
     ],
     "miscellaneous": {
         "variables": [
+            {
+                "name": "consentReducer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/reducers/consents.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createReducer(\n  initialState,\n)"
+            },
             {
                 "name": "context",
                 "ctype": "miscellaneous",
@@ -1174,6 +1425,16 @@
                 "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
             },
             {
+                "name": "coreReducer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/reducers/core.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createReducer(\n  initialState,\n)"
+            },
+            {
                 "name": "ENV",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -1181,7 +1442,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
-                "defaultValue": "{\n  production: false,\n  BASE_URL: 'http://localhost:4200',\n  API_URL: 'http://localhost:4200/api',\n  AUTH_URL: 'http://localhost:4200/auth',\n}"
+                "defaultValue": "{\n  production: false,\n  BASE_URL: 'http://localhost:4200',\n  API_URL: 'http://localhost:4200/api',\n  AUTH_URL: 'http://localhost:4200/auth',\n  DEFAULT_IDP: 'http://localhost:3000',\n}"
             },
             {
                 "name": "environment",
@@ -1192,6 +1453,26 @@
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  production: true\n}"
+            },
+            {
+                "name": "initialState",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/reducers/consents.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "ConsentsState",
+                "defaultValue": "{\n  consentId: 'consent-id-0001',\n}"
+            },
+            {
+                "name": "initialState",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/reducers/core.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "CoreState",
+                "defaultValue": "{\n  webId: 'https://me.provider.org',\n}"
             },
             {
                 "name": "Large",
@@ -1254,6 +1535,36 @@
                 "defaultValue": "Template.bind({})"
             },
             {
+                "name": "LoggedOut",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/views/navbar/navbar.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "metaReducers",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/reducers/index.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "MetaReducer[]",
+                "defaultValue": "!ENV.production ? [] : []"
+            },
+            {
+                "name": "Normal",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/views/consent-panel/consent-panel.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
                 "name": "Primary",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -1262,6 +1573,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "reducers",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/reducers/index.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "ActionReducerMap<State>",
+                "defaultValue": "{\n  core: coreReducer,\n  consent: consentReducer,\n}"
             },
             {
                 "name": "require",
@@ -1326,6 +1647,16 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/views/consent-panel/consent-panel.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "(args) => ({props: args})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/views/navbar/navbar.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -1335,8 +1666,60 @@
         ],
         "functions": [],
         "typealiases": [],
-        "enumerations": [],
+        "enumerations": [
+            {
+                "name": "ACCESS_LEVEL",
+                "childs": [
+                    {
+                        "name": "READ",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "value": "read"
+                    },
+                    {
+                        "name": "WRITE",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "value": "write"
+                    },
+                    {
+                        "name": "CONTROL",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "value": "control"
+                    }
+                ],
+                "ctype": "miscellaneous",
+                "subtype": "enum",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "file": "src/app/models/consent.ts"
+            }
+        ],
         "groupedVariables": {
+            "src/app/reducers/consents.reducer.ts": [
+                {
+                    "name": "consentReducer",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/reducers/consents.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createReducer(\n  initialState,\n)"
+                },
+                {
+                    "name": "initialState",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/reducers/consents.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ConsentsState",
+                    "defaultValue": "{\n  consentId: 'consent-id-0001',\n}"
+                }
+            ],
             "src/test.ts": [
                 {
                     "name": "context",
@@ -1358,6 +1741,28 @@
                     "type": "literal type"
                 }
             ],
+            "src/app/reducers/core.reducer.ts": [
+                {
+                    "name": "coreReducer",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/reducers/core.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createReducer(\n  initialState,\n)"
+                },
+                {
+                    "name": "initialState",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/reducers/core.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "CoreState",
+                    "defaultValue": "{\n  webId: 'https://me.provider.org',\n}"
+                }
+            ],
             "src/environments/environment.ts": [
                 {
                     "name": "ENV",
@@ -1367,7 +1772,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "object",
-                    "defaultValue": "{\n  production: false,\n  BASE_URL: 'http://localhost:4200',\n  API_URL: 'http://localhost:4200/api',\n  AUTH_URL: 'http://localhost:4200/auth',\n}"
+                    "defaultValue": "{\n  production: false,\n  BASE_URL: 'http://localhost:4200',\n  API_URL: 'http://localhost:4200/api',\n  AUTH_URL: 'http://localhost:4200/auth',\n  DEFAULT_IDP: 'http://localhost:3000',\n}"
                 }
             ],
             "src/environments/environment.prod.ts": [
@@ -1510,6 +1915,16 @@
                     "defaultValue": "Template.bind({})"
                 },
                 {
+                    "name": "LoggedOut",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/views/navbar/navbar.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
                     "name": "Template",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -1519,10 +1934,86 @@
                     "type": "Story",
                     "defaultValue": "(args) => ({props: args})"
                 }
+            ],
+            "src/app/reducers/index.ts": [
+                {
+                    "name": "metaReducers",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/reducers/index.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "MetaReducer[]",
+                    "defaultValue": "!ENV.production ? [] : []"
+                },
+                {
+                    "name": "reducers",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/reducers/index.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ActionReducerMap<State>",
+                    "defaultValue": "{\n  core: coreReducer,\n  consent: consentReducer,\n}"
+                }
+            ],
+            "src/app/views/consent-panel/consent-panel.stories.ts": [
+                {
+                    "name": "Normal",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/views/consent-panel/consent-panel.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/views/consent-panel/consent-panel.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "(args) => ({props: args})"
+                }
             ]
         },
         "groupedFunctions": {},
-        "groupedEnumerations": {},
+        "groupedEnumerations": {
+            "src/app/models/consent.ts": [
+                {
+                    "name": "ACCESS_LEVEL",
+                    "childs": [
+                        {
+                            "name": "READ",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "value": "read"
+                        },
+                        {
+                            "name": "WRITE",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "value": "write"
+                        },
+                        {
+                            "name": "CONTROL",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "value": "control"
+                        }
+                    ],
+                    "ctype": "miscellaneous",
+                    "subtype": "enum",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "file": "src/app/models/consent.ts"
+                }
+            ]
+        },
         "groupedTypeAliases": {}
     },
     "routes": {
@@ -1554,7 +2045,7 @@
         ]
     },
     "coverage": {
-        "count": 2,
+        "count": 1,
         "status": "low",
         "files": [
             {
@@ -1599,7 +2090,112 @@
                 "linktype": "interface",
                 "name": "Consent",
                 "coveragePercent": 0,
-                "coverageCount": "0/7",
+                "coverageCount": "0/8",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/models/consent.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "ConsentGroup",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/models/consent.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "ConsentNeed",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/consents.reducer.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "ConsentsState",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/consents.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "consentReducer",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/consents.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "initialState",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/core.reducer.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "CoreState",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/core.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "coreReducer",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/core.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "initialState",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/index.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "State",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/index.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "metaReducers",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/index.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "reducers",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -1617,7 +2213,27 @@
                 "linktype": "component",
                 "name": "ConsentPanelComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/6",
+                "coverageCount": "0/8",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/views/consent-panel/consent-panel.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Normal",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/views/consent-panel/consent-panel.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -1635,6 +2251,16 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "LoggedIn",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/views/navbar/navbar.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedOut",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
