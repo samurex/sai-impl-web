@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import {StateService} from "./services/state.service";
+import {Store} from "@ngrx/store";
+import {Observable} from "rxjs";
+import {selectWebId} from "./selectors";
+import {State} from "./reducers";
 
 @Component({
   selector: 'app-root',
@@ -9,13 +11,11 @@ import {StateService} from "./services/state.service";
 })
 export class AppComponent implements OnInit{
   title = 'sai-web-app';
+  webId = this.store.select(selectWebId);
 
-  webId!: string;
   constructor(
-    public state: StateService,
+    private store: Store,
   ) {}
 
-  ngOnInit() {
-    this.state.getWebId().subscribe(id => this.webId = id);
-  }
+  ngOnInit() {}
 }

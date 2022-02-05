@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import {HttpClient} from "@angular/common/http";
-import { ENV } from "../../../environments/environment";
+import {Store} from "@ngrx/store";
+import {CoreActions} from "../../actions";
 
 @Component({
   selector: 'sai-login',
@@ -15,15 +15,12 @@ export class LoginComponent implements OnInit {
   })
 
   constructor(
-    private http: HttpClient,
+    private store: Store,
   ) { }
 
   ngOnInit(): void {}
 
   onSubmit() {
-    this.http.post(`${ENV.AUTH_URL}/login`, {idp: this.loginForm.get('issuer')!.value || ENV.DEFAULT_IDP}, {responseType:'text'})
-      .subscribe(url => {
-        window.location.href = url;
-      });
+    this.store.dispatch(CoreActions.loginRequested({idP: this.loginForm.get('issuer')!.value}));
   }
 }

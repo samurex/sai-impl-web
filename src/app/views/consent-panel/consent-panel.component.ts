@@ -22,8 +22,6 @@ export class ConsentPanelComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // TODO (angel) remove
-    console.log(this.profile);
   }
 
   noop() {}
