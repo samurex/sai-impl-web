@@ -4,6 +4,8 @@ import {map, Observable} from 'rxjs';
 import { ENV } from 'src/environments/environment';
 import { ApplicationProfile, IRI } from "@janeirodigital/sai-server/dist/sai-api";
 import {Store} from "@ngrx/store";
+import {DataActions} from "../../actions/application-profile.actions";
+import {selectApplicationProfiles} from "../../selectors/application-profile.selectors";
 
 @Component({
   selector: 'sai-dashboard',
@@ -12,8 +14,7 @@ import {Store} from "@ngrx/store";
 })
 export class DashboardComponent implements OnInit {
 
-  data!: Observable<{shapeTree: string, dataInstances: string[]}[]>;
-  applications!: Observable<ApplicationProfile[]>;
+  applications = this.store.select(selectApplicationProfiles);
 
   constructor(
     private http: HttpClient,
@@ -21,12 +22,6 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.data = this.http.get<{shapeTree: string, dataInstances: string[]}[]>(ENV.API_URL + '/data', { responseType: 'json' });
-
-    this.applications = this.http.get<{profile: ApplicationProfile, accessGrant: IRI}[]>(ENV.API_URL + '/applications', { responseType: 'json'})
-      .pipe(map(pairs => pairs.map(pair => pair.profile)));
-  }
-
-  loadData() {
+    this.store.dispatch(DataActions.applicationsPanelLoaded());
   }
 }

@@ -1,32 +1,32 @@
 import {
-  ActionReducer,
   ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
   MetaReducer
 } from '@ngrx/store';
 import { ENV } from '../../environments/environment';
 
 import {CoreState, coreReducer, CORE_STATE_KEY} from "./core.reducer";
-// import { ConsentsState, consentReducer } from "./consents.reducer";
-import { ApplicationProfileState, applicationProfileReducer } from './application-profile.reducer';
+import {
+  ApplicationProfileState,
+  applicationProfileReducer,
+  APPLICATION_PROFILE_STATE_KEY,
+} from './application-profile.reducer';
 
-import { IRI } from '@janeirodigital/sai-server/dist/sai-api';
+import { IRI, UniqueId } from '@janeirodigital/sai-server/dist/sai-api';
 
-export interface NormalizedState<T> {
+export interface NormalizedState<T extends UniqueId> {
   byId: { [id: IRI]: T },
   allIds: IRI[],
 }
-export interface State {
+
+
+export interface RootState {
   [CORE_STATE_KEY]: CoreState,
-  // consent: ConsentsState,
-  applicationProfile: ApplicationProfileState,
+  [APPLICATION_PROFILE_STATE_KEY]: ApplicationProfileState,
 }
 
-export const reducers: ActionReducerMap<State> = {
+export const reducers: ActionReducerMap<RootState> = {
   [CORE_STATE_KEY]: coreReducer,
-  // consent: consentReducer,
-  applicationProfile: applicationProfileReducer,
+  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,
 };
 
-export const metaReducers: MetaReducer<State>[] = !ENV.production ? [] : [];
+export const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [] : [];
