@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {MatButtonModule} from "@angular/material/button";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {NavbarComponent} from "./views/navbar/navbar.component";
@@ -23,6 +23,7 @@ import { ENV } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import {CoreEffects} from "./effects/core.effects";
 import {ApplicationProfileEffects} from "./effects/application-profile.effects";
+import {AuthInterceptor} from "./interceptors/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import {ApplicationProfileEffects} from "./effects/application-profile.effects";
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),
     EffectsModule.forRoot([CoreEffects, ApplicationProfileEffects]),
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
