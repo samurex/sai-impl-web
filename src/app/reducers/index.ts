@@ -11,11 +11,11 @@ import {
   APPLICATION_PROFILE_STATE_KEY,
 } from './application-profile.reducer';
 
-import { IRI, UniqueId } from '@janeirodigital/sai-server/dist/sai-api';
+import { UniqueId } from '../view-models';
 
 export interface NormalizedState<T extends UniqueId> {
-  byId: { [id: IRI]: T },
-  allIds: IRI[],
+  byId: { [id: string]: T },
+  allIds: string[],
 }
 
 

@@ -1,8 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {map, Observable} from 'rxjs';
-import { ENV } from 'src/environments/environment';
-import { ApplicationProfile, IRI } from "@janeirodigital/sai-server/dist/sai-api";
 import {Store} from "@ngrx/store";
 import {DataActions} from "../../actions/application-profile.actions";
 import {selectApplicationProfiles} from "../../selectors/application-profile.selectors";

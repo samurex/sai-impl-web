@@ -18,6 +18,12 @@ export class ApplicationProfileEffects {
     map(profiles => DataActions.applicationProfilesReceived({profiles})),
   ))
 
+  loadConsents$ = createEffect(() => this.actions$.pipe(
+    ofType(DataActions.applicationsPanelLoaded),
+    map(() => ({type: 'none'})),
+
+  ))
+
   receivedApplicationProfiles$ = createEffect(() => this.actions$.pipe(
     ofType(DataActions.applicationProfilesReceived),
     map(({profiles}) => profiles),

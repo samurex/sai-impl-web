@@ -10,7 +10,8 @@ mat-expansion-panel-header {
   padding-top: 10px;
 
   img {
-    max-block-size: 75px;
+    height: 75px;
+    width: 75px;
     border-radius: 50%;
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.19);
     border: solid 2px #FFF;
@@ -20,12 +21,14 @@ mat-expansion-panel-header {
 
 .content {
   display: flex;
+  width: 100%;
   padding: 5px;
   gap: 10px;
 }
 
 .text-content {
   display: flex;
+  width: 100%;
   flex-flow: column nowrap;
   justify-content: space-evenly;
 
@@ -36,7 +39,11 @@ mat-expansion-panel-header {
   p {
     font-size: 0.85rem;
     color: #768692;
+  }
 
+  .date-line {
+    display: inline-flex;
+    justify-content: space-between;
   }
 
   h3, p {

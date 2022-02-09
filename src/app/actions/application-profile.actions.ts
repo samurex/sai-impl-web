@@ -1,6 +1,6 @@
 
 import { createAction, props } from '@ngrx/store';
-import { ApplicationProfile } from '@janeirodigital/sai-server/dist/sai-api';
+import { ApplicationProfile } from '../view-models';
 
 const applicationsPanelLoaded = createAction(
   '[APPLICATION PROFILES] Application Profiles Requested'
