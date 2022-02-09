@@ -22,7 +22,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ENV } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import {CoreEffects} from "./effects/core.effects";
-import {ApplicationProfileEffects} from "./effects/application-profile.effects";
+import {ApplicationProfileEffects} from "./effects/application.effects";
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
 
 @NgModule({

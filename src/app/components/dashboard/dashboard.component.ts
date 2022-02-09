@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {Store} from "@ngrx/store";
 import {DataActions} from "../../actions/application-profile.actions";
-import {selectApplicationProfiles} from "../../selectors/application-profile.selectors";
+import {selectApplicationProfiles} from "../../selectors/application.selectors";
 
 @Component({
   selector: 'sai-dashboard',

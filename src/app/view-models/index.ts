@@ -3,6 +3,7 @@ export interface UniqueId {
   id: string;
 };
 
-export * from './application-profile';
+export * from './application';
 export * from './access-need';
+export * from './description';
 

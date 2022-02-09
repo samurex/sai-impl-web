@@ -9,9 +9,10 @@ import {
   ApplicationProfileState,
   applicationProfileReducer,
   APPLICATION_PROFILE_STATE_KEY,
-} from './application-profile.reducer';
+} from './application.reducer';
 
 import { UniqueId } from '../view-models';
+import {DESCRIPTIONS_STATE_KEY, descriptionsReducer, DescriptionsState} from "./descriptions.reducer";
 
 export interface NormalizedState<T extends UniqueId> {
   byId: { [id: string]: T },
@@ -22,11 +23,13 @@ export interface NormalizedState<T extends UniqueId> {
 export interface RootState {
   [CORE_STATE_KEY]: CoreState,
   [APPLICATION_PROFILE_STATE_KEY]: ApplicationProfileState,
+  [DESCRIPTIONS_STATE_KEY]: DescriptionsState,
 }
 
 export const reducers: ActionReducerMap<RootState> = {
   [CORE_STATE_KEY]: coreReducer,
   [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,
+  [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,
 };
 
 export const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [] : [];
