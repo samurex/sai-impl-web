@@ -1,6 +1,6 @@
 
 import { createAction, props } from '@ngrx/store';
-import { ApplicationProfile } from '../view-models';
+import { Application } from '../view-models';
 
 const applicationsPanelLoaded = createAction(
   '[APPLICATION PROFILES] Application Profiles Requested'
@@ -8,12 +8,12 @@ const applicationsPanelLoaded = createAction(
 
 const applicationProfilesReceived = createAction(
   '[APPLICATION PROFILES] Application Profiles Received',
-  props<{profiles: ApplicationProfile[]}>(),
+  props<{profiles: Application[]}>(),
 )
 
 const applicationProfileReceived = createAction(
   '[APPLICATION PROFILES] Adding Single Application Profile',
-  props<{profile: ApplicationProfile}>(),
+  props<{profile: Application}>(),
 )
 
 export const DataActions = {

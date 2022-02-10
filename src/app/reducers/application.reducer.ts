@@ -1,12 +1,12 @@
 
 import {createReducer, on} from '@ngrx/store';
 import { NormalizedState } from "./index";
-import {ApplicationProfile} from '../view-models';
-import {DataActions} from "../actions/application-profile.actions";
+import {Application} from '../view-models';
+import {DataActions} from "../actions/application.actions";
 import {insertEntity} from "./utils";
 
-export const APPLICATION_PROFILE_STATE_KEY = 'application-profile';
-export interface ApplicationProfileState extends NormalizedState<ApplicationProfile> {};
+export const APPLICATION_PROFILE_STATE_KEY = 'applications';
+export interface ApplicationProfileState extends NormalizedState<Application> {}
 
 export const initialState: ApplicationProfileState = {
   byId: {},

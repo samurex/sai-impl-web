@@ -18,3 +18,13 @@ export const removeEntity = <T extends UniqueId>(state: NormalizedState<T>, id: 
   delete byId[id];
   return {byId, allIds}
 };
+
+export const insertEntities = <T extends UniqueId>(state: NormalizedState<T>, entities: T[]) => {
+  for (const entity of entities) state = insertEntity(state, entity);
+  return state;
+}
+
+export const removeEntities = <T extends UniqueId>(state: NormalizedState<T>, ids: string[]) => {
+  for (const id of ids) state = removeEntity(state, id);
+  return state;
+}

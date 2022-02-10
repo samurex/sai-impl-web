@@ -1,10 +1,12 @@
 import {NormalizedState} from "./index";
-import {createReducer} from "@ngrx/store";
+import {createReducer, on} from "@ngrx/store";
 import {Description} from "../view-models";
+import {DescActions} from "../actions/description.actions";
+import {insertEntities} from "./utils";
 
 export const DESCRIPTIONS_STATE_KEY = 'descriptions';
 
-export interface DescriptionsState extends NormalizedState<Description> {};
+export interface DescriptionsState extends NormalizedState<Description> {}
 
 export const initialState: DescriptionsState = {
   byId: {},
@@ -13,4 +15,5 @@ export const initialState: DescriptionsState = {
 
 export const descriptionsReducer = createReducer(
   initialState,
+  on(DescActions.descriptionsReceived, (state, {descriptions}) => insertEntities(state, descriptions)),
 )

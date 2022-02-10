@@ -1,7 +1,7 @@
 import {UniqueId} from "./index";
 
 
-export interface AccessNeedGroup extends UniqueId{
+export interface AccessNeedGroup extends UniqueId {
   title: string;
   description: string;
   required: boolean;

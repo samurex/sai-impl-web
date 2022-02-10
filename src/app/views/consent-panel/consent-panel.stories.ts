@@ -2,7 +2,7 @@
 import { Meta, Story, moduleMetadata } from '@storybook/angular';
 import { ConsentPanelComponent } from "./consent-panel.component";
 import {DemoMaterialModule} from "../../../material-module";
-import { ApplicationProfile, AccessNeedGroup } from "../../view-models";
+import { Application, AccessNeedGroup } from "../../view-models";
 
 export default {
   title: 'Consent Panel',
@@ -18,7 +18,7 @@ const Template: Story = (args) => ({props: args});
 
 export const Normal = Template.bind({});
 Normal.args = {
-  profile: <ApplicationProfile>{
+  profile: <Application>{
     id: 'consent-001',
     name: 'Projectron',
     description: 'Take control of your projects!',

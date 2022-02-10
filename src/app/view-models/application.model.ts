@@ -1,6 +1,6 @@
 import {UniqueId} from "./index";
 
-export interface ApplicationProfile extends UniqueId {
+export interface Application extends UniqueId {
   name: string;
   description: string;
   author: string;
@@ -8,4 +8,5 @@ export interface ApplicationProfile extends UniqueId {
   thumbnail: string;
   authorizationDate: string; // interop:registeredAt
   lastUpdateDate: string;    // interop:updatedAt
-};
+  accessNeedGroup: string    // interop:hasAccessNeedGroup
+}
