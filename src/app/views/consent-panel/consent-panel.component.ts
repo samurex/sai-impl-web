@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import type {Application, AccessNeedGroup, Description} from '../../view-models';
+import type {Application, AccessNeedGroup} from '../../view-models';
 
 @Component({
   selector: 'sai-consent-panel',
@@ -12,7 +12,7 @@ export class ConsentPanelComponent implements OnInit {
   profile!: Application;
 
   @Input()
-  groups!: Description[];
+  groups!: AccessNeedGroup[];
 
   @Output()
   openAuthorUrl = new EventEmitter<void>();
