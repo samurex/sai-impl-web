@@ -2,40 +2,206 @@
     "pipes": [],
     "interfaces": [
         {
-            "name": "ApplicationProfileState",
-            "id": "interface-ApplicationProfileState-634f26416614dc6b7622c227e6c1553ef8367d5eb668b235129d590f43f8dfc28340a4a1915f3fa536e780d3ef67e4f6d72a675c2ca7a3dde080699dcf6a474d",
-            "file": "src/app/reducers/application-profile.reducer.ts",
+            "name": "AccessNeed",
+            "id": "interface-AccessNeed-aa3e8e061b254ca3b70c716e15f26b92f70c0d5f2a021ee14a6b1d3c24937ce922f3c0c349282803e7d9771ddbe38793349177d80f1481d9ab6c89735f63111b",
+            "file": "src/app/view-models/access-need.model.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {createReducer, on} from '@ngrx/store';\nimport { NormalizedState } from \"./index\";\nimport {ApplicationProfile} from '@janeirodigital/sai-server/dist/sai-api';\nimport {DataActions} from \"../actions/application-profile.actions\";\nimport {insertEntity} from \"./utils\";\n\nexport const APPLICATION_PROFILE_STATE_KEY = 'application-profile';\nexport interface ApplicationProfileState extends NormalizedState<ApplicationProfile> {};\n\nexport const initialState: ApplicationProfileState = {\n  byId: {},\n  allIds: [],\n};\n\nexport const applicationProfileReducer = createReducer(\n  initialState,\n  on(DataActions.applicationProfileReceived, (state, {profile}) => insertEntity(state, profile)),\n);\n",
-            "properties": [],
-            "indexSignatures": [],
-            "methods": [],
-            "extends": "NormalizedState"
-        },
-        {
-            "name": "ConsentsState",
-            "id": "interface-ConsentsState-6b514f135ff98f8d6322ca17a97b830e169cdcb580f2b11ec360cbaf1ba37ef68f0af3146fb584cebe2d0273221ddb8726ed80d39f7460221c0b7f385ccefee8",
-            "file": "src/app/reducers/consents.reducer.ts",
-            "deprecated": false,
-            "deprecationMessage": "",
-            "type": "interface",
-            "sourceCode": "import {createReducer} from \"@ngrx/store\";\n\nexport interface ConsentsState {\n  consentId: string;\n}\n\nexport const initialState: ConsentsState = {\n  consentId: 'consent-id-0001',\n};\n\nexport const consentReducer = createReducer(\n  initialState,\n)\n",
+            "sourceCode": "import {UniqueId} from \"./index\";\n\n\nexport interface AccessNeedGroup extends UniqueId {\n  title: string;\n  description: string;\n  required: boolean;\n  needs: AccessNeed[],\n}\n\nexport interface AccessNeed extends UniqueId {\n  title: string;\n  description: string;\n  required: boolean;\n  // TODO (angel) type the array\n  access: Array<string>;\n}\n",
             "properties": [
                 {
-                    "name": "consentId",
+                    "name": "access",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Array<string>",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
+                },
+                {
+                    "name": "description",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                },
+                {
+                    "name": "required",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                },
+                {
+                    "name": "title",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": [],
+            "extends": "UniqueId"
+        },
+        {
+            "name": "AccessNeedGroup",
+            "id": "interface-AccessNeedGroup-aa3e8e061b254ca3b70c716e15f26b92f70c0d5f2a021ee14a6b1d3c24937ce922f3c0c349282803e7d9771ddbe38793349177d80f1481d9ab6c89735f63111b",
+            "file": "src/app/view-models/access-need.model.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import {UniqueId} from \"./index\";\n\n\nexport interface AccessNeedGroup extends UniqueId {\n  title: string;\n  description: string;\n  required: boolean;\n  needs: AccessNeed[],\n}\n\nexport interface AccessNeed extends UniqueId {\n  title: string;\n  description: string;\n  required: boolean;\n  // TODO (angel) type the array\n  access: Array<string>;\n}\n",
+            "properties": [
+                {
+                    "name": "description",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "needs",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "AccessNeed[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "required",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 7
+                },
+                {
+                    "name": "title",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": [],
+            "extends": "UniqueId"
+        },
+        {
+            "name": "Application",
+            "id": "interface-Application-1c8f5be24d9bdedbb26a8f07253a9ba75bb2ea56d974e0a8024a1b30867287ad34516022541fe2b489b8936f3f6d781a7ac71da8f426cf860599acf5ed0e65cc",
+            "file": "src/app/view-models/application.model.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import {UniqueId} from \"./index\";\n\nexport interface Application extends UniqueId {\n  name: string;\n  description: string;\n  author: string;\n  url: string;\n  thumbnail: string;\n  authorizationDate: string; // interop:registeredAt\n  lastUpdateDate: string;    // interop:updatedAt\n  accessNeedGroup: string    // interop:hasAccessNeedGroup\n}\n",
+            "properties": [
+                {
+                    "name": "accessNeedGroup",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
+                },
+                {
+                    "name": "author",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "authorizationDate",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 9
+                },
+                {
+                    "name": "description",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "lastUpdateDate",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                },
+                {
+                    "name": "name",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "string",
                     "optional": false,
                     "description": "",
                     "line": 4
+                },
+                {
+                    "name": "thumbnail",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "url",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 7
                 }
             ],
             "indexSignatures": [],
             "kind": 165,
-            "methods": []
+            "methods": [],
+            "extends": "UniqueId"
+        },
+        {
+            "name": "ApplicationProfileState",
+            "id": "interface-ApplicationProfileState-4f17b8d4be30be1787c96c74172976ea88ee844988bfa9a10e704a568820e63b4d884f27c60c907508a21d3ee96e8fc04b2bd0e0eb2b63789f83a0ee48a02b35",
+            "file": "src/app/reducers/application.reducer.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import {createReducer, on} from '@ngrx/store';\nimport { NormalizedState } from \"./index\";\nimport {Application} from '../view-models';\nimport {DataActions} from \"../actions/application.actions\";\nimport {insertEntity} from \"./utils\";\n\nexport const APPLICATION_PROFILE_STATE_KEY = 'applications';\nexport interface ApplicationProfileState extends NormalizedState<Application> {}\n\nexport const initialState: ApplicationProfileState = {\n  byId: {},\n  allIds: [],\n};\n\nexport const applicationProfileReducer = createReducer(\n  initialState,\n  on(DataActions.applicationProfileReceived, (state, {profile}) => insertEntity(state, profile)),\n);\n",
+            "properties": [],
+            "indexSignatures": [],
+            "methods": [],
+            "extends": "NormalizedState"
         },
         {
             "name": "CoreState",
@@ -61,22 +227,77 @@
             "methods": []
         },
         {
+            "name": "Description",
+            "id": "interface-Description-9300b49820a59d79f6f219bc3a0ac3e7267fb30f5d1303016dcea346c6c177f324ae055cfeacd2e689426138347dfda2432db0c57e6242759bef999b26395d25",
+            "file": "src/app/view-models/description.model.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import {UniqueId} from './index';\n\nexport interface Description extends UniqueId {\n  label: string;\n  description?: string;\n  needId: string;\n};\n\n",
+            "properties": [
+                {
+                    "name": "description",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": true,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "label",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                },
+                {
+                    "name": "needId",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": [],
+            "extends": "UniqueId"
+        },
+        {
+            "name": "DescriptionsState",
+            "id": "interface-DescriptionsState-ef05118351e90b2e0bc10bf7eca8a457fc8d9c7716e3757fd118a248730c8b0358d86c44360f6e63fd305ab0ba9a4244dd7431a439b25fc2df876140b5d5a93a",
+            "file": "src/app/reducers/descriptions.reducer.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import {NormalizedState} from \"./index\";\nimport {createReducer, on} from \"@ngrx/store\";\nimport {Description} from \"../view-models\";\nimport {DescActions} from \"../actions/description.actions\";\nimport {insertEntities} from \"./utils\";\n\nexport const DESCRIPTIONS_STATE_KEY = 'descriptions';\n\nexport interface DescriptionsState extends NormalizedState<Description> {}\n\nexport const initialState: DescriptionsState = {\n  byId: {},\n  allIds: [],\n}\n\nexport const descriptionsReducer = createReducer(\n  initialState,\n  on(DescActions.descriptionsReceived, (state, {descriptions}) => insertEntities(state, descriptions)),\n)\n",
+            "properties": [],
+            "indexSignatures": [],
+            "methods": [],
+            "extends": "NormalizedState"
+        },
+        {
             "name": "NormalizedState",
-            "id": "interface-NormalizedState-579b9d6ab3d4bcbbc492c8be2bc4e09542de92859b8ec3bf15c4853c1dd677e345bcbb92fc1af95a72dd90a831d0941b11c48a57a51cbf91bba1e8a0e35aeb78",
+            "id": "interface-NormalizedState-492b918409a073ec3e66326a0c4dee110e3d9f8e674bf8ac6abc61d6735e2c7b20d0ec8cb13e7bb692f77d06171e3c95e4e7b95b17a590a972ebfcd4a501e2c5",
             "file": "src/app/reducers/index.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {\n  ActionReducerMap,\n  MetaReducer\n} from '@ngrx/store';\nimport { ENV } from '../../environments/environment';\n\nimport {CoreState, coreReducer, CORE_STATE_KEY} from \"./core.reducer\";\nimport {\n  ApplicationProfileState,\n  applicationProfileReducer,\n  APPLICATION_PROFILE_STATE_KEY,\n} from './application-profile.reducer';\n\nimport { IRI, UniqueId } from '@janeirodigital/sai-server/dist/sai-api';\n\nexport interface NormalizedState<T extends UniqueId> {\n  byId: { [id: IRI]: T },\n  allIds: IRI[],\n}\n\n\nexport interface RootState {\n  [CORE_STATE_KEY]: CoreState,\n  [APPLICATION_PROFILE_STATE_KEY]: ApplicationProfileState,\n}\n\nexport const reducers: ActionReducerMap<RootState> = {\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n};\n\nexport const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [] : [];\n",
+            "sourceCode": "import {\n  ActionReducerMap,\n  MetaReducer\n} from '@ngrx/store';\nimport { ENV } from '../../environments/environment';\n\nimport {CoreState, coreReducer, CORE_STATE_KEY} from \"./core.reducer\";\nimport {\n  ApplicationProfileState,\n  applicationProfileReducer,\n  APPLICATION_PROFILE_STATE_KEY,\n} from './application.reducer';\n\nimport { UniqueId } from '../view-models';\nimport {DESCRIPTIONS_STATE_KEY, descriptionsReducer, DescriptionsState} from \"./descriptions.reducer\";\n\nexport interface NormalizedState<T extends UniqueId> {\n  byId: { [id: string]: T },\n  allIds: string[],\n}\n\n\nexport interface RootState {\n  [CORE_STATE_KEY]: CoreState,\n  [APPLICATION_PROFILE_STATE_KEY]: ApplicationProfileState,\n  [DESCRIPTIONS_STATE_KEY]: DescriptionsState,\n}\n\nexport const reducers: ActionReducerMap<RootState> = {\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n  [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,\n};\n\nexport const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [] : [];\n",
             "properties": [
                 {
                     "name": "allIds",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "IRI[]",
+                    "type": "string[]",
                     "optional": false,
                     "description": "",
-                    "line": 18
+                    "line": 19
                 },
                 {
                     "name": "byId",
@@ -85,7 +306,7 @@
                     "type": "literal type",
                     "optional": false,
                     "description": "",
-                    "line": 17
+                    "line": 18
                 }
             ],
             "indexSignatures": [],
@@ -94,12 +315,12 @@
         },
         {
             "name": "RootState",
-            "id": "interface-RootState-579b9d6ab3d4bcbbc492c8be2bc4e09542de92859b8ec3bf15c4853c1dd677e345bcbb92fc1af95a72dd90a831d0941b11c48a57a51cbf91bba1e8a0e35aeb78",
+            "id": "interface-RootState-492b918409a073ec3e66326a0c4dee110e3d9f8e674bf8ac6abc61d6735e2c7b20d0ec8cb13e7bb692f77d06171e3c95e4e7b95b17a590a972ebfcd4a501e2c5",
             "file": "src/app/reducers/index.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {\n  ActionReducerMap,\n  MetaReducer\n} from '@ngrx/store';\nimport { ENV } from '../../environments/environment';\n\nimport {CoreState, coreReducer, CORE_STATE_KEY} from \"./core.reducer\";\nimport {\n  ApplicationProfileState,\n  applicationProfileReducer,\n  APPLICATION_PROFILE_STATE_KEY,\n} from './application-profile.reducer';\n\nimport { IRI, UniqueId } from '@janeirodigital/sai-server/dist/sai-api';\n\nexport interface NormalizedState<T extends UniqueId> {\n  byId: { [id: IRI]: T },\n  allIds: IRI[],\n}\n\n\nexport interface RootState {\n  [CORE_STATE_KEY]: CoreState,\n  [APPLICATION_PROFILE_STATE_KEY]: ApplicationProfileState,\n}\n\nexport const reducers: ActionReducerMap<RootState> = {\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n};\n\nexport const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [] : [];\n",
+            "sourceCode": "import {\n  ActionReducerMap,\n  MetaReducer\n} from '@ngrx/store';\nimport { ENV } from '../../environments/environment';\n\nimport {CoreState, coreReducer, CORE_STATE_KEY} from \"./core.reducer\";\nimport {\n  ApplicationProfileState,\n  applicationProfileReducer,\n  APPLICATION_PROFILE_STATE_KEY,\n} from './application.reducer';\n\nimport { UniqueId } from '../view-models';\nimport {DESCRIPTIONS_STATE_KEY, descriptionsReducer, DescriptionsState} from \"./descriptions.reducer\";\n\nexport interface NormalizedState<T extends UniqueId> {\n  byId: { [id: string]: T },\n  allIds: string[],\n}\n\n\nexport interface RootState {\n  [CORE_STATE_KEY]: CoreState,\n  [APPLICATION_PROFILE_STATE_KEY]: ApplicationProfileState,\n  [DESCRIPTIONS_STATE_KEY]: DescriptionsState,\n}\n\nexport const reducers: ActionReducerMap<RootState> = {\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n  [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,\n};\n\nexport const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [] : [];\n",
             "properties": [
                 {
                     "name": "APPLICATION_PROFILE_STATE_KEY",
@@ -108,7 +329,7 @@
                     "type": "ApplicationProfileState",
                     "optional": false,
                     "description": "",
-                    "line": 24
+                    "line": 25
                 },
                 {
                     "name": "CORE_STATE_KEY",
@@ -117,7 +338,39 @@
                     "type": "CoreState",
                     "optional": false,
                     "description": "",
-                    "line": 23
+                    "line": 24
+                },
+                {
+                    "name": "DESCRIPTIONS_STATE_KEY",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "DescriptionsState",
+                    "optional": false,
+                    "description": "",
+                    "line": 26
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": []
+        },
+        {
+            "name": "UniqueId",
+            "id": "interface-UniqueId-67448f8815f2e8345bb345c66164470eeec7aa910c5568ee6a0708adda66050c0f7e0b957dc31f2639fed7149c70ffe133dc97c0a96a149a698f61844006bf8b",
+            "file": "src/app/view-models/index.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface UniqueId {\n  id: string;\n};\n\nexport * from './application.model';\nexport * from './access-need.model';\nexport * from './description.model';\n\n",
+            "properties": [
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 3
                 }
             ],
             "indexSignatures": [],
@@ -140,8 +393,8 @@
     "injectables": [
         {
             "name": "ApplicationProfileEffects",
-            "id": "injectable-ApplicationProfileEffects-c107f49a6396acb68d1321fed9237bf961315cdff118db7108f13f6c0c3499008c3df193b9056489490cc3dc4fe1f03fda2e1652053ee2df1a064357795d7622",
-            "file": "src/app/effects/application-profile.effects.ts",
+            "id": "injectable-ApplicationProfileEffects-36a9fb2ea21a9e64403c45d60809c42553d391cd4ba411618c47a564346734ae0cfc92d29902afe7a45b8aa17cea2280b615e01e86ca38f3d0846236157f1de7",
+            "file": "src/app/effects/application.effects.ts",
             "properties": [
                 {
                     "name": "loadApplicationProfiles$",
@@ -179,7 +432,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable} from \"@angular/core\";\nimport {Actions, createEffect, ofType} from \"@ngrx/effects\";\nimport {DataActions} from \"../actions/application-profile.actions\";\nimport {map, mergeMap} from \"rxjs\";\nimport {DataService} from \"../services/data.service\";\n\n\n@Injectable()\nexport class ApplicationProfileEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n  ) {}\n\n  loadApplicationProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    mergeMap(() => this.data.getApplicationProfiles()),\n    map(profiles => DataActions.applicationProfilesReceived({profiles})),\n  ))\n\n  loadConsents$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    map(() => ({type: 'none'})),\n\n  ))\n\n  receivedApplicationProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationProfilesReceived),\n    map(({profiles}) => profiles),\n    mergeMap(profiles => profiles),\n    map(profile => DataActions.applicationProfileReceived({profile})),\n  ))\n}\n",
+            "sourceCode": "import { Injectable} from \"@angular/core\";\nimport {Actions, createEffect, ofType} from \"@ngrx/effects\";\nimport {DataActions} from \"../actions/application.actions\";\nimport {map, mergeMap} from \"rxjs\";\nimport {DataService} from \"../services/data.service\";\n\n\n@Injectable()\nexport class ApplicationProfileEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n  ) {}\n\n  loadApplicationProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    mergeMap(() => this.data.getApplicationProfiles()),\n    map(profiles => DataActions.applicationProfilesReceived({profiles})),\n  ))\n\n  loadConsents$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    map(() => ({type: 'none'})),\n\n  ))\n\n  receivedApplicationProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationProfilesReceived),\n    map(({profiles}) => profiles),\n    mergeMap(profiles => profiles),\n    map(profile => DataActions.applicationProfileReceived({profile})),\n  ))\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -300,7 +553,7 @@
         },
         {
             "name": "DataService",
-            "id": "injectable-DataService-cf3694a18544d8c5501b6f148bf37701e2d9f9472bfb304124bac37045be85f2c31ace3e2e1b5ea84059689abd526f42bf5a8428403029f71d298190e1d8c5cd",
+            "id": "injectable-DataService-cc86b3cd630d1d6181226d87218c9cb30475c84ae6d7f4c7c62cf27cfa1dacc83301fadde019b5a5c87188c4aa309ecbda7efdda2f4417f10012d37b7cace57e",
             "file": "src/app/services/data.service.ts",
             "properties": [],
             "methods": [
@@ -308,28 +561,61 @@
                     "name": "getApplicationProfiles",
                     "args": [],
                     "optional": false,
-                    "returnType": "Observable<ApplicationProfile[]>",
+                    "returnType": "Observable<Application[]>",
                     "typeParameters": [],
-                    "line": 16,
+                    "line": 15,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
                 {
-                    "name": "getConsents",
-                    "args": [],
+                    "name": "getDescription",
+                    "args": [
+                        {
+                            "name": "applicationId",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "lang",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
                     "optional": false,
-                    "returnType": "Observable<AccessConsent[]>",
+                    "returnType": "Observable<>",
                     "typeParameters": [],
                     "line": 20,
                     "deprecated": false,
-                    "deprecationMessage": ""
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "applicationId",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "lang",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
                 }
             ],
             "deprecated": false,
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable } from '@angular/core';\nimport {HttpClient} from \"@angular/common/http\";\nimport {map, Observable} from \"rxjs\";\nimport {ApplicationProfile} from '@janeirodigital/sai-server/dist/sai-api';\nimport {AccessConsent} from \"../../../../sai-impl-service/src/sai-api\";\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class DataService {\n\n  constructor(\n    private http: HttpClient,\n  ) { }\n\n  getApplicationProfiles(): Observable<ApplicationProfile[]> {\n    return this.http.get<ApplicationProfile[]>('/api/application-profiles', { responseType: 'json'});\n  }\n\n  getConsents(): Observable<AccessConsent[]> {\n    return this.http.get<AccessConsent[]>('/api/access-consents', {responseType: 'json'});\n  }\n\n}\n",
+            "sourceCode": "import { Injectable } from '@angular/core';\nimport {HttpClient} from \"@angular/common/http\";\nimport { Observable} from \"rxjs\";\nimport {Application} from '../view-models';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class DataService {\n\n  constructor(\n    private http: HttpClient,\n  ) { }\n\n  getApplicationProfiles(): Observable<Application[]> {\n    return this.http.get<Application[]>('/api/applications', { responseType: 'json'});\n  }\n\n  // TODO (angel) typing\n  getDescription(applicationId: string, lang: string): Observable<[]> {\n    return this.http.get<[]>(`/api/descriptions/${encodeURI(applicationId)}/${lang}`, {responseType: 'json'});\n  }\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -343,11 +629,76 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 10,
+                "line": 9,
                 "jsdoctags": [
                     {
                         "name": "http",
                         "type": "HttpClient",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "type": "injectable"
+        },
+        {
+            "name": "DescriptionEffects",
+            "id": "injectable-DescriptionEffects-229cec95a6b90003fe50b143d58a8bea3f38e322bee3dfbe545391c866f3e66979a390ede3ccaece6fcc390fcee2a2d1066036988d45761504567ecfaf8ecdfd",
+            "file": "src/app/effects/description.effect.ts",
+            "properties": [
+                {
+                    "name": "loadApplicationDescriptions$",
+                    "defaultValue": "createEffect(() => this.actions$.pipe(\n    ofType(DescActions.descriptionsNeeded),\n    mergeMap(props => this.data.getDescription(props.applicationId, props.lang).pipe(\n      map(descriptions => DescActions.descriptionsReceived({descriptions})),\n      catchError(() => EMPTY),\n    )),\n  ))",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                }
+            ],
+            "methods": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import {Injectable} from \"@angular/core\";\nimport {DataService} from \"../services/data.service\";\nimport {Actions, createEffect, ofType} from \"@ngrx/effects\";\nimport { DescActions } from \"../actions/description.actions\";\nimport {catchError, EMPTY, map, mergeMap} from \"rxjs\";\n\n@Injectable()\nexport class DescriptionEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n  ) {}\n\n  loadApplicationDescriptions$ = createEffect(() => this.actions$.pipe(\n    ofType(DescActions.descriptionsNeeded),\n    mergeMap(props => this.data.getDescription(props.applicationId, props.lang).pipe(\n      map(descriptions => DescActions.descriptionsReceived({descriptions})),\n      catchError(() => EMPTY),\n    )),\n  ))\n}\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "actions$",
+                        "type": "Actions",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "data",
+                        "type": "DataService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 8,
+                "jsdoctags": [
+                    {
+                        "name": "actions$",
+                        "type": "Actions",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "data",
+                        "type": "DataService",
                         "deprecated": false,
                         "deprecationMessage": "",
                         "tagName": {
@@ -755,7 +1106,7 @@
         },
         {
             "name": "ConsentPanelComponent",
-            "id": "component-ConsentPanelComponent-d134bac781b89585252b6c9583fc59d320dc94acd9092b09b04258c76c70e8750a0fcf510be731d08ec64c339b2ef24b143108f017080782b0da8dcf47727f60",
+            "id": "component-ConsentPanelComponent-29dcb532395076be1b596bed99a0e83961c7dda64ddb12490b17506be57aef834b8a6af5a72e5b46e7f63ce0f6bc837c953f0b3d0ab390d63828a1e2bc7641e7",
             "file": "src/app/views/consent-panel/consent-panel.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -773,11 +1124,19 @@
             "viewProviders": [],
             "inputsClass": [
                 {
+                    "name": "groups",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 15,
+                    "type": "AccessNeedGroup[]",
+                    "decorators": []
+                },
+                {
                     "name": "profile",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 12,
-                    "type": "ApplicationProfile",
+                    "type": "Application",
                     "decorators": []
                 }
             ],
@@ -821,7 +1180,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport type { ApplicationProfile } from '@janeirodigital/sai-server/dist/sai-api';\n\n@Component({\n  selector: 'sai-consent-panel',\n  templateUrl: './consent-panel.component.html',\n  styleUrls: ['./consent-panel.component.scss']\n})\nexport class ConsentPanelComponent implements OnInit {\n\n  @Input()\n  profile!: ApplicationProfile;\n\n  // @Input()\n  // groups!: AccessConsent[];\n\n  @Output()\n  openAuthorUrl = new EventEmitter<void>();\n  // @Output()\n  // updateConsent = new EventEmitter<ConsentGroup>();\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n  noop() {}\n\n}\n",
+            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport type {Application, AccessNeedGroup} from '../../view-models';\n\n@Component({\n  selector: 'sai-consent-panel',\n  templateUrl: './consent-panel.component.html',\n  styleUrls: ['./consent-panel.component.scss']\n})\nexport class ConsentPanelComponent implements OnInit {\n\n  @Input()\n  profile!: Application;\n\n  @Input()\n  groups!: AccessNeedGroup[];\n\n  @Output()\n  openAuthorUrl = new EventEmitter<void>();\n  // @Output()\n  // change = new EventEmitter<AccessNeedGroup>();\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n  noop() {}\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -841,11 +1200,11 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "\n<mat-accordion>\n<!--  TODO (angel) remove expanded property, for testing only -->\n  <mat-expansion-panel [expanded]=\"true\">\n    <mat-expansion-panel-header>\n      <mat-panel-title>\n        <div class=\"content\">\n          <img src=\"{{profile['thumbnail']}}\">\n          <div class=\"text-content\">\n            <h3>{{profile[\"name\"]}}</h3>\n            <p>{{profile[\"description\"]}}</p>\n            <p class=\"date-line\">\n              <span>{{profile[\"author\"]}}</span>\n              <span>Registered on: {{profile[\"registeredAt\"] | date}}</span>\n            </p>\n          </div>\n        </div>\n      </mat-panel-title>\n    </mat-expansion-panel-header>\n<!--    <div class=\"panel-content\">-->\n<!--&lt;!&ndash;      TODO (angel) remove expanded, for testing only &ndash;&gt;-->\n<!--      <mat-expansion-panel *ngFor=\"let group of groups\" expanded=\"true\">-->\n<!--        <mat-expansion-panel-header>-->\n<!--          <div class=\"text-content\">-->\n<!--            <h3>{{group.name}}</h3>-->\n<!--            <p>{{group.description}}</p>-->\n<!--          </div>-->\n<!--        </mat-expansion-panel-header>-->\n<!--        <div class=\"access-need-panel\">-->\n<!--          <div class=\"access-need\" *ngFor=\"let need of group.needs; let odd=odd; let even=even\" [ngClass]=\"{odd: odd, even: even}\">-->\n<!--            <div class=\"text-content\">-->\n<!--              <h3>{{need.name}}</h3>-->\n<!--              <p>{{need.description}}</p>-->\n<!--            </div>-->\n<!--            <div class=\"access-label-container\">-->\n<!--              <div *ngFor=\"let level of need.accessLevel\" class=\"label\">-->\n<!--                {{level}}-->\n<!--              </div>-->\n<!--            </div>-->\n<!--          </div>-->\n<!--        </div>-->\n<!--      </mat-expansion-panel>-->\n<!--    </div>-->\n  </mat-expansion-panel>\n</mat-accordion>\n"
+            "templateData": "\n<mat-accordion>\n<!--  TODO (angel) remove expanded property, for testing only -->\n  <mat-expansion-panel [expanded]=\"true\">\n    <mat-expansion-panel-header>\n      <mat-panel-title>\n        <div class=\"content\">\n          <img src=\"{{profile.thumbnail}}\">\n          <div class=\"text-content\">\n            <h3>{{profile.name}}</h3>\n            <p>{{profile.description}}</p>\n            <p class=\"date-line\">\n              <span>{{profile.author}}</span>\n              <span>Registered on: {{profile.authorizationDate | date}}</span>\n            </p>\n          </div>\n        </div>\n      </mat-panel-title>\n    </mat-expansion-panel-header>\n    <div class=\"panel-content\">\n<!--      TODO (angel) remove expanded, for testing only -->\n      <mat-expansion-panel *ngFor=\"let group of groups\" expanded=\"true\">\n        <mat-expansion-panel-header>\n          <div class=\"text-content\">\n            <h3>{{group.title}}</h3>\n            <p>{{group.description}}</p>\n          </div>\n        </mat-expansion-panel-header>\n        <div class=\"access-need-panel\">\n          <div class=\"access-need\" *ngFor=\"let need of group.needs; let odd=odd; let even=even\" [ngClass]=\"{odd: odd, even: even}\">\n            <div class=\"text-content\">\n              <h3>{{need.title}}</h3>\n              <p>{{need.description}}</p>\n            </div>\n            <div class=\"access-label-container\">\n              <div *ngFor=\"let level of need.access\" class=\"label\">\n                {{level}}\n              </div>\n            </div>\n          </div>\n        </div>\n      </mat-expansion-panel>\n    </div>\n  </mat-expansion-panel>\n</mat-accordion>\n"
         },
         {
             "name": "DashboardComponent",
-            "id": "component-DashboardComponent-109ffa30fb0f2025b6d9f6fa2a40c8ab6660ade43e4af55c5e7f78e82c6192503d25e333b7f32bc24fc8ed001dd5b9e7478d3d11bf6a104d8560ee2a45817b5a",
+            "id": "component-DashboardComponent-ce3c1c8fdbc4be25203897401256105ec5291b4f73abd572b33fae5262af1f452ed888da322cf32c023cde5b271227b2dcc0b48d39492cdcd199c9231963a538",
             "file": "src/app/components/dashboard/dashboard.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -894,11 +1253,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { HttpClient } from '@angular/common/http';\nimport { Component, OnInit } from '@angular/core';\nimport {Store} from \"@ngrx/store\";\nimport {DataActions} from \"../../actions/application-profile.actions\";\nimport {selectApplicationProfiles} from \"../../selectors/application-profile.selectors\";\n\n@Component({\n  selector: 'sai-dashboard',\n  templateUrl: './dashboard.component.html',\n  styleUrls: ['./dashboard.component.scss']\n})\nexport class DashboardComponent implements OnInit {\n\n  applications = this.store.select(selectApplicationProfiles);\n\n  constructor(\n    private http: HttpClient,\n    private store: Store,\n  ) { }\n\n  ngOnInit(): void {\n    this.store.dispatch(DataActions.applicationsPanelLoaded());\n  }\n}\n",
+            "sourceCode": "import { HttpClient } from '@angular/common/http';\nimport { Component, OnInit } from '@angular/core';\nimport {Store} from \"@ngrx/store\";\nimport {DataActions} from \"../../actions/application.actions\";\nimport {selectApplicationProfiles} from \"../../selectors/application.selectors\";\n\n@Component({\n  selector: 'sai-dashboard',\n  templateUrl: './dashboard.component.html',\n  styleUrls: ['./dashboard.component.scss']\n})\nexport class DashboardComponent implements OnInit {\n\n  applications = this.store.select(selectApplicationProfiles);\n\n  constructor(\n    private http: HttpClient,\n    private store: Store,\n  ) { }\n\n  ngOnInit(): void {\n    this.store.dispatch(DataActions.applicationsPanelLoaded());\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "* {\n  box-sizing: border-box;\n}\n\nsai-consent-panel {\n  display: inline-block;\n  min-width: 480px;\n}\n\n.container {\n  display: flex;\n  justify-content: center;\n  padding: 50px 0;\n}\n",
+                    "data": "* {\n  box-sizing: border-box;\n}\n\nsai-consent-panel {\n  display: inline-block;\n  min-width: 480px;\n  width: 720px;\n}\n\n.container {\n  display: flex;\n  justify-content: center;\n  padding: 50px 0;\n}\n",
                     "styleUrl": "./dashboard.component.scss"
                 }
             ],
@@ -1298,13 +1657,13 @@
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-6ce793971a86e2367651626d2c1ef4a89b1f1a4cca723d181a5253003df9c417151d81c832eecd521581412b61063aa4ed764cfce8b8bddb4fc852f85172dde0",
+            "id": "module-AppModule-fe8980b36a0460df5f6e49138921b50f7a3e11a3249e36a6cb3efd9e93fab19192c750f6b48aa6bf1056a3e0d7b77d72db27e00b154d4555adc87ca73d7f9a34",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./views/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatCardModule} from \"@angular/material/card\";\nimport {ReactiveFormsModule} from \"@angular/forms\";\nimport {MatFormFieldModule} from \"@angular/material/form-field\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport { DashboardComponent } from './components/dashboard/dashboard.component';\nimport { ConsentPanelComponent } from './views/consent-panel/consent-panel.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport { StoreModule } from '@ngrx/store';\nimport { reducers, metaReducers } from './reducers';\nimport { StoreDevtoolsModule } from '@ngrx/store-devtools';\nimport { ENV } from '../environments/environment';\nimport { EffectsModule } from '@ngrx/effects';\nimport {CoreEffects} from \"./effects/core.effects\";\nimport {ApplicationProfileEffects} from \"./effects/application-profile.effects\";\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    ConsentPanelComponent,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatExpansionModule,\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),\n    EffectsModule.forRoot([CoreEffects, ApplicationProfileEffects]),\n  ],\n  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./views/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatCardModule} from \"@angular/material/card\";\nimport {ReactiveFormsModule} from \"@angular/forms\";\nimport {MatFormFieldModule} from \"@angular/material/form-field\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport { DashboardComponent } from './components/dashboard/dashboard.component';\nimport { ConsentPanelComponent } from './views/consent-panel/consent-panel.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport { StoreModule } from '@ngrx/store';\nimport { reducers, metaReducers } from './reducers';\nimport { StoreDevtoolsModule } from '@ngrx/store-devtools';\nimport { ENV } from '../environments/environment';\nimport { EffectsModule } from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./effects\";\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    ConsentPanelComponent,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatExpansionModule,\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),\n    EffectsModule.forRoot(Effects),\n  ],\n  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -1439,27 +1798,27 @@
                 "name": "APPLICATION_PROFILE_STATE_KEY",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/reducers/application-profile.reducer.ts",
+                "file": "src/app/reducers/application.reducer.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "string",
-                "defaultValue": "'application-profile'"
+                "defaultValue": "'applications'"
             },
             {
                 "name": "applicationProfileReceived",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/actions/application-profile.actions.ts",
+                "file": "src/app/actions/application.actions.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "createAction(\n  '[APPLICATION PROFILES] Adding Single Application Profile',\n  props<{profile: ApplicationProfile}>(),\n)"
+                "defaultValue": "createAction(\n  '[APPLICATION PROFILES] Adding Single Application Profile',\n  props<{profile: Application}>(),\n)"
             },
             {
                 "name": "applicationProfileReducer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/reducers/application-profile.reducer.ts",
+                "file": "src/app/reducers/application.reducer.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -1469,31 +1828,21 @@
                 "name": "applicationProfilesReceived",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/actions/application-profile.actions.ts",
+                "file": "src/app/actions/application.actions.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "createAction(\n  '[APPLICATION PROFILES] Application Profiles Received',\n  props<{profiles: ApplicationProfile[]}>(),\n)"
+                "defaultValue": "createAction(\n  '[APPLICATION PROFILES] Application Profiles Received',\n  props<{profiles: Application[]}>(),\n)"
             },
             {
                 "name": "applicationsPanelLoaded",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/actions/application-profile.actions.ts",
+                "file": "src/app/actions/application.actions.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "createAction(\n  '[APPLICATION PROFILES] Application Profiles Requested'\n)"
-            },
-            {
-                "name": "consentReducer",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/reducers/consents.reducer.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "createReducer(\n  initialState,\n)"
             },
             {
                 "name": "context",
@@ -1539,11 +1888,71 @@
                 "name": "DataActions",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/actions/application-profile.actions.ts",
+                "file": "src/app/actions/application.actions.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\n  applicationsPanelLoaded,\n  applicationProfilesReceived,\n  applicationProfileReceived,\n}"
+            },
+            {
+                "name": "DescActions",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/actions/description.actions.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  descriptionsNeeded,\n  descriptionsReceived,\n}"
+            },
+            {
+                "name": "DESCRIPTIONS_STATE_KEY",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/reducers/descriptions.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "string",
+                "defaultValue": "'descriptions'"
+            },
+            {
+                "name": "descriptionsNeeded",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/actions/description.actions.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[DESCRIPTIONS] Descriptions needed for application',\n  props<{applicationId: string, lang: string}>(),\n)"
+            },
+            {
+                "name": "descriptionsReceived",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/actions/description.actions.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[DESCRIPTIONS] Descriptions received for application',\n  // TODO (angel) typing\n  props<{descriptions: []}>(),\n)"
+            },
+            {
+                "name": "descriptionsReducer",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/reducers/descriptions.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createReducer(\n  initialState,\n  on(DescActions.descriptionsReceived, (state, {descriptions}) => insertEntities(state, descriptions)),\n)"
+            },
+            {
+                "name": "Effects",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/effects/index.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "[]",
+                "defaultValue": "[\n  ApplicationProfileEffects,\n  CoreEffects,\n  DescriptionEffects,\n]"
             },
             {
                 "name": "ENV",
@@ -1569,21 +1978,11 @@
                 "name": "initialState",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/reducers/application-profile.reducer.ts",
+                "file": "src/app/reducers/application.reducer.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "ApplicationProfileState",
                 "defaultValue": "{\n  byId: {},\n  allIds: [],\n}"
-            },
-            {
-                "name": "initialState",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/reducers/consents.reducer.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "ConsentsState",
-                "defaultValue": "{\n  consentId: 'consent-id-0001',\n}"
             },
             {
                 "name": "initialState",
@@ -1594,6 +1993,26 @@
                 "deprecationMessage": "",
                 "type": "CoreState",
                 "defaultValue": "{\n  webId: '',\n}"
+            },
+            {
+                "name": "initialState",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/reducers/descriptions.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "DescriptionsState",
+                "defaultValue": "{\n  byId: {},\n  allIds: [],\n}"
+            },
+            {
+                "name": "insertEntities",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/reducers/utils.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, entities: T[]) => {\n  for (const entity of entities) state = insertEntity(state, entity);\n  return state;\n}"
             },
             {
                 "name": "insertEntity",
@@ -1733,7 +2152,17 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "ActionReducerMap<RootState>",
-                "defaultValue": "{\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n}"
+                "defaultValue": "{\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n  [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,\n}"
+            },
+            {
+                "name": "removeEntities",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/reducers/utils.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, ids: string[]) => {\n  for (const id of ids) state = removeEntity(state, id);\n  return state;\n}"
             },
             {
                 "name": "removeEntity",
@@ -1743,7 +2172,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, id: IRI): NormalizedState<T> => {\n\n  if (!state.allIds.includes(id)) return state;\n\n  const byId = {...state.byId};\n  const allIds = [...state.allIds].filter(_id => _id != id);\n\n  delete byId[id];\n  return {byId, allIds}\n}"
+                "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, id: string): NormalizedState<T> => {\n\n  if (!state.allIds.includes(id)) return state;\n\n  const byId = {...state.byId};\n  const allIds = [...state.allIds].filter(_id => _id != id);\n\n  delete byId[id];\n  return {byId, allIds}\n}"
             },
             {
                 "name": "requestWebId",
@@ -1778,7 +2207,7 @@
                 "name": "selectApplicationProfiles",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/selectors/application-profile.selectors.ts",
+                "file": "src/app/selectors/application.selectors.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -1788,7 +2217,7 @@
                 "name": "selectApplicationProfilesFeature",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/selectors/application-profile.selectors.ts",
+                "file": "src/app/selectors/application.selectors.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -1828,21 +2257,21 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/stories/Header.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<Header>",
-                "defaultValue": "(args: Header) => ({\n  props: args,\n})"
-            },
-            {
-                "name": "Template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/stories/Button.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<Button>",
                 "defaultValue": "(args: Button) => ({\n  props: args,\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<Header>",
+                "defaultValue": "(args: Header) => ({\n  props: args,\n})"
             },
             {
                 "name": "Template",
@@ -1858,7 +2287,7 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/views/consent-panel/consent-panel.stories.ts",
+                "file": "src/app/views/navbar/navbar.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -1868,7 +2297,7 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/views/navbar/navbar.stories.ts",
+                "file": "src/app/views/consent-panel/consent-panel.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -1889,22 +2318,22 @@
         "typealiases": [],
         "enumerations": [],
         "groupedVariables": {
-            "src/app/reducers/application-profile.reducer.ts": [
+            "src/app/reducers/application.reducer.ts": [
                 {
                     "name": "APPLICATION_PROFILE_STATE_KEY",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/reducers/application-profile.reducer.ts",
+                    "file": "src/app/reducers/application.reducer.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "string",
-                    "defaultValue": "'application-profile'"
+                    "defaultValue": "'applications'"
                 },
                 {
                     "name": "applicationProfileReducer",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/reducers/application-profile.reducer.ts",
+                    "file": "src/app/reducers/application.reducer.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
@@ -1914,39 +2343,39 @@
                     "name": "initialState",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/reducers/application-profile.reducer.ts",
+                    "file": "src/app/reducers/application.reducer.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "ApplicationProfileState",
                     "defaultValue": "{\n  byId: {},\n  allIds: [],\n}"
                 }
             ],
-            "src/app/actions/application-profile.actions.ts": [
+            "src/app/actions/application.actions.ts": [
                 {
                     "name": "applicationProfileReceived",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/actions/application-profile.actions.ts",
+                    "file": "src/app/actions/application.actions.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "createAction(\n  '[APPLICATION PROFILES] Adding Single Application Profile',\n  props<{profile: ApplicationProfile}>(),\n)"
+                    "defaultValue": "createAction(\n  '[APPLICATION PROFILES] Adding Single Application Profile',\n  props<{profile: Application}>(),\n)"
                 },
                 {
                     "name": "applicationProfilesReceived",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/actions/application-profile.actions.ts",
+                    "file": "src/app/actions/application.actions.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "createAction(\n  '[APPLICATION PROFILES] Application Profiles Received',\n  props<{profiles: ApplicationProfile[]}>(),\n)"
+                    "defaultValue": "createAction(\n  '[APPLICATION PROFILES] Application Profiles Received',\n  props<{profiles: Application[]}>(),\n)"
                 },
                 {
                     "name": "applicationsPanelLoaded",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/actions/application-profile.actions.ts",
+                    "file": "src/app/actions/application.actions.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
@@ -1956,33 +2385,11 @@
                     "name": "DataActions",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/actions/application-profile.actions.ts",
+                    "file": "src/app/actions/application.actions.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "object",
                     "defaultValue": "{\n  applicationsPanelLoaded,\n  applicationProfilesReceived,\n  applicationProfileReceived,\n}"
-                }
-            ],
-            "src/app/reducers/consents.reducer.ts": [
-                {
-                    "name": "consentReducer",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/reducers/consents.reducer.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "createReducer(\n  initialState,\n)"
-                },
-                {
-                    "name": "initialState",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/reducers/consents.reducer.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "ConsentsState",
-                    "defaultValue": "{\n  consentId: 'consent-id-0001',\n}"
                 }
             ],
             "src/test.ts": [
@@ -2090,6 +2497,82 @@
                     "defaultValue": "createAction(\n  '[CORE] WebId Received',\n  props<{webId: string}>(),\n)"
                 }
             ],
+            "src/app/actions/description.actions.ts": [
+                {
+                    "name": "DescActions",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/actions/description.actions.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  descriptionsNeeded,\n  descriptionsReceived,\n}"
+                },
+                {
+                    "name": "descriptionsNeeded",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/actions/description.actions.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[DESCRIPTIONS] Descriptions needed for application',\n  props<{applicationId: string, lang: string}>(),\n)"
+                },
+                {
+                    "name": "descriptionsReceived",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/actions/description.actions.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[DESCRIPTIONS] Descriptions received for application',\n  // TODO (angel) typing\n  props<{descriptions: []}>(),\n)"
+                }
+            ],
+            "src/app/reducers/descriptions.reducer.ts": [
+                {
+                    "name": "DESCRIPTIONS_STATE_KEY",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/reducers/descriptions.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "defaultValue": "'descriptions'"
+                },
+                {
+                    "name": "descriptionsReducer",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/reducers/descriptions.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createReducer(\n  initialState,\n  on(DescActions.descriptionsReceived, (state, {descriptions}) => insertEntities(state, descriptions)),\n)"
+                },
+                {
+                    "name": "initialState",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/reducers/descriptions.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "DescriptionsState",
+                    "defaultValue": "{\n  byId: {},\n  allIds: [],\n}"
+                }
+            ],
+            "src/app/effects/index.ts": [
+                {
+                    "name": "Effects",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/effects/index.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "[]",
+                    "defaultValue": "[\n  ApplicationProfileEffects,\n  CoreEffects,\n  DescriptionEffects,\n]"
+                }
+            ],
             "src/environments/environment.ts": [
                 {
                     "name": "ENV",
@@ -2116,6 +2599,16 @@
             ],
             "src/app/reducers/utils.ts": [
                 {
+                    "name": "insertEntities",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/reducers/utils.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, entities: T[]) => {\n  for (const entity of entities) state = insertEntity(state, entity);\n  return state;\n}"
+                },
+                {
                     "name": "insertEntity",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -2126,6 +2619,16 @@
                     "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, entry: T): NormalizedState<T> => {\n  const byId = {...state.byId, [entry.id]: entry};\n  const allIds = [...state.allIds, entry.id];\n\n  return {byId, allIds}\n}"
                 },
                 {
+                    "name": "removeEntities",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/reducers/utils.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, ids: string[]) => {\n  for (const id of ids) state = removeEntity(state, id);\n  return state;\n}"
+                },
+                {
                     "name": "removeEntity",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -2133,7 +2636,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, id: IRI): NormalizedState<T> => {\n\n  if (!state.allIds.includes(id)) return state;\n\n  const byId = {...state.byId};\n  const allIds = [...state.allIds].filter(_id => _id != id);\n\n  delete byId[id];\n  return {byId, allIds}\n}"
+                    "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, id: string): NormalizedState<T> => {\n\n  if (!state.allIds.includes(id)) return state;\n\n  const byId = {...state.byId};\n  const allIds = [...state.allIds].filter(_id => _id != id);\n\n  delete byId[id];\n  return {byId, allIds}\n}"
                 }
             ],
             "src/stories/Button.stories.ts": [
@@ -2303,7 +2806,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "ActionReducerMap<RootState>",
-                    "defaultValue": "{\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n}"
+                    "defaultValue": "{\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n  [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,\n}"
                 }
             ],
             "src/app/views/consent-panel/consent-panel.stories.ts": [
@@ -2328,12 +2831,12 @@
                     "defaultValue": "(args) => ({props: args})"
                 }
             ],
-            "src/app/selectors/application-profile.selectors.ts": [
+            "src/app/selectors/application.selectors.ts": [
                 {
                     "name": "selectApplicationProfiles",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/selectors/application-profile.selectors.ts",
+                    "file": "src/app/selectors/application.selectors.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
@@ -2343,7 +2846,7 @@
                     "name": "selectApplicationProfilesFeature",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/app/selectors/application-profile.selectors.ts",
+                    "file": "src/app/selectors/application.selectors.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
@@ -2410,7 +2913,7 @@
         "status": "low",
         "files": [
             {
-                "filePath": "src/app/actions/application-profile.actions.ts",
+                "filePath": "src/app/actions/application.actions.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -2420,7 +2923,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/actions/application-profile.actions.ts",
+                "filePath": "src/app/actions/application.actions.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -2430,7 +2933,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/actions/application-profile.actions.ts",
+                "filePath": "src/app/actions/application.actions.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -2440,7 +2943,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/actions/application-profile.actions.ts",
+                "filePath": "src/app/actions/application.actions.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -2500,6 +3003,36 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/actions/description.actions.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "DescActions",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/actions/description.actions.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "descriptionsNeeded",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/actions/description.actions.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "descriptionsReceived",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/app.component.ts",
                 "type": "component",
                 "linktype": "component",
@@ -2527,7 +3060,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/effects/application-profile.effects.ts",
+                "filePath": "src/app/effects/application.effects.ts",
                 "type": "injectable",
                 "linktype": "injectable",
                 "name": "ApplicationProfileEffects",
@@ -2545,6 +3078,25 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/effects/description.effect.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "DescriptionEffects",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/effects/index.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Effects",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/interceptors/auth.interceptor.ts",
                 "type": "interceptor",
                 "linktype": "interceptor",
@@ -2554,7 +3106,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/reducers/application-profile.reducer.ts",
+                "filePath": "src/app/reducers/application.reducer.ts",
                 "type": "interface",
                 "linktype": "interface",
                 "name": "ApplicationProfileState",
@@ -2563,7 +3115,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/reducers/application-profile.reducer.ts",
+                "filePath": "src/app/reducers/application.reducer.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -2573,7 +3125,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/reducers/application-profile.reducer.ts",
+                "filePath": "src/app/reducers/application.reducer.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -2583,36 +3135,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/reducers/application-profile.reducer.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "initialState",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/reducers/consents.reducer.ts",
-                "type": "interface",
-                "linktype": "interface",
-                "name": "ConsentsState",
-                "coveragePercent": 0,
-                "coverageCount": "0/2",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/reducers/consents.reducer.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "consentReducer",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/reducers/consents.reducer.ts",
+                "filePath": "src/app/reducers/application.reducer.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -2661,6 +3184,45 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/reducers/descriptions.reducer.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "DescriptionsState",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/descriptions.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "DESCRIPTIONS_STATE_KEY",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/descriptions.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "descriptionsReducer",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/descriptions.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "initialState",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/reducers/index.ts",
                 "type": "interface",
                 "linktype": "interface",
@@ -2675,7 +3237,7 @@
                 "linktype": "interface",
                 "name": "RootState",
                 "coveragePercent": 0,
-                "coverageCount": "0/3",
+                "coverageCount": "0/4",
                 "status": "low"
             },
             {
@@ -2703,7 +3265,27 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
+                "name": "insertEntities",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/utils.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
                 "name": "insertEntity",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/reducers/utils.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "removeEntities",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -2739,7 +3321,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/selectors/application-profile.selectors.ts",
+                "filePath": "src/app/selectors/application.selectors.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -2749,7 +3331,7 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/selectors/application-profile.selectors.ts",
+                "filePath": "src/app/selectors/application.selectors.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -2777,12 +3359,57 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/view-models/access-need.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "AccessNeed",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/view-models/access-need.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "AccessNeedGroup",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/view-models/application.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Application",
+                "coveragePercent": 0,
+                "coverageCount": "0/9",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/view-models/description.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Description",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/view-models/index.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "UniqueId",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/views/consent-panel/consent-panel.component.ts",
                 "type": "component",
                 "linktype": "component",
                 "name": "ConsentPanelComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/6",
+                "coverageCount": "0/7",
                 "status": "low"
             },
             {
