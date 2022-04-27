@@ -2,7 +2,7 @@
 <mat-accordion>
 <!--  TODO (angel) remove expanded property, for testing only -->
   <mat-expansion-panel [expanded]="true">
-    <mat-expansion-panel-header>
+    <mat-expansion-panel-header class="main-header">
       <mat-panel-title>
         <div class="content">
           <img src="{{profile.thumbnail}}">
@@ -33,13 +33,19 @@
               <p>{{need.description}}</p>
             </div>
             <div class="access-label-container">
-              <div *ngFor="let level of need.access" class="label">
+              <button mat-button *ngFor="let level of need.access" class="label">
+                <mat-icon aria-hidden="false">
+                  {{level === 'read' ? 'visibility' : 'edit'}}
+                </mat-icon>
                 {{level}}
-              </div>
+              </button>
             </div>
           </div>
         </div>
       </mat-expansion-panel>
     </div>
+    <mat-card class="actions">
+      <button mat-button>SAVE</button>
+    </mat-card>
   </mat-expansion-panel>
 </mat-accordion>

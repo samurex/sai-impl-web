@@ -23,6 +23,8 @@ import { ENV } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
 import {Effects} from "./effects";
+import {MatIconModule} from "@angular/material/icon";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import {Effects} from "./effects";
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
     MatExpansionModule,
+    FormsModule,
     StoreModule.forRoot(reducers, {
       metaReducers
     }),
