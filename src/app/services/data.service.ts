@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import { Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {Application} from '../view-models';
 
 @Injectable({
@@ -10,7 +10,8 @@ export class DataService {
 
   constructor(
     private http: HttpClient,
-  ) { }
+  ) {}
+
 
   getApplicationProfiles(): Observable<Application[]> {
     return this.http.get<Application[]>('/api/applications', { responseType: 'json'});

@@ -25,6 +25,8 @@ import {AuthInterceptor} from "./interceptors/auth.interceptor";
 import {Effects} from "./effects";
 import {MatIconModule} from "@angular/material/icon";
 import { FormsModule } from "@angular/forms";
+import { RedirectHandlerComponent } from './components/redirect-handler/redirect-handler.component';
+import {SolidClient} from "./utils/solid-client";
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { FormsModule } from "@angular/forms";
     LoginComponent,
     DashboardComponent,
     ConsentPanelComponent,
+    RedirectHandlerComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,10 @@ import { FormsModule } from "@angular/forms";
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),
     EffectsModule.forRoot(Effects),
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    SolidClient,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

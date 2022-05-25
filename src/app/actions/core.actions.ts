@@ -6,6 +6,9 @@ const loginRequested = createAction(
   props<{idP: string}>(),
 );
 
+/**
+ * Marks that the navigations has been handled off to the user IDP
+ */
 const loginInitiated = createAction(
   '[CORE] Login Initiated'
 );
@@ -19,9 +22,33 @@ const webIdReceived = createAction(
   props<{webId: string}>(),
 )
 
+const loginStatusChanged = createAction(
+  '[CORE] Login Status Changed',
+  props<{loggedIn: boolean}>(),
+)
+
+const serverSessionRequested = createAction(
+  '[CORE] Server session status requested',
+)
+
+const serverSessionReceived = createAction(
+  '[CORE] Server session status received',
+  props<{loggedIn: boolean}>(),
+)
+
+const requestName = createAction(
+  '[CORE] Request Name',
+)
+
+
+
 export const CoreActions = {
   loginRequested,
   loginInitiated,
   requestWebId,
   webIdReceived,
+  loginStatusChanged,
+  serverSessionRequested,
+  serverSessionReceived,
+  requestName,
 };

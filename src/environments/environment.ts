@@ -4,10 +4,11 @@
 
 export const ENV = {
   production: false,
-  BASE_URL: 'http://localhost:4200',
-  API_URL: 'http://localhost:4200/api',
-  AUTH_URL: 'http://localhost:4200/auth',
-  DEFAULT_IDP: 'http://localhost:3000',
+  OIDC_CLIENT_ID: 'https://localhost:4200/assets/id',
+  BASE_URL: 'https://localhost:4200',
+  SRV_BASE: 'http://localhost:4000',
+  API_URL: 'https://localhost:4200/api',
+  DEFAULT_IDP: 'http://localhost:3000/',
 };
 
 /*

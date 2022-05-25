@@ -205,13 +205,31 @@
         },
         {
             "name": "CoreState",
-            "id": "interface-CoreState-7e0f2b18e554e07533719d36385e17615b8f51d5d953802eeb51b80a1a2d9d6ac6e81b8e112ce0e17719ae8f99845c3108d1764edbdb88fbe7ff8bc955bdbfc4",
+            "id": "interface-CoreState-30dbf54b2b6074de97145c7ef8417b1ec247f74f4bb2707e0f974ca4458af02631b9ad793f03ae00e20799fbb354b8562902a36620d801ac08640c997261fb3d",
             "file": "src/app/reducers/core.reducer.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {createReducer, on} from \"@ngrx/store\";\nimport {CoreActions} from \"../actions\";\n\nexport const CORE_STATE_KEY = 'core';\n\nexport interface CoreState {\n  webId: string;\n}\n\nexport const initialState: CoreState = {\n  webId: '',\n}\n\nexport const coreReducer = createReducer(\n  initialState,\n  on(CoreActions.webIdReceived, (state, {webId}) => ({...state, webId}))\n)\n",
+            "sourceCode": "import {createReducer, on} from \"@ngrx/store\";\nimport {CoreActions} from \"../actions\";\n\nexport const CORE_STATE_KEY = 'core';\n\nexport interface CoreState {\n  webId: string;\n  isLoggedIn: boolean;\n  isServerLoggedIn: boolean;\n}\n\nexport const initialState: CoreState = {\n  webId: '',\n  isLoggedIn: false,\n  isServerLoggedIn: false,\n}\n\nexport const coreReducer = createReducer(\n  initialState,\n  on(CoreActions.webIdReceived, (state, {webId}) => ({...state, webId})),\n  on(CoreActions.loginStatusChanged, (state, {loggedIn}) => ({...state, isLoggedIn: loggedIn})),\n  on(CoreActions.serverSessionReceived, (state, {loggedIn}) => ({...state, isServerLoggedIn: loggedIn}))\n)\n",
             "properties": [
+                {
+                    "name": "isLoggedIn",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "isServerLoggedIn",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 9
+                },
                 {
                     "name": "webId",
                     "deprecated": false,
@@ -393,7 +411,7 @@
     "injectables": [
         {
             "name": "ApplicationProfileEffects",
-            "id": "injectable-ApplicationProfileEffects-36a9fb2ea21a9e64403c45d60809c42553d391cd4ba411618c47a564346734ae0cfc92d29902afe7a45b8aa17cea2280b615e01e86ca38f3d0846236157f1de7",
+            "id": "injectable-ApplicationProfileEffects-c6a058f1434a20069ff8c5998550bc6c91d45186511b704be3023beaada3de458adb4080834ed307abb225d8257d39d14289dd9b398c8dc8c35139b5825a26b9",
             "file": "src/app/effects/application.effects.ts",
             "properties": [
                 {
@@ -404,7 +422,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 15
+                    "line": 18
                 },
                 {
                     "name": "loadConsents$",
@@ -414,7 +432,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 21
+                    "line": 24
                 },
                 {
                     "name": "receivedApplicationProfiles$",
@@ -424,7 +442,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 27
+                    "line": 30
                 }
             ],
             "methods": [],
@@ -432,7 +450,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable} from \"@angular/core\";\nimport {Actions, createEffect, ofType} from \"@ngrx/effects\";\nimport {DataActions} from \"../actions/application.actions\";\nimport {map, mergeMap} from \"rxjs\";\nimport {DataService} from \"../services/data.service\";\n\n\n@Injectable()\nexport class ApplicationProfileEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n  ) {}\n\n  loadApplicationProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    mergeMap(() => this.data.getApplicationProfiles()),\n    map(profiles => DataActions.applicationProfilesReceived({profiles})),\n  ))\n\n  loadConsents$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    map(() => ({type: 'none'})),\n\n  ))\n\n  receivedApplicationProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationProfilesReceived),\n    map(({profiles}) => profiles),\n    mergeMap(profiles => profiles),\n    map(profile => DataActions.applicationProfileReceived({profile})),\n  ))\n}\n",
+            "sourceCode": "import { Injectable} from \"@angular/core\";\nimport {Actions, createEffect, ofType} from \"@ngrx/effects\";\nimport {DataActions} from \"../actions/application.actions\";\nimport {map, mergeMap} from \"rxjs\";\nimport {DataService} from \"../services/data.service\";\nimport {CoreActions} from \"../actions\";\nimport {LoginService} from \"../services/login.service\";\n\n\n@Injectable()\nexport class ApplicationProfileEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n    private login: LoginService,\n  ) {}\n\n  loadApplicationProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    mergeMap(() => this.data.getApplicationProfiles()),\n    map(profiles => DataActions.applicationProfilesReceived({profiles})),\n  ))\n\n  loadConsents$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    map(() => ({type: 'none'})),\n\n  ))\n\n  receivedApplicationProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationProfilesReceived),\n    map(({profiles}) => profiles),\n    mergeMap(profiles => profiles),\n    map(profile => DataActions.applicationProfileReceived({profile})),\n  ))\n\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -448,6 +466,106 @@
                     {
                         "name": "data",
                         "type": "DataService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "login",
+                        "type": "LoginService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 11,
+                "jsdoctags": [
+                    {
+                        "name": "actions$",
+                        "type": "Actions",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "data",
+                        "type": "DataService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "login",
+                        "type": "LoginService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "type": "injectable"
+        },
+        {
+            "name": "CoreEffects",
+            "id": "injectable-CoreEffects-2b8d726807824f263b4d31208a551ded29b10e9a21402f418afd06167c131f63d0edde758baf973ea22edc7fcc4702d924fc874c5484d4e29a8ce722b50b4bba",
+            "file": "src/app/effects/core.effects.ts",
+            "properties": [
+                {
+                    "name": "login$",
+                    "defaultValue": "createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.loginRequested),\n    tap(({idP}) => this.id.login(idP)),\n    map(() => CoreActions.loginInitiated()),\n  ))",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
+                },
+                {
+                    "name": "receiveLogin$",
+                    "defaultValue": "createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.webIdReceived),\n    map(({webId}) => CoreActions.loginStatusChanged({loggedIn: Boolean(webId)})),\n  ))",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 22
+                },
+                {
+                    "name": "serverSessionRequested$",
+                    "defaultValue": "createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.serverSessionRequested),\n    mergeMap(() => this.id.checkServerSession$()\n      .pipe(\n        map(loggedIn => CoreActions.serverSessionReceived({loggedIn})),\n        catchError(() => EMPTY),\n      )),\n  ))",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 27
+                }
+            ],
+            "methods": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import {Injectable} from \"@angular/core\";\nimport {Actions, createEffect, ofType} from \"@ngrx/effects\";\nimport {catchError, EMPTY, map, tap} from \"rxjs\";\nimport {LoginService} from \"../services/login.service\";\nimport {CoreActions} from \"../actions\";\nimport {mergeMap} from \"rxjs/operators\";\n\n@Injectable()\nexport class CoreEffects {\n\n  constructor(\n    private actions$: Actions,\n    private id: LoginService,\n  ) {}\n\n  login$ = createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.loginRequested),\n    tap(({idP}) => this.id.login(idP)),\n    map(() => CoreActions.loginInitiated()),\n  ))\n\n  receiveLogin$ = createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.webIdReceived),\n    map(({webId}) => CoreActions.loginStatusChanged({loggedIn: Boolean(webId)})),\n  ))\n\n  serverSessionRequested$ = createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.serverSessionRequested),\n    mergeMap(() => this.id.checkServerSession$()\n      .pipe(\n        map(loggedIn => CoreActions.serverSessionReceived({loggedIn})),\n        catchError(() => EMPTY),\n      )),\n  ))\n}\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "actions$",
+                        "type": "Actions",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "id",
+                        "type": "LoginService",
                         "deprecated": false,
                         "deprecationMessage": ""
                     }
@@ -464,83 +582,8 @@
                         }
                     },
                     {
-                        "name": "data",
-                        "type": "DataService",
-                        "deprecated": false,
-                        "deprecationMessage": "",
-                        "tagName": {
-                            "text": "param"
-                        }
-                    }
-                ]
-            },
-            "type": "injectable"
-        },
-        {
-            "name": "CoreEffects",
-            "id": "injectable-CoreEffects-275f4417fab2d0ee5c4d829be5102f3ab2fc8d43a7b432c6351360726c7959c9d296e3d4e448268f40e8a3119d83d07730ae02b142de171ef500424ab6fd426e",
-            "file": "src/app/effects/core.effects.ts",
-            "properties": [
-                {
-                    "name": "getWebId$",
-                    "defaultValue": "createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.requestWebId),\n    mergeMap(() => this.id.getWebId().pipe(\n      map(webId => CoreActions.webIdReceived({webId})),\n      catchError(() => EMPTY),\n    )),\n  ))",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 21
-                },
-                {
-                    "name": "login$",
-                    "defaultValue": "createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.loginRequested),\n    tap(({idP}) => this.id.login(idP)),\n    map(() => CoreActions.loginInitiated()),\n  ))",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 15
-                }
-            ],
-            "methods": [],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "description": "",
-            "rawdescription": "\n",
-            "sourceCode": "import {Injectable} from \"@angular/core\";\nimport {Actions, createEffect, ofType} from \"@ngrx/effects\";\nimport {catchError, EMPTY, map, mergeMap, tap} from \"rxjs\";\nimport {IdentityService} from \"../services/login.service\";\nimport {CoreActions} from \"../actions\";\n\n@Injectable()\nexport class CoreEffects {\n\n  constructor(\n    private actions$: Actions,\n    private id: IdentityService,\n  ) {}\n\n  login$ = createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.loginRequested),\n    tap(({idP}) => this.id.login(idP)),\n    map(() => CoreActions.loginInitiated()),\n  ))\n\n  getWebId$ = createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.requestWebId),\n    mergeMap(() => this.id.getWebId().pipe(\n      map(webId => CoreActions.webIdReceived({webId})),\n      catchError(() => EMPTY),\n    )),\n  ))\n}\n",
-            "constructorObj": {
-                "name": "constructor",
-                "description": "",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "args": [
-                    {
-                        "name": "actions$",
-                        "type": "Actions",
-                        "deprecated": false,
-                        "deprecationMessage": ""
-                    },
-                    {
                         "name": "id",
-                        "type": "IdentityService",
-                        "deprecated": false,
-                        "deprecationMessage": ""
-                    }
-                ],
-                "line": 8,
-                "jsdoctags": [
-                    {
-                        "name": "actions$",
-                        "type": "Actions",
-                        "deprecated": false,
-                        "deprecationMessage": "",
-                        "tagName": {
-                            "text": "param"
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "type": "IdentityService",
+                        "type": "LoginService",
                         "deprecated": false,
                         "deprecationMessage": "",
                         "tagName": {
@@ -553,7 +596,7 @@
         },
         {
             "name": "DataService",
-            "id": "injectable-DataService-cc86b3cd630d1d6181226d87218c9cb30475c84ae6d7f4c7c62cf27cfa1dacc83301fadde019b5a5c87188c4aa309ecbda7efdda2f4417f10012d37b7cace57e",
+            "id": "injectable-DataService-1ea818f5d67cd6d39ca16c636aa0c668394173037dccb0749b803eb4083cde04a2528f0ca1948deefbe123afe2626327ba6c3e4152ec0b0decf4e03f03fecc2f",
             "file": "src/app/services/data.service.ts",
             "properties": [],
             "methods": [
@@ -563,7 +606,7 @@
                     "optional": false,
                     "returnType": "Observable<Application[]>",
                     "typeParameters": [],
-                    "line": 15,
+                    "line": 16,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -586,7 +629,7 @@
                     "optional": false,
                     "returnType": "Observable<>",
                     "typeParameters": [],
-                    "line": 20,
+                    "line": 21,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -615,7 +658,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable } from '@angular/core';\nimport {HttpClient} from \"@angular/common/http\";\nimport { Observable} from \"rxjs\";\nimport {Application} from '../view-models';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class DataService {\n\n  constructor(\n    private http: HttpClient,\n  ) { }\n\n  getApplicationProfiles(): Observable<Application[]> {\n    return this.http.get<Application[]>('/api/applications', { responseType: 'json'});\n  }\n\n  // TODO (angel) typing\n  getDescription(applicationId: string, lang: string): Observable<[]> {\n    return this.http.get<[]>(`/api/descriptions/${encodeURI(applicationId)}/${lang}`, {responseType: 'json'});\n  }\n}\n",
+            "sourceCode": "import {Injectable} from '@angular/core';\nimport {HttpClient} from \"@angular/common/http\";\nimport {Observable} from \"rxjs\";\nimport {Application} from '../view-models';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class DataService {\n\n  constructor(\n    private http: HttpClient,\n  ) {}\n\n\n  getApplicationProfiles(): Observable<Application[]> {\n    return this.http.get<Application[]>('/api/applications', { responseType: 'json'});\n  }\n\n  // TODO (angel) typing\n  getDescription(applicationId: string, lang: string): Observable<[]> {\n    return this.http.get<[]>(`/api/descriptions/${encodeURI(applicationId)}/${lang}`, {responseType: 'json'});\n  }\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -710,18 +753,31 @@
             "type": "injectable"
         },
         {
-            "name": "IdentityService",
-            "id": "injectable-IdentityService-8e425ac8c46dab9b6769b5dd8892d2379ed2ccb05c61537c3954f056a435a57e5c0072a994670f887a3a3ad2434464ba81e5a462badc868847c9eb6c21859ffc",
+            "name": "LoginService",
+            "id": "injectable-LoginService-ed6309cae2e57d917a577af2467b95c4a2200212f55c15b791fc9b166593ebc39d24ea37148ffdf3833e4d1c6bb71cfb8aea6be7ec66adb7d88aaf9c7af12fbc",
             "file": "src/app/services/login.service.ts",
             "properties": [],
             "methods": [
                 {
-                    "name": "getWebId",
+                    "name": "checkServerSession",
                     "args": [],
                     "optional": false,
-                    "returnType": "Observable<string>",
+                    "returnType": "Promise<boolean>",
                     "typeParameters": [],
-                    "line": 22,
+                    "line": 29,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        131
+                    ]
+                },
+                {
+                    "name": "checkServerSession$",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Observable<boolean>",
+                    "typeParameters": [],
+                    "line": 38,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -729,7 +785,7 @@
                     "name": "login",
                     "args": [
                         {
-                            "name": "issuer",
+                            "name": "oidcIssuer",
                             "type": "string",
                             "deprecated": false,
                             "deprecationMessage": "",
@@ -737,14 +793,17 @@
                         }
                     ],
                     "optional": false,
-                    "returnType": "void",
+                    "returnType": "any",
                     "typeParameters": [],
-                    "line": 15,
+                    "line": 16,
                     "deprecated": false,
                     "deprecationMessage": "",
+                    "modifierKind": [
+                        131
+                    ],
                     "jsdoctags": [
                         {
-                            "name": "issuer",
+                            "name": "oidcIssuer",
                             "type": "string",
                             "deprecated": false,
                             "deprecationMessage": "",
@@ -760,7 +819,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Injectable } from '@angular/core';\nimport {HttpClient} from \"@angular/common/http\";\nimport {ENV} from \"../../environments/environment\";\nimport {map, Observable, tap} from \"rxjs\";\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class IdentityService {\n\n  constructor(\n    private http: HttpClient,\n  ) {}\n\n  login(issuer?: string) {\n    this.http.post('/auth/login', {idp: issuer || ENV.DEFAULT_IDP}, {responseType:'text'})\n      .subscribe(url => {\n        window.location.href = url;\n      });\n  }\n\n  getWebId(): Observable<string> {\n    return this.http.get('/api/id', {responseType: 'text'});\n  }\n}\n",
+            "sourceCode": "import {Injectable} from '@angular/core';\nimport {ENV} from \"../../environments/environment\";\nimport {login} from \"@inrupt/solid-client-authn-browser\";\nimport {SolidClient} from \"../utils/solid-client\";\nimport {from, Observable} from \"rxjs\";\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class LoginService {\n\n  constructor(\n    private solidClient: SolidClient,\n  ) {}\n\n  async login(oidcIssuer?: string) {\n\n    // TODO reject if no oidcIssuer is provided\n    if (!oidcIssuer) oidcIssuer = ENV.DEFAULT_IDP;\n\n\n    await login({\n      clientId: ENV.OIDC_CLIENT_ID,\n      oidcIssuer,\n      redirectUrl: `${ENV.BASE_URL}/redirect`,\n    });\n  }\n\n  async checkServerSession(): Promise<boolean> {\n    type ResponseShape = { found: boolean };\n\n\n    return this.solidClient.fetch(`${ENV.SRV_BASE}/session`)\n      .then(r => r.json())\n      .then((r: ResponseShape) => r.found);\n  }\n\n  checkServerSession$(): Observable<boolean> {\n    return from(this.checkServerSession());\n  }\n}\n\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -768,17 +827,17 @@
                 "deprecationMessage": "",
                 "args": [
                     {
-                        "name": "http",
-                        "type": "HttpClient",
+                        "name": "solidClient",
+                        "type": "SolidClient",
                         "deprecated": false,
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 9,
+                "line": 10,
                 "jsdoctags": [
                     {
-                        "name": "http",
-                        "type": "HttpClient",
+                        "name": "solidClient",
+                        "type": "SolidClient",
                         "deprecated": false,
                         "deprecationMessage": "",
                         "tagName": {
@@ -788,9 +847,246 @@
                 ]
             },
             "type": "injectable"
+        },
+        {
+            "name": "SolidClient",
+            "id": "injectable-SolidClient-39dcad024ef5603f5d6061f96f15154d32e42ceb9514b5ec59c839304cb23d7c08ee1971c6ee329423560123567c67425fbb0ed286e24d0be8caeb9ace944e41",
+            "file": "src/app/utils/solid-client.ts",
+            "properties": [
+                {
+                    "name": "_fetch",
+                    "defaultValue": "getDefaultSession().fetch",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 11,
+                    "modifierKind": [
+                        121
+                    ]
+                }
+            ],
+            "methods": [
+                {
+                    "name": "fetch",
+                    "args": [
+                        {
+                            "name": "url",
+                            "type": "RequestInfo",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "init",
+                            "type": "RequestInit",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "optional": true
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Promise<Response>",
+                    "typeParameters": [],
+                    "line": 17,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        123
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "url",
+                            "type": "RequestInfo",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "init",
+                            "type": "RequestInit",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "optional": true,
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "fetch$",
+                    "args": [
+                        {
+                            "name": "url",
+                            "type": "RequestInfo",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "init",
+                            "type": "RequestInit",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "optional": true
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<Response>",
+                    "typeParameters": [],
+                    "line": 13,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        123
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "url",
+                            "type": "RequestInfo",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "init",
+                            "type": "RequestInit",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "optional": true,
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import {Injectable} from \"@angular/core\";\nimport {from, Observable} from \"rxjs\";\nimport {getDefaultSession} from \"@inrupt/solid-client-authn-browser\";\nimport {mergeMap} from \"rxjs/operators\";\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class SolidClient {\n\n  private _fetch = getDefaultSession().fetch;\n\n  public fetch$(url: RequestInfo, init?: RequestInit): Observable<Response> {\n    return from(this._fetch(url, init));\n  }\n\n  public fetch(url: RequestInfo, init?: RequestInit): Promise<Response> {\n    return this._fetch(url, init);\n  }\n}\n\n\nexport function unwrapJson<T = any>(): (response$: Observable<Response>) => Observable<T> {\n  return (response$: Observable<Response>): Observable<T> => {\n    return response$.pipe(mergeMap(r => r.json()));\n  };\n}\n",
+            "type": "injectable"
         }
     ],
-    "guards": [],
+    "guards": [
+        {
+            "name": "AuthGuard",
+            "id": "injectable-AuthGuard-4062ff5bca8e729e56084d5b4ae6bcff44f49b889bca5922c9881d5fa9c563bcbaa64ddc470d1cedff4660d412ab3029415553162d017b69cb0edab148eb6f1e",
+            "file": "src/app/guards/auth.guard.service.ts",
+            "properties": [],
+            "methods": [
+                {
+                    "name": "canActivate",
+                    "args": [
+                        {
+                            "name": "route",
+                            "type": "ActivatedRouteSnapshot",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "state",
+                            "type": "RouterStateSnapshot",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable | Promise | boolean | UrlTree",
+                    "typeParameters": [],
+                    "line": 25,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "route",
+                            "type": "ActivatedRouteSnapshot",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "state",
+                            "type": "RouterStateSnapshot",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "tryToRecoverSession",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Promise<void>",
+                    "typeParameters": [],
+                    "line": 35,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        121,
+                        131
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import {Injectable} from '@angular/core';\nimport {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';\nimport {from, map, Observable} from 'rxjs';\nimport {getDefaultSession, onSessionRestore} from '@inrupt/solid-client-authn-browser';\nimport {Store} from \"@ngrx/store\";\nimport {loggedInStatus} from \"../selectors\";\nimport {mergeMap} from \"rxjs/operators\";\nimport {CoreActions} from \"../actions\";\n\n\nonSessionRestore((currentUrl: string) => {\n  console.log('ON SESSION RESTORE', currentUrl);\n})\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class AuthGuard implements CanActivate {\n\n  constructor(\n    private router: Router,\n    private store: Store,\n  ) {}\n\n  canActivate(\n    route: ActivatedRouteSnapshot,\n    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {\n\n    return from(this.tryToRecoverSession()).pipe(\n      mergeMap(() => this.store.select(loggedInStatus)),\n      map(status => status || this.router.parseUrl('login'))\n    );\n  }\n\n  private async tryToRecoverSession(): Promise<void> {\n    const session = getDefaultSession();\n\n    if (session && session.info && session.info.isLoggedIn) {\n      return;\n    } else {\n      const info = await session.handleIncomingRedirect({restorePreviousSession: true});\n\n      if (info && info.isLoggedIn) {\n        this.store.dispatch(CoreActions.loginStatusChanged({loggedIn: true}));\n      }\n    }\n  }\n}\n\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "store",
+                        "type": "Store",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 18,
+                "jsdoctags": [
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "store",
+                        "type": "Store",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "type": "guard"
+        }
+    ],
     "interceptors": [
         {
             "name": "AuthInterceptor",
@@ -881,7 +1177,7 @@
     "components": [
         {
             "name": "AppComponent",
-            "id": "component-AppComponent-22485d5c7818d8df78ab641354f11cadc33a8ca4e85f830b6751b8c9e374e089b863fa01d973dcb672ccf401d89118cdea47af62a7ee96c89418174d3377913e",
+            "id": "component-AppComponent-2f9bf101a9caa6499c9fbe03969587d15689fa5fee3d9cafbe47fea0a7e4fd71ad41ae0b693b9a144abdd1fbb1b0c52193175c252ff0f052d6d4d986b0a1691b",
             "file": "src/app/app.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -901,6 +1197,16 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
+                    "name": "isServerLoggedIn",
+                    "defaultValue": "this.store.select(serverLoggedInStatus)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                },
+                {
                     "name": "title",
                     "defaultValue": "'sai-web-app'",
                     "deprecated": false,
@@ -908,17 +1214,17 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 13
+                    "line": 12
                 },
                 {
                     "name": "webId",
-                    "defaultValue": "this.store.select(selectWebId)",
+                    "defaultValue": "this.store.select(webId)",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 14
+                    "line": 13
                 }
             ],
             "methodsClass": [
@@ -931,6 +1237,16 @@
                     "line": 20,
                     "deprecated": false,
                     "deprecationMessage": ""
+                },
+                {
+                    "name": "serverLogin",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 22,
+                    "deprecated": false,
+                    "deprecationMessage": ""
                 }
             ],
             "deprecated": false,
@@ -940,7 +1256,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport {Store} from \"@ngrx/store\";\nimport {Observable} from \"rxjs\";\nimport {selectWebId} from \"./selectors\";\nimport {RootState} from \"./reducers\";\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent implements OnInit{\n  title = 'sai-web-app';\n  webId = this.store.select(selectWebId);\n\n  constructor(\n    private store: Store,\n  ) {}\n\n  ngOnInit() {}\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport {Store} from \"@ngrx/store\";\nimport {serverLoggedInStatus, webId} from \"./selectors\";\nimport {CoreActions} from \"./actions\";\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent implements OnInit{\n  title = 'sai-web-app';\n  webId = this.store.select(webId);\n  isServerLoggedIn = this.store.select(serverLoggedInStatus);\n\n  constructor(\n    private store: Store,\n  ) {}\n\n  ngOnInit() {}\n\n  serverLogin() {\n    this.store.dispatch(CoreActions.serverSessionRequested());\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -978,7 +1294,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<sai-navbar [webId]=\"webId | async\"></sai-navbar>\n<router-outlet></router-outlet>\n"
+            "templateData": "<sai-navbar\n  [webId]=\"(webId | async)!\"\n  [isServerLoggedIn]=\"(isServerLoggedIn | async)!\"\n  (serverLogin)=\"serverLogin()\"></sai-navbar>\n<router-outlet></router-outlet>\n"
         },
         {
             "name": "ButtonComponent",
@@ -1184,7 +1500,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "\n* {\n  box-sizing: border-box;\n  font-family: sans-serif;\n}\n\nmat-expansion-panel-header {\n  height: auto !important;\n  padding-bottom: 10px;\n  padding-top: 10px;\n\n  img {\n    height: 75px;\n    width: 75px;\n    border-radius: 50%;\n    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.19);\n    border: solid 2px #FFF;\n  }\n\n}\n\n.content {\n  display: flex;\n  width: 100%;\n  padding: 5px;\n  gap: 10px;\n}\n\n.text-content {\n  display: flex;\n  width: 100%;\n  flex-flow: column nowrap;\n  justify-content: space-evenly;\n\n  h3 {\n    color: #131415;\n  }\n\n  p {\n    font-size: 0.85rem;\n    color: #768692;\n  }\n\n  .date-line {\n    display: inline-flex;\n    justify-content: space-between;\n  }\n\n  h3, p {\n    margin: 0px;\n  }\n}\n\na {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  max-width: 10px;\n}\n\n\n.access-need {\n  display: flex;\n  justify-content: space-between;\n  padding: 15px 60px;\n}\n\n.access-label-container {\n  display: flex;\n  flex-flow: row nowrap;\n  gap: 10px;\n\n  .label {\n    text-transform: capitalize;\n    padding: 10px 20px;\n    border-radius: 5%;\n    align-self: center;\n    background-color: #f7f7f7;\n  }\n}\n\n.access-need.even {\n  background-color: #fafafa;\n}\n\n:host ::ng-deep .mat-expansion-panel-body {\n  padding: 0;\n}\n",
+                    "data": "* {\n  box-sizing: border-box;\n  font-family: sans-serif;\n}\n\nmat-expansion-panel-header {\n  height: auto !important;\n  padding-bottom: 10px;\n  padding-top: 10px;\n\n  img {\n    height: 75px;\n    width: 75px;\n    border-radius: 50%;\n    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.19);\n    border: solid 2px #FFF;\n  }\n\n}\n\n.content {\n  display: flex;\n  width: 100%;\n  padding: 5px;\n  gap: 10px;\n}\n\n.text-content {\n  display: flex;\n  width: 100%;\n  flex-flow: column nowrap;\n  justify-content: space-evenly;\n\n  h3 {\n    color: #131415;\n  }\n\n  p {\n    font-size: 0.85rem;\n    color: #768692;\n  }\n\n  .date-line {\n    display: inline-flex;\n    justify-content: space-between;\n  }\n\n  h3, p {\n    margin: 0;\n  }\n}\n\na {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  max-width: 10px;\n}\n\n\n.access-need {\n  display: flex;\n  justify-content: space-between;\n  padding: 15px 60px;\n}\n\n.access-label-container {\n  display: flex;\n  flex-flow: row nowrap;\n  gap: 10px;\n  justify-content: center;\n\n  .label {\n    text-transform: capitalize;\n    padding: 5px 20px;\n    border-radius: 10px;\n    align-self: center;\n  }\n\n  button {\n    background: rgba(0, 0, 0, 0.05);\n  }\n}\n\n.access-need.even {\n  background-color: #fafafa;\n}\n\n:host ::ng-deep .mat-expansion-panel-body {\n  padding: 0;\n}\n\n.actions {\n  padding: 0;\n  background-color: rgba(218, 41, 28, 0.3);\n  button {\n    color: #da291c;\n    width: 100%;\n  }\n}\n\n//@include breakpoint(mobile){\n@media (max-width: 767px) and (orientation: portrait) {\n  .hide-mobile {\n    display: none;\n  }\n  .main-header {\n    padding: 0;\n  }\n  span.mat-expansion-indicator {\n    margin-right: 5px;\n  }\n  .date-line {\n    flex-flow: column;\n  }\n  .access-need {\n    padding: 15px 10px;\n    flex-flow: column;\n  }\n  .access-label-container {\n    margin-top: 2%;\n  }\n}\n\n.material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;  /* Preferred icon size */\n  display: inline-block;\n  line-height: 1;\n  text-transform: none;\n  letter-spacing: normal;\n  word-wrap: normal;\n  white-space: nowrap;\n  direction: ltr;\n\n  /* Support for all WebKit browsers. */\n  -webkit-font-smoothing: antialiased;\n  /* Support for Safari and Chrome. */\n  text-rendering: optimizeLegibility;\n\n  /* Support for Firefox. */\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Support for IE. */\n  font-feature-settings: 'liga';\n}\n\n",
                     "styleUrl": "./consent-panel.component.scss"
                 }
             ],
@@ -1200,11 +1516,11 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "\n<mat-accordion>\n<!--  TODO (angel) remove expanded property, for testing only -->\n  <mat-expansion-panel [expanded]=\"true\">\n    <mat-expansion-panel-header>\n      <mat-panel-title>\n        <div class=\"content\">\n          <img src=\"{{profile.thumbnail}}\">\n          <div class=\"text-content\">\n            <h3>{{profile.name}}</h3>\n            <p>{{profile.description}}</p>\n            <p class=\"date-line\">\n              <span>{{profile.author}}</span>\n              <span>Registered on: {{profile.authorizationDate | date}}</span>\n            </p>\n          </div>\n        </div>\n      </mat-panel-title>\n    </mat-expansion-panel-header>\n    <div class=\"panel-content\">\n<!--      TODO (angel) remove expanded, for testing only -->\n      <mat-expansion-panel *ngFor=\"let group of groups\" expanded=\"true\">\n        <mat-expansion-panel-header>\n          <div class=\"text-content\">\n            <h3>{{group.title}}</h3>\n            <p>{{group.description}}</p>\n          </div>\n        </mat-expansion-panel-header>\n        <div class=\"access-need-panel\">\n          <div class=\"access-need\" *ngFor=\"let need of group.needs; let odd=odd; let even=even\" [ngClass]=\"{odd: odd, even: even}\">\n            <div class=\"text-content\">\n              <h3>{{need.title}}</h3>\n              <p>{{need.description}}</p>\n            </div>\n            <div class=\"access-label-container\">\n              <div *ngFor=\"let level of need.access\" class=\"label\">\n                {{level}}\n              </div>\n            </div>\n          </div>\n        </div>\n      </mat-expansion-panel>\n    </div>\n  </mat-expansion-panel>\n</mat-accordion>\n"
+            "templateData": "\n<mat-accordion>\n<!--  TODO (angel) remove expanded property, for testing only -->\n  <mat-expansion-panel [expanded]=\"true\">\n    <mat-expansion-panel-header class=\"main-header\">\n      <mat-panel-title>\n        <div class=\"content\">\n          <img src=\"{{profile.thumbnail}}\">\n          <div class=\"text-content\">\n            <h3>{{profile.name}}</h3>\n            <p>{{profile.description}}</p>\n            <p class=\"date-line\">\n              <span>{{profile.author}}</span>\n              <span>Registered on: {{profile.authorizationDate | date}}</span>\n            </p>\n          </div>\n        </div>\n      </mat-panel-title>\n    </mat-expansion-panel-header>\n    <div class=\"panel-content\">\n<!--      TODO (angel) remove expanded, for testing only -->\n      <mat-expansion-panel *ngFor=\"let group of groups\" expanded=\"true\">\n        <mat-expansion-panel-header>\n          <div class=\"text-content\">\n            <h3>{{group.title}}</h3>\n            <p>{{group.description}}</p>\n          </div>\n        </mat-expansion-panel-header>\n        <div class=\"access-need-panel\">\n          <div class=\"access-need\" *ngFor=\"let need of group.needs; let odd=odd; let even=even\" [ngClass]=\"{odd: odd, even: even}\">\n            <div class=\"text-content\">\n              <h3>{{need.title}}</h3>\n              <p>{{need.description}}</p>\n            </div>\n            <div class=\"access-label-container\">\n              <button mat-button *ngFor=\"let level of need.access\" class=\"label\">\n                <mat-icon aria-hidden=\"false\">\n                  {{level === 'read' ? 'visibility' : 'edit'}}\n                </mat-icon>\n                {{level}}\n              </button>\n            </div>\n          </div>\n        </div>\n      </mat-expansion-panel>\n    </div>\n    <mat-card class=\"actions\">\n      <button mat-button>SAVE</button>\n    </mat-card>\n  </mat-expansion-panel>\n</mat-accordion>\n"
         },
         {
             "name": "DashboardComponent",
-            "id": "component-DashboardComponent-ce3c1c8fdbc4be25203897401256105ec5291b4f73abd572b33fae5262af1f452ed888da322cf32c023cde5b271227b2dcc0b48d39492cdcd199c9231963a538",
+            "id": "component-DashboardComponent-1ad83594d8c32a1fc2e8d2cd76312dbbc09ba7ab459a8a69bce87e8941089e148c4045423fd19cd5415e09782a7c3b446a32a34bb0b7703d127e3c65497f94a7",
             "file": "src/app/components/dashboard/dashboard.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1231,17 +1547,53 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 14
+                    "line": 17
+                },
+                {
+                    "name": "isServerLoggedIn$",
+                    "defaultValue": "this.store.select(serverLoggedInStatus)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 18
+                },
+                {
+                    "name": "latestMessage",
+                    "defaultValue": "new BehaviorSubject<unknown>(JSON.stringify({}))",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Observable<>",
+                    "optional": false,
+                    "description": "",
+                    "line": 20,
+                    "modifierKind": [
+                        123
+                    ]
                 }
             ],
             "methodsClass": [
+                {
+                    "name": "checkServerSession",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 32,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        123
+                    ]
+                },
                 {
                     "name": "ngOnInit",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 21,
+                    "line": 28,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -1253,7 +1605,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { HttpClient } from '@angular/common/http';\nimport { Component, OnInit } from '@angular/core';\nimport {Store} from \"@ngrx/store\";\nimport {DataActions} from \"../../actions/application.actions\";\nimport {selectApplicationProfiles} from \"../../selectors/application.selectors\";\n\n@Component({\n  selector: 'sai-dashboard',\n  templateUrl: './dashboard.component.html',\n  styleUrls: ['./dashboard.component.scss']\n})\nexport class DashboardComponent implements OnInit {\n\n  applications = this.store.select(selectApplicationProfiles);\n\n  constructor(\n    private http: HttpClient,\n    private store: Store,\n  ) { }\n\n  ngOnInit(): void {\n    this.store.dispatch(DataActions.applicationsPanelLoaded());\n  }\n}\n",
+            "sourceCode": "import {Component, OnInit} from '@angular/core';\nimport {Store} from \"@ngrx/store\";\nimport {selectApplicationProfiles} from \"../../selectors/application.selectors\";\nimport {BehaviorSubject, Observable} from \"rxjs\";\nimport {serverLoggedInStatus} from \"../../selectors\";\nimport {SolidClient} from \"../../utils/solid-client\";\nimport {CoreActions} from \"../../actions\";\nimport {ENV} from \"../../../environments/environment\";\n\n@Component({\n  selector: 'sai-dashboard',\n  templateUrl: './dashboard.component.html',\n  styleUrls: ['./dashboard.component.scss']\n})\nexport class DashboardComponent implements OnInit {\n\n  applications = this.store.select(selectApplicationProfiles);\n  isServerLoggedIn$ = this.store.select(serverLoggedInStatus);\n\n  public latestMessage: Observable<unknown> = new BehaviorSubject<unknown>(JSON.stringify({}));\n\n  constructor(\n    private solidClient: SolidClient,\n    private store: Store,\n  ) {\n  }\n\n  ngOnInit(): void {\n    this.store.dispatch(CoreActions.requestWebId());\n  }\n\n  public checkServerSession(): void {\n    this.store.dispatch(CoreActions.serverSessionRequested());\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -1269,8 +1621,8 @@
                 "deprecationMessage": "",
                 "args": [
                     {
-                        "name": "http",
-                        "type": "HttpClient",
+                        "name": "solidClient",
+                        "type": "SolidClient",
                         "deprecated": false,
                         "deprecationMessage": ""
                     },
@@ -1281,11 +1633,11 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 14,
+                "line": 20,
                 "jsdoctags": [
                     {
-                        "name": "http",
-                        "type": "HttpClient",
+                        "name": "solidClient",
+                        "type": "SolidClient",
                         "deprecated": false,
                         "deprecationMessage": "",
                         "tagName": {
@@ -1484,7 +1836,7 @@
         },
         {
             "name": "NavbarComponent",
-            "id": "component-NavbarComponent-14a8fef8d3f6a878e02bbdf9ce40d9ad225c023c51e212642c89f944b8f40c6e2ac17e2397db2ea21159b380bb2b06166a71018b045b55f8b59fd5bafbf1a361",
+            "id": "component-NavbarComponent-a024599159875e79598ff01e7eb8f6843d1e3efc2fc4d53074150e570eec4bc43fef57a8e81e791bc52f405575204504b8a2177dd9b920b30eb7d934f76d3bca",
             "file": "src/app/views/navbar/navbar.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1502,6 +1854,14 @@
             "viewProviders": [],
             "inputsClass": [
                 {
+                    "name": "isServerLoggedIn",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 12,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
                     "name": "webId",
                     "deprecated": false,
                     "deprecationMessage": "",
@@ -1512,23 +1872,37 @@
             ],
             "outputsClass": [
                 {
-                    "name": "logout",
-                    "defaultValue": "new EventEmitter<void>()",
+                    "name": "serverLogin",
+                    "defaultValue": "new EventEmitter()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 12,
+                    "line": 15,
                     "type": "EventEmitter"
                 }
             ],
             "propertiesClass": [],
             "methodsClass": [
                 {
+                    "name": "loginServer",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Promise<void>",
+                    "typeParameters": [],
+                    "line": 23,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        123,
+                        131
+                    ]
+                },
+                {
                     "name": "ngOnInit",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 18,
+                    "line": 20,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -1540,11 +1914,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {Store} from \"@ngrx/store\";\nimport {CoreActions} from \"../../actions\";\n\n@Component({\n  selector: 'sai-navbar',\n  templateUrl: './navbar.component.html',\n  styleUrls: ['./navbar.component.scss']\n})\nexport class NavbarComponent implements OnInit {\n\n  @Output() logout = new EventEmitter<void>();\n  @Input() webId!: string | null;\n  constructor(\n    private readonly store: Store,\n  ) { }\n\n  ngOnInit(): void {\n    this.store.dispatch(CoreActions.requestWebId());\n  }\n}\n",
+            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {ENV} from \"../../../environments/environment\";\nimport {SolidClient} from \"../../utils/solid-client\";\n\n@Component({\n  selector: 'sai-navbar',\n  templateUrl: './navbar.component.html',\n  styleUrls: ['./navbar.component.scss']\n})\nexport class NavbarComponent implements OnInit {\n\n  @Input() isServerLoggedIn!: boolean;\n  @Input() webId!: string | null;\n\n  @Output() serverLogin = new EventEmitter();\n  constructor(\n    private solidClient: SolidClient,\n  ) { }\n\n  ngOnInit(): void {\n  }\n\n  public async loginServer(): Promise<void> {\n    type ResponseShape = {\n      redirectUrl: string,\n    }\n\n    const options = {\n      method: 'POST',\n      body: JSON.stringify({idp: 'http://localhost:3000/'}),\n    } as RequestInit;\n\n    const redir = await this.solidClient.fetch(ENV.SRV_BASE + '/login', options)\n      .then(r => r.json())\n      .then((r: ResponseShape) => r.redirectUrl)\n\n    if (redir) window.location.href = redir;\n    else {\n      console.warn('Bad login response');\n    }\n  }\n}\n\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "\n\nul {\n  list-style-type: none;\n  margin: 10px;\n  padding: 10px;\n}\n\n.spacer {\n  flex: 1 1 auto;\n}\n\n.material-icons {\n  margin: auto 0.5em;\n}\n\nmat-card {\n  width: 100%;\n}\n\nmat-list-item {\n  height: auto !important;\n  margin: 10px auto;\n}\n\n.italic {\n  font-style: italic;\n}\n\n.item-container {\n  display: grid;\n  grid-template-columns: 80% 20%;\n  grid-template-rows: 50% 50%;\n  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0, 0, 0, 0.12);\n  border-radius: 4px;\n  width: 100%;\n  padding: 10px 10px;\n\n  h1 {\n    grid-column-start: 1;\n    grid-column-end: 2;\n    align-self: end;\n  }\n\n  p {\n    grid-column-start: 1;\n    grid-column-end: 2;\n    grid-row-start: 2;\n    grid-row-end: 3;\n    align-self: start;\n    font-style: italic;\n    color: #949494;\n  }\n\n  button {\n    grid-column-start: 2;\n    grid-column-end: 3;\n    margin: 5px;\n    height: 32px;\n    align-self: end;\n  }\n}\n",
+                    "data": "\nh6 {\n  font-size: 0.7rem;\n  margin-left: 15px;\n}\n\np {\n  font-size: 0.7rem;\n  margin: 0 auto;\n}\n\n.spacer {\n  flex: 1 1 auto;\n}\n",
                     "styleUrl": "./navbar.component.scss"
                 }
             ],
@@ -1556,17 +1930,17 @@
                 "deprecationMessage": "",
                 "args": [
                     {
-                        "name": "store",
-                        "type": "Store",
+                        "name": "solidClient",
+                        "type": "SolidClient",
                         "deprecated": false,
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 13,
+                "line": 15,
                 "jsdoctags": [
                     {
-                        "name": "store",
-                        "type": "Store",
+                        "name": "solidClient",
+                        "type": "SolidClient",
                         "deprecated": false,
                         "deprecationMessage": "",
                         "tagName": {
@@ -1578,7 +1952,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<mat-toolbar color=\"primary\">\n  <span>Solid Authorization Agent</span>\n  <span class=\"spacer\"></span>\n  <div *ngIf=\"webId\">{{webId}}</div>\n  <span class=\"spacer\"></span>\n  <button *ngIf=\"!webId\" mat-raised-button (click)=\"logout.emit()\">Log Out</button>\n</mat-toolbar>\n"
+            "templateData": "<mat-toolbar color=\"primary\">\n  <div>\n    <h3>Solid Authorization Agent</h3>\n    <h6 *ngIf=\"webId\">{{webId}}</h6>\n  </div>\n  <span class=\"spacer\"></span>\n  <span *ngIf=\"isServerLoggedIn; else serverLoggedOut\"><mat-icon>dns</mat-icon></span>\n  <span class=\"spacer\"></span>\n  <button mat-raised-button (click)=\"loginServer()\">Connect To Server</button>\n</mat-toolbar>\n\n<ng-template #serverLoggedOut>\n  <mat-icon (click)=\"this.serverLogin.emit($event)\">warning</mat-icon>\n  <p>Server Session Not Found</p>\n</ng-template>\n"
         },
         {
             "name": "PageComponent",
@@ -1652,24 +2026,125 @@
                 }
             ],
             "stylesData": ""
+        },
+        {
+            "name": "RedirectHandlerComponent",
+            "id": "component-RedirectHandlerComponent-605f8be626f4bb5bd8af9af141a158d23c483491e29b88ab99b3d5eef61620676b2415ce7ae7e65b217ff99de8f6d385c354d2e19fa0344c820c46cb5f86215d",
+            "file": "src/app/components/redirect-handler/redirect-handler.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "sai-redirect-handler",
+            "styleUrls": [
+                "./redirect-handler.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./redirect-handler.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Promise<void>",
+                    "typeParameters": [],
+                    "line": 21,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        131
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import {Component, OnInit} from '@angular/core';\nimport {handleIncomingRedirect} from \"@inrupt/solid-client-authn-browser\";\nimport {Router} from \"@angular/router\";\nimport {Store} from \"@ngrx/store\";\nimport {CoreActions} from \"../../actions\";\nimport {firstValueFrom} from \"rxjs\";\nimport {loggedInStatus} from \"../../selectors\";\n\n@Component({\n  selector: 'sai-redirect-handler',\n  templateUrl: './redirect-handler.component.html',\n  styleUrls: ['./redirect-handler.component.scss']\n})\nexport class RedirectHandlerComponent implements OnInit {\n\n  constructor(\n    private router: Router,\n    private store: Store,\n  ) { }\n\n  async ngOnInit(): Promise<void> {\n\n    const isLoggedIn = await firstValueFrom(this.store.select(loggedInStatus));\n\n    try {\n      if (!isLoggedIn) {\n        console.log('Restoring from redirect handler');\n        await handleIncomingRedirect()\n          .then((info) => {\n            if (info && info.isLoggedIn) {\n              console.log(info);\n              this.store.dispatch(CoreActions.webIdReceived({webId: info.webId!}));\n              this.store.dispatch(CoreActions.loginStatusChanged({loggedIn: true}))\n              this.router.navigate(['/']).then(() => console.log('Login successful'));\n            } else {\n              this.router.navigate(['/login']).then(() => console.log('Login failed'));\n            }\n          });\n\n      }\n      // Hit the server to check for a server-side session, or create one.\n    } catch (e) {\n      // TODO handle\n    }\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./redirect-handler.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "store",
+                        "type": "Store",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 14,
+                "jsdoctags": [
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "store",
+                        "type": "Store",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "\n<!-- TODO show a spinner or something with a ...loading... effect -->\n"
         }
     ],
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-fe8980b36a0460df5f6e49138921b50f7a3e11a3249e36a6cb3efd9e93fab19192c750f6b48aa6bf1056a3e0d7b77d72db27e00b154d4555adc87ca73d7f9a34",
+            "id": "module-AppModule-49521e5c8d8769428e4be134d5b3a71d7a9c0681f1b4978259b53955133420ff4d6b5a4ba7b95f1c54c2e943d548fe651313dcc79867b731862e775f8b908f6f",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./views/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatCardModule} from \"@angular/material/card\";\nimport {ReactiveFormsModule} from \"@angular/forms\";\nimport {MatFormFieldModule} from \"@angular/material/form-field\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport { DashboardComponent } from './components/dashboard/dashboard.component';\nimport { ConsentPanelComponent } from './views/consent-panel/consent-panel.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport { StoreModule } from '@ngrx/store';\nimport { reducers, metaReducers } from './reducers';\nimport { StoreDevtoolsModule } from '@ngrx/store-devtools';\nimport { ENV } from '../environments/environment';\nimport { EffectsModule } from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./effects\";\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    ConsentPanelComponent,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatExpansionModule,\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),\n    EffectsModule.forRoot(Effects),\n  ],\n  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./views/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatCardModule} from \"@angular/material/card\";\nimport {ReactiveFormsModule} from \"@angular/forms\";\nimport {MatFormFieldModule} from \"@angular/material/form-field\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport { DashboardComponent } from './components/dashboard/dashboard.component';\nimport { ConsentPanelComponent } from './views/consent-panel/consent-panel.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport { StoreModule } from '@ngrx/store';\nimport { reducers, metaReducers } from './reducers';\nimport { StoreDevtoolsModule } from '@ngrx/store-devtools';\nimport { ENV } from '../environments/environment';\nimport { EffectsModule } from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./effects\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport { FormsModule } from \"@angular/forms\";\nimport { RedirectHandlerComponent } from './components/redirect-handler/redirect-handler.component';\nimport {SolidClient} from \"./utils/solid-client\";\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    ConsentPanelComponent,\n    RedirectHandlerComponent,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatIconModule,\n    MatExpansionModule,\n    FormsModule,\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),\n    EffectsModule.forRoot(Effects),\n  ],\n  providers: [\n    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},\n    SolidClient,\n  ],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
             "children": [
                 {
                     "type": "providers",
                     "elements": [
                         {
                             "name": "AuthInterceptor"
+                        },
+                        {
+                            "name": "SolidClient"
                         }
                     ]
                 },
@@ -1690,6 +2165,9 @@
                         },
                         {
                             "name": "NavbarComponent"
+                        },
+                        {
+                            "name": "RedirectHandlerComponent"
                         }
                     ]
                 },
@@ -1721,13 +2199,13 @@
         },
         {
             "name": "AppRoutingModule",
-            "id": "module-AppRoutingModule-233f0ac5c84b573a652f77b68fb4a2d7f47f2c08a27742abbb41ae22351264e8bba9cf01e5e58c2ca3608baba06a70be94affac506ba937b7f6af3ac4fb013e0",
+            "id": "module-AppRoutingModule-5f4156c4c899b44e384dc765b19ff4e0e39cc8d3a645ed3cee7627796c3a7747dd2555cd93c7ed4de387da7bf9935da88bc5a339ff36e795f80f236079a6175d",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app-routing.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { RouterModule, Routes } from '@angular/router';\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {DashboardComponent} from \"./components/dashboard/dashboard.component\";\n\nconst routes: Routes = [\n  {\n    path: '', redirectTo: '/login', pathMatch: 'full',\n  },\n  {\n    path: 'login', component: LoginComponent,\n  },\n  {\n    path: 'dashboard', component: DashboardComponent,\n  },\n];\n\n@NgModule({\n  imports: [RouterModule.forRoot(routes)],\n  exports: [RouterModule]\n})\nexport class AppRoutingModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { RouterModule, Routes } from '@angular/router';\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {DashboardComponent} from \"./components/dashboard/dashboard.component\";\nimport {AuthGuard} from \"./guards/auth.guard.service\";\nimport {RedirectHandlerComponent} from \"./components/redirect-handler/redirect-handler.component\";\n\nconst routes: Routes = [\n  {\n    path: '', component: DashboardComponent, canActivate: [AuthGuard],\n  },\n  {\n    path: 'login', component: LoginComponent,\n  },\n  {\n    path: 'redirect', component: RedirectHandlerComponent,\n  },\n];\n\n@NgModule({\n  imports: [RouterModule.forRoot(routes)],\n  exports: [RouterModule]\n})\nexport class AppRoutingModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -1872,7 +2350,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
-                "defaultValue": "{\n  loginRequested,\n  loginInitiated,\n  requestWebId,\n  webIdReceived,\n}"
+                "defaultValue": "{\n  loginRequested,\n  loginInitiated,\n  requestWebId,\n  webIdReceived,\n  loginStatusChanged,\n  serverSessionRequested,\n  serverSessionReceived,\n  requestName,\n}"
             },
             {
                 "name": "coreReducer",
@@ -1882,7 +2360,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "createReducer(\n  initialState,\n  on(CoreActions.webIdReceived, (state, {webId}) => ({...state, webId}))\n)"
+                "defaultValue": "createReducer(\n  initialState,\n  on(CoreActions.webIdReceived, (state, {webId}) => ({...state, webId})),\n  on(CoreActions.loginStatusChanged, (state, {loggedIn}) => ({...state, isLoggedIn: loggedIn})),\n  on(CoreActions.serverSessionReceived, (state, {loggedIn}) => ({...state, isServerLoggedIn: loggedIn}))\n)"
             },
             {
                 "name": "DataActions",
@@ -1958,21 +2436,21 @@
                 "name": "ENV",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/environments/environment.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "object",
-                "defaultValue": "{\n  production: false,\n  BASE_URL: 'http://localhost:4200',\n  API_URL: 'http://localhost:4200/api',\n  AUTH_URL: 'http://localhost:4200/auth',\n  DEFAULT_IDP: 'http://localhost:3000',\n}"
-            },
-            {
-                "name": "environment",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "src/environments/environment.prod.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
-                "defaultValue": "{\n  production: true\n}"
+                "defaultValue": "{\n  production: true,\n  BASE_URL: 'http://localhost:4200',\n  API_URL: 'http://localhost:4200/api',\n  AUTH_URL: 'http://localhost:4200/auth',\n  DEFAULT_IDP: 'http://localhost:3000',\n}"
+            },
+            {
+                "name": "ENV",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/environments/environment.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "object",
+                "defaultValue": "{\n  production: false,\n  OIDC_CLIENT_ID: 'https://localhost:4200/assets/id',\n  BASE_URL: 'https://localhost:4200',\n  SRV_BASE: 'http://localhost:4000',\n  API_URL: 'https://localhost:4200/api',\n  DEFAULT_IDP: 'http://localhost:3000/',\n}"
             },
             {
                 "name": "initialState",
@@ -1992,7 +2470,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "CoreState",
-                "defaultValue": "{\n  webId: '',\n}"
+                "defaultValue": "{\n  webId: '',\n  isLoggedIn: false,\n  isServerLoggedIn: false,\n}"
             },
             {
                 "name": "initialState",
@@ -2065,6 +2543,16 @@
                 "defaultValue": "Template.bind({})"
             },
             {
+                "name": "loggedInStatus",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/selectors/ core.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createSelector(\n  selectCore,\n  core => core.isLoggedIn,\n)"
+            },
+            {
                 "name": "LoggedOut",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -2102,7 +2590,9 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "createAction(\n  '[CORE] Login Initiated'\n)"
+                "defaultValue": "createAction(\n  '[CORE] Login Initiated'\n)",
+                "rawdescription": "Marks that the navigations has been handled off to the user IDP",
+                "description": "<p>Marks that the navigations has been handled off to the user IDP</p>\n"
             },
             {
                 "name": "loginRequested",
@@ -2113,6 +2603,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "createAction(\n  '[CORE] Login Requested',\n  props<{idP: string}>(),\n)"
+            },
+            {
+                "name": "loginStatusChanged",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/actions/core.actions.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[CORE] Login Status Changed',\n  props<{loggedIn: boolean}>(),\n)"
             },
             {
                 "name": "metaReducers",
@@ -2126,6 +2626,16 @@
             },
             {
                 "name": "Normal",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/views/consent-panel/consent-panel.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "NormalNew",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/views/consent-panel/consent-panel.stories.ts",
@@ -2173,6 +2683,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, id: string): NormalizedState<T> => {\n\n  if (!state.allIds.includes(id)) return state;\n\n  const byId = {...state.byId};\n  const allIds = [...state.allIds].filter(_id => _id != id);\n\n  delete byId[id];\n  return {byId, allIds}\n}"
+            },
+            {
+                "name": "requestName",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/actions/core.actions.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[CORE] Request Name',\n)"
             },
             {
                 "name": "requestWebId",
@@ -2234,14 +2754,34 @@
                 "defaultValue": "createFeatureSelector<CoreState>(CORE_STATE_KEY)"
             },
             {
-                "name": "selectWebId",
+                "name": "serverLoggedInStatus",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/selectors/ core.selectors.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "createSelector(\n  selectCore,\n  core => core.webId,\n)"
+                "defaultValue": "createSelector(\n  selectCore,\n  core => core.isServerLoggedIn,\n)"
+            },
+            {
+                "name": "serverSessionReceived",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/actions/core.actions.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[CORE] Server session status received',\n  props<{loggedIn: boolean}>(),\n)"
+            },
+            {
+                "name": "serverSessionRequested",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/actions/core.actions.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createAction(\n  '[CORE] Server session status requested',\n)"
             },
             {
                 "name": "Small",
@@ -2287,7 +2827,7 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/views/navbar/navbar.stories.ts",
+                "file": "src/app/views/consent-panel/consent-panel.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -2297,11 +2837,21 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/views/consent-panel/consent-panel.stories.ts",
+                "file": "src/app/views/navbar/navbar.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "(args) => ({props: args})"
+            },
+            {
+                "name": "webId",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/selectors/ core.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createSelector(\n  selectCore,\n  core => core.webId,\n)"
             },
             {
                 "name": "webIdReceived",
@@ -2314,7 +2864,19 @@
                 "defaultValue": "createAction(\n  '[CORE] WebId Received',\n  props<{webId: string}>(),\n)"
             }
         ],
-        "functions": [],
+        "functions": [
+            {
+                "name": "unwrapJson",
+                "file": "src/app/utils/solid-client.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "args": [],
+                "returnType": "Observable<T>"
+            }
+        ],
         "typealiases": [],
         "enumerations": [],
         "groupedVariables": {
@@ -2432,7 +2994,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "createReducer(\n  initialState,\n  on(CoreActions.webIdReceived, (state, {webId}) => ({...state, webId}))\n)"
+                    "defaultValue": "createReducer(\n  initialState,\n  on(CoreActions.webIdReceived, (state, {webId}) => ({...state, webId})),\n  on(CoreActions.loginStatusChanged, (state, {loggedIn}) => ({...state, isLoggedIn: loggedIn})),\n  on(CoreActions.serverSessionReceived, (state, {loggedIn}) => ({...state, isServerLoggedIn: loggedIn}))\n)"
                 },
                 {
                     "name": "initialState",
@@ -2442,7 +3004,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "CoreState",
-                    "defaultValue": "{\n  webId: '',\n}"
+                    "defaultValue": "{\n  webId: '',\n  isLoggedIn: false,\n  isServerLoggedIn: false,\n}"
                 }
             ],
             "src/app/actions/core.actions.ts": [
@@ -2454,7 +3016,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "object",
-                    "defaultValue": "{\n  loginRequested,\n  loginInitiated,\n  requestWebId,\n  webIdReceived,\n}"
+                    "defaultValue": "{\n  loginRequested,\n  loginInitiated,\n  requestWebId,\n  webIdReceived,\n  loginStatusChanged,\n  serverSessionRequested,\n  serverSessionReceived,\n  requestName,\n}"
                 },
                 {
                     "name": "loginInitiated",
@@ -2464,7 +3026,9 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "createAction(\n  '[CORE] Login Initiated'\n)"
+                    "defaultValue": "createAction(\n  '[CORE] Login Initiated'\n)",
+                    "rawdescription": "Marks that the navigations has been handled off to the user IDP",
+                    "description": "<p>Marks that the navigations has been handled off to the user IDP</p>\n"
                 },
                 {
                     "name": "loginRequested",
@@ -2477,6 +3041,26 @@
                     "defaultValue": "createAction(\n  '[CORE] Login Requested',\n  props<{idP: string}>(),\n)"
                 },
                 {
+                    "name": "loginStatusChanged",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/actions/core.actions.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[CORE] Login Status Changed',\n  props<{loggedIn: boolean}>(),\n)"
+                },
+                {
+                    "name": "requestName",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/actions/core.actions.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[CORE] Request Name',\n)"
+                },
+                {
                     "name": "requestWebId",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -2485,6 +3069,26 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "createAction(\n  '[CORE] Request WebId',\n)"
+                },
+                {
+                    "name": "serverSessionReceived",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/actions/core.actions.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[CORE] Server session status received',\n  props<{loggedIn: boolean}>(),\n)"
+                },
+                {
+                    "name": "serverSessionRequested",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/actions/core.actions.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createAction(\n  '[CORE] Server session status requested',\n)"
                 },
                 {
                     "name": "webIdReceived",
@@ -2573,6 +3177,18 @@
                     "defaultValue": "[\n  ApplicationProfileEffects,\n  CoreEffects,\n  DescriptionEffects,\n]"
                 }
             ],
+            "src/environments/environment.prod.ts": [
+                {
+                    "name": "ENV",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/environments/environment.prod.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "object",
+                    "defaultValue": "{\n  production: true,\n  BASE_URL: 'http://localhost:4200',\n  API_URL: 'http://localhost:4200/api',\n  AUTH_URL: 'http://localhost:4200/auth',\n  DEFAULT_IDP: 'http://localhost:3000',\n}"
+                }
+            ],
             "src/environments/environment.ts": [
                 {
                     "name": "ENV",
@@ -2582,19 +3198,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "object",
-                    "defaultValue": "{\n  production: false,\n  BASE_URL: 'http://localhost:4200',\n  API_URL: 'http://localhost:4200/api',\n  AUTH_URL: 'http://localhost:4200/auth',\n  DEFAULT_IDP: 'http://localhost:3000',\n}"
-                }
-            ],
-            "src/environments/environment.prod.ts": [
-                {
-                    "name": "environment",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/environments/environment.prod.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "object",
-                    "defaultValue": "{\n  production: true\n}"
+                    "defaultValue": "{\n  production: false,\n  OIDC_CLIENT_ID: 'https://localhost:4200/assets/id',\n  BASE_URL: 'https://localhost:4200',\n  SRV_BASE: 'http://localhost:4000',\n  API_URL: 'https://localhost:4200/api',\n  DEFAULT_IDP: 'http://localhost:3000/',\n}"
                 }
             ],
             "src/app/reducers/utils.ts": [
@@ -2787,6 +3391,48 @@
                     "defaultValue": "(args) => ({props: args})"
                 }
             ],
+            "src/app/selectors/ core.selectors.ts": [
+                {
+                    "name": "loggedInStatus",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/selectors/ core.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(\n  selectCore,\n  core => core.isLoggedIn,\n)"
+                },
+                {
+                    "name": "selectCore",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/selectors/ core.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createFeatureSelector<CoreState>(CORE_STATE_KEY)"
+                },
+                {
+                    "name": "serverLoggedInStatus",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/selectors/ core.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(\n  selectCore,\n  core => core.isServerLoggedIn,\n)"
+                },
+                {
+                    "name": "webId",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/selectors/ core.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(\n  selectCore,\n  core => core.webId,\n)"
+                }
+            ],
             "src/app/reducers/index.ts": [
                 {
                     "name": "metaReducers",
@@ -2812,6 +3458,16 @@
             "src/app/views/consent-panel/consent-panel.stories.ts": [
                 {
                     "name": "Normal",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/views/consent-panel/consent-panel.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "NormalNew",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "src/app/views/consent-panel/consent-panel.stories.ts",
@@ -2852,31 +3508,23 @@
                     "type": "",
                     "defaultValue": "createFeatureSelector<ApplicationProfileState>(APPLICATION_PROFILE_STATE_KEY)"
                 }
-            ],
-            "src/app/selectors/ core.selectors.ts": [
+            ]
+        },
+        "groupedFunctions": {
+            "src/app/utils/solid-client.ts": [
                 {
-                    "name": "selectCore",
+                    "name": "unwrapJson",
+                    "file": "src/app/utils/solid-client.ts",
                     "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/selectors/ core.selectors.ts",
+                    "subtype": "function",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "createFeatureSelector<CoreState>(CORE_STATE_KEY)"
-                },
-                {
-                    "name": "selectWebId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/selectors/ core.selectors.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "createSelector(\n  selectCore,\n  core => core.webId,\n)"
+                    "description": "",
+                    "args": [],
+                    "returnType": "Observable<T>"
                 }
             ]
         },
-        "groupedFunctions": {},
         "groupedEnumerations": {},
         "groupedTypeAliases": {}
     },
@@ -2892,16 +3540,18 @@
                 "children": [
                     {
                         "path": "",
-                        "redirectTo": "/login",
-                        "pathMatch": "full"
+                        "component": "DashboardComponent",
+                        "canActivate": [
+                            "AuthGuard"
+                        ]
                     },
                     {
                         "path": "login",
                         "component": "LoginComponent"
                     },
                     {
-                        "path": "dashboard",
-                        "component": "DashboardComponent"
+                        "path": "redirect",
+                        "component": "RedirectHandlerComponent"
                     }
                 ],
                 "kind": "module"
@@ -2909,7 +3559,7 @@
         ]
     },
     "coverage": {
-        "count": 1,
+        "count": 2,
         "status": "low",
         "files": [
             {
@@ -2968,9 +3618,9 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "loginInitiated",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
+                "coveragePercent": 100,
+                "coverageCount": "1/1",
+                "status": "very-good"
             },
             {
                 "filePath": "src/app/actions/core.actions.ts",
@@ -2987,7 +3637,47 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
+                "name": "loginStatusChanged",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/actions/core.actions.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "requestName",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/actions/core.actions.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
                 "name": "requestWebId",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/actions/core.actions.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "serverSessionReceived",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/actions/core.actions.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "serverSessionRequested",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -3038,7 +3728,7 @@
                 "linktype": "component",
                 "name": "AppComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/5",
+                "coverageCount": "0/7",
                 "status": "low"
             },
             {
@@ -3047,7 +3737,7 @@
                 "linktype": "component",
                 "name": "DashboardComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/7",
                 "status": "low"
             },
             {
@@ -3057,6 +3747,15 @@
                 "name": "LoginComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/redirect-handler/redirect-handler.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "RedirectHandlerComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
                 "status": "low"
             },
             {
@@ -3074,7 +3773,7 @@
                 "linktype": "injectable",
                 "name": "CoreEffects",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {
@@ -3094,6 +3793,15 @@
                 "name": "Effects",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/guards/auth.guard.service.ts",
+                "type": "guard",
+                "linktype": "guard",
+                "name": "AuthGuard",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
                 "status": "low"
             },
             {
@@ -3150,7 +3858,7 @@
                 "linktype": "interface",
                 "name": "CoreState",
                 "coveragePercent": 0,
-                "coverageCount": "0/2",
+                "coverageCount": "0/4",
                 "status": "low"
             },
             {
@@ -3305,6 +4013,16 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
+                "name": "loggedInStatus",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/selectors/ core.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
                 "name": "selectCore",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
@@ -3315,7 +4033,17 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "selectWebId",
+                "name": "serverLoggedInStatus",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/selectors/ core.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "webId",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -3353,9 +4081,28 @@
                 "filePath": "src/app/services/login.service.ts",
                 "type": "injectable",
                 "linktype": "injectable",
-                "name": "IdentityService",
+                "name": "LoginService",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/utils/solid-client.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "SolidClient",
                 "coveragePercent": 0,
                 "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/utils/solid-client.ts",
+                "type": "function",
+                "linktype": "miscellaneous",
+                "linksubtype": "function",
+                "name": "unwrapJson",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -3427,6 +4174,16 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
+                "name": "NormalNew",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/views/consent-panel/consent-panel.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
                 "name": "Template",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
@@ -3438,7 +4195,7 @@
                 "linktype": "component",
                 "name": "NavbarComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/5",
+                "coverageCount": "0/7",
                 "status": "low"
             },
             {
@@ -3476,7 +4233,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "environment",
+                "name": "ENV",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"

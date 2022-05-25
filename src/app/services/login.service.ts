@@ -1,25 +1,42 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {Injectable} from '@angular/core';
 import {ENV} from "../../environments/environment";
-import {map, Observable, tap} from "rxjs";
+import {login} from "@inrupt/solid-client-authn-browser";
+import {SolidClient} from "../utils/solid-client";
+import {from, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class IdentityService {
+export class LoginService {
 
   constructor(
-    private http: HttpClient,
+    private solidClient: SolidClient,
   ) {}
 
-  login(issuer?: string) {
-    this.http.post('/auth/login', {idp: issuer || ENV.DEFAULT_IDP}, {responseType:'text'})
-      .subscribe(url => {
-        window.location.href = url;
-      });
+  async login(oidcIssuer?: string) {
+
+    // TODO reject if no oidcIssuer is provided
+    if (!oidcIssuer) oidcIssuer = ENV.DEFAULT_IDP;
+
+
+    await login({
+      clientId: ENV.OIDC_CLIENT_ID,
+      oidcIssuer,
+      redirectUrl: `${ENV.BASE_URL}/redirect`,
+    });
   }
 
-  getWebId(): Observable<string> {
-    return this.http.get('/api/id', {responseType: 'text'});
+  async checkServerSession(): Promise<boolean> {
+    type ResponseShape = { found: boolean };
+
+
+    return this.solidClient.fetch(`${ENV.SRV_BASE}/session`)
+      .then(r => r.json())
+      .then((r: ResponseShape) => r.found);
+  }
+
+  checkServerSession$(): Observable<boolean> {
+    return from(this.checkServerSession());
   }
 }
+

@@ -1,7 +1,15 @@
 <mat-toolbar color="primary">
-  <span>Solid Authorization Agent</span>
+  <div>
+    <h3>Solid Authorization Agent</h3>
+    <h6 *ngIf="webId">{{webId}}</h6>
+  </div>
   <span class="spacer"></span>
-  <div *ngIf="webId">{{webId}}</div>
+  <span *ngIf="isServerLoggedIn; else serverLoggedOut"><mat-icon>dns</mat-icon></span>
   <span class="spacer"></span>
-  <button *ngIf="!webId" mat-raised-button (click)="logout.emit()">Log Out</button>
+  <button mat-raised-button (click)="loginServer()">Connect To Server</button>
 </mat-toolbar>
+
+<ng-template #serverLoggedOut>
+  <mat-icon (click)="this.serverLogin.emit($event)">warning</mat-icon>
+  <p>Server Session Not Found</p>
+</ng-template>

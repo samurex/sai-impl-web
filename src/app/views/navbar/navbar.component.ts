@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Store} from "@ngrx/store";
-import {CoreActions} from "../../actions";
+import {ENV} from "../../../environments/environment";
+import {SolidClient} from "../../utils/solid-client";
 
 @Component({
   selector: 'sai-navbar',
@@ -9,13 +9,35 @@ import {CoreActions} from "../../actions";
 })
 export class NavbarComponent implements OnInit {
 
-  @Output() logout = new EventEmitter<void>();
+  @Input() isServerLoggedIn!: boolean;
   @Input() webId!: string | null;
+
+  @Output() serverLogin = new EventEmitter();
   constructor(
-    private readonly store: Store,
+    private solidClient: SolidClient,
   ) { }
 
   ngOnInit(): void {
-    this.store.dispatch(CoreActions.requestWebId());
+  }
+
+  public async loginServer(): Promise<void> {
+    type ResponseShape = {
+      redirectUrl: string,
+    }
+
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({idp: 'http://localhost:3000/'}),
+    } as RequestInit;
+
+    const redir = await this.solidClient.fetch(ENV.SRV_BASE + '/login', options)
+      .then(r => r.json())
+      .then((r: ResponseShape) => r.redirectUrl)
+
+    if (redir) window.location.href = redir;
+    else {
+      console.warn('Bad login response');
+    }
   }
 }
+
