@@ -25,6 +25,7 @@ import {AuthInterceptor} from "./interceptors/auth.interceptor";
 import {Effects} from "./effects";
 import {MatIconModule} from "@angular/material/icon";
 import { FormsModule } from "@angular/forms";
+import { ListingComponent } from './views/listing/listing.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { FormsModule } from "@angular/forms";
     LoginComponent,
     DashboardComponent,
     ConsentPanelComponent,
+    ListingComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,60 @@
+mat-list {
+  display: flex;
+  align-content: center;
+  width: 100%;
+  gap: 20px;
+  flex-wrap: wrap;
+  mat-list-item {
+    display: flex;
+    flex: 40%;
+    padding: 2% 0;
+    height: auto;
+    box-shadow: 0 2px 1px -1px #0003, 0 1px 1px #00000024, 0 1px 3px #0000001f;
+    border-radius: 4px;
+    max-width: 49.5%;
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.16);
+      -webkit-box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.16);
+      -moz-box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.16);
+    }
+    .list-content {
+      margin: 0 2%;
+      p {
+        margin-top: 1%;
+      }
+      h3 {
+        margin-bottom: 0;
+      }
+    }
+    button {
+      max-height: 70px;
+      height: 100vh;
+      width: 150px;
+    }
+  }
+  //@include breakpoint(mobile){
+  @media (max-width: 767px) and (orientation: portrait) {
+    mat-list-item {
+      flex: 100%;
+      max-width: 100%;
+      ::ng-deep span.mat-list-item-content {
+        flex-wrap: wrap;
+      }
+      img {
+        width: 40px;
+        height: 40px;
+        flex:5%;
+      }
+      .list-content {
+        flex: 75%;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
