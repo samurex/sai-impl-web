@@ -1,0 +1,206 @@
+.text-bold {
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.text-color-lightest {
+  color: $lightest-color;
+}
+
+.text-color-secondary {
+  color: $mid-color;
+}
+
+.text-color-danger {
+  color: $danger-color;
+}
+
+.bg-success {
+  background-color: $xfh-highlight-light-color;
+}
+
+.xfh-chip {
+  background: #e0e0e0;
+  margin: 4px;
+  display: inline-flex;
+  padding: 3px 8px;
+  border-radius: 16px;
+  align-items: center;
+  min-height: 20px;
+  height: 1px;
+  font-size: 0.7rem;
+  color: $lightest-color;
+  font-family: $xfh-font-light;
+}
+
+.sub-title {
+  font-family: $xfh-font-regular;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  color: $mid-color;
+  text-transform: capitalize;
+  font-family: "Frutiger", Arial, Helvetica, sans-serif;
+}
+
+.small-title {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.section-sub-title {
+  font-size: 0.8rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.border-bottom {
+  border-bottom: 1px solid $mid-color;
+  line-height: 2;
+}
+
+.table-full-width {
+  width: 100%;
+  box-shadow: none;
+}
+
+.mat-paginator {
+  .mat-form-field{
+    &-outline {
+      &-start, &-gap, &-end {
+        border-color: transparent !important;
+      }
+    }
+  }
+}
+
+.card-wrapper-content {
+  padding: 5px 15px 20px;
+}
+
+.bg-color-lightest {
+  background: $lightest-color;
+}
+
+$spacers: ("0":0, "1":5px, "2":12px, "3":15px, "4":25px, "5":30px);
+
+@each $prop, $abbrev in (margin: m, padding: p) {
+  @each $size, $length in $spacers {
+
+    .#{$abbrev}-#{$size} { #{$prop}: $length !important; }
+    .#{$abbrev}t-#{$size}{
+      #{$prop}-top: $length !important;
+    }
+    .#{$abbrev}r-#{$size}{
+      #{$prop}-right: $length !important;
+    }
+    .#{$abbrev}b-#{$size}{
+      #{$prop}-bottom: $length !important;
+    }
+    .#{$abbrev}l-#{$size}{
+      #{$prop}-left: $length !important;
+    }
+  }
+}
+
+@include breakpoint(mobile){
+  .hide-mobile {
+    display: none;
+  }
+  .table-card-wrapper {
+    margin: 0 -2rem;
+    overflow: hidden;
+    table {
+      overflow-x: auto;
+      display: block;
+      th, td {
+        padding: 0 1rem;
+        min-width: 110px;
+        &:last-of-type {
+          min-width: 400px;
+        }
+      }
+    }
+  }
+}
+
+.rounded-warning-bg-color {
+  color: $lightest-color;
+  fill: $lightest-color;
+  border-radius: 50%;
+  background-color: $xfh-highlight-secondary-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.settings-dropdown {
+  background-color: transparent !important;
+  border: none;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.rounded-image {
+  box-shadow: $xfh-box-shadow-primary;
+  height: 60px;
+  border-radius: 50%;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.border-default {
+  border-bottom: 1px solid $light-gray;
+}
+
+.hr-accordion {
+  .mat-expansion-panel{
+    box-sizing: border-box;
+  }
+}
+
+// Workaround when mat-icons don't load correctly or fail call
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'),
+  local('MaterialIcons-Regular'),
+  url(https://fonts.gstatic.com/s/materialicons/v21/2fcrYFNaTjcS6g4U3t-Y5UEw0lE80llgEseQY3FEmqw.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons', serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}

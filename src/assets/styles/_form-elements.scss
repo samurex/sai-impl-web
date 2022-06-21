@@ -1,0 +1,75 @@
+@mixin change-border($color) {
+  .mat-form-field-outline-start,
+  .mat-form-field-outline-end {
+    border-top: solid 1px $color !important;
+  }
+  .mat-form-field-outline-start,
+  .mat-form-field-outline-gap,
+  .mat-form-field-outline-end {
+    border-bottom: solid 1px $color !important;
+  }
+  .mat-form-field-outline-start {
+    border-left: solid 1px $color !important;
+  }
+  .mat-form-field-outline-end {
+    border-right: solid 1px $color !important;
+  }
+}
+
+label,
+.mat-form-field-label {
+  color: $dark-color;
+  font-size: 1rem;
+  font-family: $xfh-font-bold !important;
+  em {
+    font-size: 0.875rem;
+  }
+}
+
+mat-form-field {
+  width: 100%;
+
+  @include change-border($mid-color);
+
+  &.mat-focused {
+    @include change-border($xfh-primary-color);
+  }
+
+  &[disabled] {
+    .mat-form-field-outline-start,
+    .mat-form-field-outline-gap,
+    .mat-form-field-outline-end {
+      background: rgba(182, 182, 182, 0.2);
+    }
+
+    .mat-icon {
+      color: #8f959a;
+    }
+  }
+  &.error {
+    @include change-border($danger-color);
+
+    label, ::placeholder, .mat-hint, .mat-icon, .mat-select-value, .mat-select-arrow {
+      color: $danger-color;
+    }
+
+    ::placeholder {
+      opacity: 0.6;
+    }
+  }
+}
+
+textarea {
+  border-radius: 3px;
+  border: solid 1px $mid-color;
+  font-family: $xfh-font-regular;
+  font-size: 1rem;
+  line-height: 1.25;
+  width: 100%;
+
+  &[disabled] {
+    resize: none;
+    border: solid 1px $xfh-secondary-color;
+    background-color: rgba($xfh-secondary-color, 0.2);
+  }
+}

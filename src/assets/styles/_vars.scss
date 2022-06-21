@@ -1,0 +1,53 @@
+/**
+ * COLORS - Theme
+ */
+// Primary
+$theme-primary-color: #005EB8;
+$theme-primary-light-color: #0072CE;
+$theme-primary-dark-color: #003087;
+
+// Secondaries
+$theme-secondary-color: #B6B6B6;
+$theme-secondary-light-color: #E8EDEE;
+$theme-secondary-dark-color: #758692;
+
+// Highlights
+$theme-highlight-color: #009639;
+$theme-highlight-light-color: #78BE21;
+$theme-highlight-dark-color: #006747;
+
+// Highlight secondaries
+$theme-highlight-secondary-color: #FFB81C;
+$theme-highlight-secondary-light-color: #FAE101;
+$theme-highlight-secondary-dark-color: #ED8B01;
+
+// Additional
+$dark-color: #131415;
+$mid-color: #768692;
+$light-color: $theme-secondary-light-color;
+$danger-color: #DA291C;
+$lightest-color: #ffffff;
+$light-gray: #8F8F8F;
+$dark-grey: #333333;
+$shadow-gray: #E9ECEE;
+
+/**
+ * FONTS
+ */
+$theme-font-regular: "Roboto";
+$theme-font-regular-italic: "Roboto_italic";
+$theme-font-light: "Roboto_light";
+$theme-font-light-italic: "Roboto_light_italic";
+$theme-font-bold: "Roboto_bold";
+$theme-font-bold-italic: "Roboto_bold_italic";
+
+/**
+ * BOX SHADOWS
+ */
+$theme-box-shadow-color: rgba(0, 0, 0, 0.13);
+
+$theme-box-shadow-primary: 0 0 8px 0px $theme-box-shadow-color;
+$theme-box-shadow-secondary: 0 0 1px 1px $theme-box-shadow-color;
+$theme-box-shadow-variant: 3px 3px 8px 0 $theme-box-shadow-color;
+$theme-box-shadow-light: 0 0 5px $shadow-gray;
+$theme-box-shadow-dark: 0 0 5px $dark-grey;

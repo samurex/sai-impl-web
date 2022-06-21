@@ -1,0 +1,56 @@
+// Keeping Roboto font files in the assets/fonts folder in case of re-branding
+@font-face {
+  font-family: "Roboto_light";
+  font-style: normal;
+  font-weight: 100;
+  src: url("/src/assets/fonts/RobotoLight.ttf");
+  src: local("☺"),
+  url("/src/assets/fonts/RobotoLight.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto_light_italic";
+  font-style: italic;
+  font-weight: 100;
+  src: url("/src/assets/fonts/RobotoLightItalic.ttf");
+  src: local("☺"),
+  url("/src/assets/fonts/RobotoLightItalic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/src/assets/fonts/RobotoRegular.ttf");
+  src: local("☺"),
+  url("/src/assets/fonts/RobotoRegular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto_italic";
+  font-style: italic;
+  font-weight: 400;
+  src: url("/src/assets/fonts/RobotoItalic.ttf");
+  src: local("☺"),
+  url("/src/assets/fonts/RobotoItalic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto_bold";
+  font-style: normal;
+  font-weight: 900;
+  src: url("/src/assets/fonts/RobotoBold.ttf");
+  src: local("☺"),
+  url("/src/assets/fonts/RobotoBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto_bold_italic";
+  font-style: italic;
+  font-weight: 900;
+  src: url("/src/assets/fonts/RobotoBoldItalic.ttf");
+  src: local("☺"),
+  url("/src/assets/fonts/RobotoBoldItalic.ttf") format("truetype");
+}
+
+

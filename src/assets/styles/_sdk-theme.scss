@@ -1,0 +1,69 @@
+@import "vars";
+
+$theme-primary-color: (
+  400: $theme-primary-light-color,
+  500: $theme-primary-color,
+  600: $theme-primary-dark-color,
+  A400: $theme-primary-light-color,
+  A500: $theme-primary-color,
+  A600: $theme-primary-dark-color,
+  contrast: (
+    400: white,
+    500: white,
+    600: white,
+    A400: white,
+    A500: white,
+    A600: white,
+  )
+);
+
+$theme-secondary-color: (
+  400: $theme-secondary-light-color,
+  500: $theme-secondary-color,
+  600: $theme-secondary-dark-color,
+  A400: $theme-secondary-light-color,
+  A500: $theme-secondary-color,
+  A600: $theme-secondary-dark-color,
+  contrast: (
+    400: white,
+    500: white,
+    600: white,
+    A400: white,
+    A500: white,
+    A600: white,
+  )
+);
+
+$theme-highlight-primary-color: (
+  400: $theme-highlight-light-color,
+  500: $theme-highlight-dark-color,
+  600: $theme-highlight-dark-color,
+  A400: $theme-highlight-light-color,
+  A500: $theme-highlight-dark-color,
+  A600: $theme-highlight-dark-color,
+  contrast: (
+    400: white,
+    500: white,
+    600: white,
+    A400: white,
+    A500: white,
+    A600: white,
+  )
+);
+
+$theme-highlight-secondary-dark-color: (
+  400: $theme-highlight-secondary-light-color,
+  500: $theme-highlight-secondary-dark-color,
+  600: $theme-highlight-secondary-dark-color,
+  A400: $theme-highlight-secondary-light-color,
+  A500: $theme-highlight-secondary-dark-color,
+  A600: $theme-highlight-secondary-dark-color,
+  contrast: (
+    400: white,
+    500: white,
+    600: white,
+    A400: white,
+    A500: white,
+    A600: white,
+  )
+);

@@ -1,5 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
+@use '~@angular/material' as mat;
+@include mat.core();
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "src/assets/styles/sdk-theme";
+/*
+** Theme Color Palette
+** Use sdk-theme variables
+*/
+$theme-primary : mat.define-palette($theme-primary-color);
+$theme-secondary: mat.define-palette($theme-secondary-color);
+$theme-highlight-primary: mat.define-palette($theme-highlight-primary-color);
+$theme-highlight-secondary: mat.define-palette($theme-highlight-secondary-color);
+
+$theme-palette: mat.define-light-theme((
+    color: (
+      primary: $theme-primary,
+      secondary: $theme-secondary,
+      primary-highlight: $theme-highlight-primary,
+      secondary-highlight: $theme-highlight-secondary
+    )
+));
+
+@include mat.all-component-themes($theme-palette);
+
+$theme-typo-level: mat.define-typography-level(
+  $font-family: Roboto,
+  $font-weight: 400,
+  $font-size: 1rem,
+  $line-height: 1,
+  $letter-spacing: normal,
+);
+
