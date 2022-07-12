@@ -27,6 +27,9 @@ export class NavbarComponent implements OnInit {
 
     const options = {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({idp: 'http://localhost:3000/'}),
     } as RequestInit;
 
@@ -40,4 +43,3 @@ export class NavbarComponent implements OnInit {
     }
   }
 }
-
