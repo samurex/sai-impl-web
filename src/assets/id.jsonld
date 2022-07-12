@@ -1,5 +1,5 @@
 {
-  "@context": "http://www.w3.org/ns/solid/oidc-context.jsonld",
+  "@context": "https://www.w3.org/ns/solid/oidc-context.jsonld",
   "client_id":"http://localhost:4200/assets/id",
   "redirect_uris":[
     "http://localhost:4200",
