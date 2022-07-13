@@ -27,12 +27,8 @@ export class LoginService {
   }
 
   async checkServerSession(): Promise<boolean> {
-    type ResponseShape = { found: boolean };
-
-
-    return this.solidClient.fetch(`${ENV.SRV_BASE}/session`)
-      .then(r => r.json())
-      .then((r: ResponseShape) => r.found);
+    return this.solidClient.fetch(`${ENV.SRV_BASE}/login`)
+      .then(r => r.status === 204)
   }
 
   checkServerSession$(): Observable<boolean> {
