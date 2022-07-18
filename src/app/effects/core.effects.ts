@@ -15,8 +15,8 @@ export class CoreEffects {
 
   login$ = createEffect(() => this.actions$.pipe(
     ofType(CoreActions.loginRequested),
+    map(({idP}) => CoreActions.loginInitiated({idP})),
     tap(({idP}) => this.id.login(idP)),
-    map(() => CoreActions.loginInitiated()),
   ))
 
   receiveLogin$ = createEffect(() => this.actions$.pipe(

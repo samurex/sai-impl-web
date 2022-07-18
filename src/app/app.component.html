@@ -1,4 +1,5 @@
 <sai-navbar
+  [idP]="(idP | async)!"
   [webId]="(webId | async)!"
   [isServerLoggedIn]="(isServerLoggedIn | async)!"
   (serverLogin)="serverLogin()"></sai-navbar>

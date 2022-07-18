@@ -9,6 +9,7 @@ import {SolidClient} from "../../utils/solid-client";
 })
 export class NavbarComponent implements OnInit {
 
+  @Input() idP!: string;
   @Input() isServerLoggedIn!: boolean;
   @Input() webId!: string | null;
 
@@ -24,13 +25,15 @@ export class NavbarComponent implements OnInit {
     type ResponseShape = {
       redirectUrl: string,
     }
+    console.log(this.idP)
+    console.log(this.webId)
 
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({idp: 'http://localhost:3000/'}),
+      body: JSON.stringify({idp: this.idP}),
     } as RequestInit;
 
     const redir = await this.solidClient.fetch(ENV.SRV_BASE + '/login', options)

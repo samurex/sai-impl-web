@@ -10,7 +10,8 @@ const loginRequested = createAction(
  * Marks that the navigations has been handled off to the user IDP
  */
 const loginInitiated = createAction(
-  '[CORE] Login Initiated'
+  '[CORE] Login Initiated',
+   props<{idP: string}>(),
 );
 
 const requestWebId = createAction(
