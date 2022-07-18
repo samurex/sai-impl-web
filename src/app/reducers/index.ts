@@ -1,4 +1,5 @@
 import {
+  ActionReducer,
   ActionReducerMap,
   MetaReducer
 } from '@ngrx/store';
@@ -13,6 +14,7 @@ import {
 
 import { UniqueId } from '../view-models';
 import {DESCRIPTIONS_STATE_KEY, descriptionsReducer, DescriptionsState} from "./descriptions.reducer";
+import { localStorageSync } from 'ngrx-store-localstorage';
 
 export interface NormalizedState<T extends UniqueId> {
   byId: { [id: string]: T },
@@ -32,4 +34,8 @@ export const reducers: ActionReducerMap<RootState> = {
   [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,
 };
 
-export const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [] : [];
+export function localStorageSyncReducer(reducer: ActionReducer<RootState>): ActionReducer<RootState> {
+  return localStorageSync({keys: [CORE_STATE_KEY], rehydrate: true})(reducer);
+}
+
+export const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [localStorageSyncReducer] : [localStorageSyncReducer];
