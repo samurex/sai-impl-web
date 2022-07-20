@@ -20,16 +20,9 @@ export class DashboardComponent implements OnInit {
   public latestMessage: Observable<unknown> = new BehaviorSubject<unknown>(JSON.stringify({}));
 
   constructor(
-    private solidClient: SolidClient,
     private store: Store,
   ) {
   }
 
-  ngOnInit(): void {
-    this.store.dispatch(CoreActions.requestWebId());
-  }
-
-  public checkServerSession(): void {
-    this.store.dispatch(CoreActions.serverSessionRequested());
-  }
+  ngOnInit(): void {}
 }

@@ -8,6 +8,7 @@ export interface CoreState {
   webId: string;
   isLoggedIn: boolean;
   isServerLoggedIn: boolean;
+  redirectUrl: string;
 }
 
 export const initialState: CoreState = {
@@ -15,6 +16,7 @@ export const initialState: CoreState = {
   webId: '',
   isLoggedIn: false,
   isServerLoggedIn: false,
+  redirectUrl: '',
 }
 
 export const coreReducer = createReducer(
@@ -22,5 +24,5 @@ export const coreReducer = createReducer(
   on(CoreActions.loginInitiated, (state, {idP}) => ({...state, idP})),
   on(CoreActions.webIdReceived, (state, {webId}) => ({...state, webId})),
   on(CoreActions.loginStatusChanged, (state, {loggedIn}) => ({...state, isLoggedIn: loggedIn})),
-  on(CoreActions.serverSessionReceived, (state, {loggedIn}) => ({...state, isServerLoggedIn: loggedIn}))
+  on(CoreActions.serverSessionReceived, (state, {isServerLoggedIn, redirectUrl}) => ({...state, isServerLoggedIn, redirectUrl: redirectUrl ? redirectUrl : ''}))
 )
