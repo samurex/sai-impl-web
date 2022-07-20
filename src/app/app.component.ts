@@ -18,9 +18,6 @@ export class AppComponent implements OnInit{
     private store: Store,
   ) {}
 
-  ngOnInit() {}
-
-  serverLogin() {
-    this.store.dispatch(CoreActions.serverSessionRequested());
+  ngOnInit() {
   }
 }

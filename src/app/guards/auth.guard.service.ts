@@ -27,7 +27,9 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     return from(this.tryToRecoverSession()).pipe(
-      mergeMap(() => this.store.select(loggedInStatus)),
+      mergeMap(() =>
+        this.store.select(loggedInStatus) // TODO: login flashes since status changes from false to true
+      ),
       map(status => status || this.router.parseUrl('login'))
     );
   }
@@ -35,15 +37,11 @@ export class AuthGuard implements CanActivate {
   private async tryToRecoverSession(): Promise<void> {
     const session = getDefaultSession();
 
-    if (session && session.info && session.info.isLoggedIn) {
+    if (session.info.isLoggedIn) {
       return;
     } else {
       const info = await session.handleIncomingRedirect({restorePreviousSession: true});
-
-      if (info && info.isLoggedIn) {
-        this.store.dispatch(CoreActions.loginStatusChanged({loggedIn: true}));
-      }
+      this.store.dispatch(CoreActions.loginStatusChanged({loggedIn: !!info?.isLoggedIn}));
     }
   }
 }
-

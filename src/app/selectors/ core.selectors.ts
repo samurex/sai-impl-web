@@ -9,6 +9,11 @@ export const idP = createSelector(
   core => core.idP,
 );
 
+export const redirectUrl = createSelector(
+  selectCore,
+  core => core.redirectUrl,
+);
+
 export const webId = createSelector(
   selectCore,
   core => core.webId,
