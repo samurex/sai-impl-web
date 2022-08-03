@@ -11,11 +11,11 @@ export class DescriptionEffects {
     private data: DataService,
   ) {}
 
-  loadApplicationDescriptions$ = createEffect(() => this.actions$.pipe(
-    ofType(DescActions.descriptionsNeeded),
-    mergeMap(props => this.data.getDescription(props.applicationId, props.lang).pipe(
-      map(descriptions => DescActions.descriptionsReceived({descriptions})),
-      catchError(() => EMPTY),
-    )),
-  ))
+  // loadApplicationDescriptions$ = createEffect(() => this.actions$.pipe(
+  //   ofType(DescActions.descriptionsNeeded),
+  //   mergeMap(props => this.data.getDescription(props.applicationId, props.lang).pipe(
+  //     map(descriptions => DescActions.descriptionsReceived({descriptions})),
+  //     catchError(() => EMPTY),
+  //   )),
+  // ))
 }
