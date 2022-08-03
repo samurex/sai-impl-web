@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    const idP = this.loginForm.get('issuer')!.value || ENV.DEFAULT_IDP;
-    this.store.dispatch(CoreActions.loginRequested({ idP }));
+    const oidcIssuer = this.loginForm.get('issuer')!.value || ENV.DEFAULT_IDP;
+    this.store.dispatch(CoreActions.loginRequested({ oidcIssuer }));
   }
 }

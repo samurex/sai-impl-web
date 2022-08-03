@@ -11,7 +11,7 @@ import {SolidClient} from "../../utils/solid-client";
 })
 export class NavbarComponent implements OnInit {
 
-  @Input() idP!: string;
+  @Input() oidcIssuer!: string;
   @Input() isServerLoggedIn!: boolean;
   @Input() webId!: string | null;
 

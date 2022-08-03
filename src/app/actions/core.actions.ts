@@ -4,7 +4,7 @@ import {createAction, props} from '@ngrx/store';
 
 const loginRequested = createAction(
   '[CORE] Login Requested',
-  props<{idP: string}>(),
+  props<{oidcIssuer: string}>(),
 );
 
 /**
@@ -12,7 +12,7 @@ const loginRequested = createAction(
  */
 const loginInitiated = createAction(
   '[CORE] Login Initiated',
-   props<{idP: string}>(),
+   props<{oidcIssuer: string}>(),
 );
 
 // `url`- full url of incoming redirect
@@ -38,7 +38,7 @@ const loginStatusChanged = createAction(
 
 const serverSessionRequested = createAction(
   '[CORE] Server session status requested',
-  props<{idP: string}>(),
+  props<{oidcIssuer: string}>(),
 )
 
 const serverSessionReceived = createAction(

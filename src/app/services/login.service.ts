@@ -22,14 +22,13 @@ export class LoginService {
     });
   }
 
-  async checkServerSession(idP: string): Promise<{isServerLoggedIn: boolean, redirectUrl?: string}> {
+  async checkServerSession(oidcIssuer: string): Promise<{isServerLoggedIn: boolean, redirectUrl?: string}> {
     const options = {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
-      // TODO cleanup variable naming for idp, idP, oidcIssuer
-      body: JSON.stringify({idp: idP}),
+      body: JSON.stringify({idp: oidcIssuer}),
     }
     const result = await this.solidClient.fetch(`${ENV.SRV_BASE}/login`, options)
 
@@ -43,8 +42,8 @@ export class LoginService {
     }
   }
 
-  checkServerSession$(idP: string): Observable<{isServerLoggedIn: boolean, redirectUrl?: string}> {
-    return from(this.checkServerSession(idP));
+  checkServerSession$(oidcIssuer: string): Observable<{isServerLoggedIn: boolean, redirectUrl?: string}> {
+    return from(this.checkServerSession(oidcIssuer));
   }
 
   handleIncomingRedirect$(url: string): Observable<ISessionInfo | undefined> {
