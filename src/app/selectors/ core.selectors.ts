@@ -4,9 +4,9 @@ import {CORE_STATE_KEY, CoreState} from "../reducers/core.reducer";
 
 export const selectCore = createFeatureSelector<CoreState>(CORE_STATE_KEY);
 
-export const idP = createSelector(
+export const oidcIssuer = createSelector(
   selectCore,
-  core => core.idP,
+  core => core.oidcIssuer,
 );
 
 export const redirectUrl = createSelector(

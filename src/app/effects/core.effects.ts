@@ -5,7 +5,7 @@ import { EMPTY, map, tap, of} from "rxjs";
 import {LoginService} from "../services/login.service";
 import {CoreActions} from "../actions";
 import {mergeMap} from "rxjs/operators";
-import {idP as idPSelector, redirectUrl} from "../selectors";
+import * as selectors from "../selectors";
 import { Router } from "@angular/router";
 
 @Injectable()
@@ -20,8 +20,8 @@ export class CoreEffects {
 
   login$ = createEffect(() => this.actions$.pipe(
     ofType(CoreActions.loginRequested),
-    map(({idP}) => CoreActions.loginInitiated({idP})),
-    tap(({idP}) => this.id.login(idP)),
+    map(({oidcIssuer}) => CoreActions.loginInitiated({oidcIssuer})),
+    tap(({oidcIssuer}) => this.id.login(oidcIssuer)),
   ))
 
   handleIncomingRedirect$ = createEffect(() => this.actions$.pipe(
@@ -48,10 +48,10 @@ export class CoreEffects {
 
   checkServerSession$ = createEffect(() => this.actions$.pipe(
     ofType(CoreActions.loginStatusChanged),
-    concatLatestFrom(action => this.store.select(idPSelector)),
-    mergeMap(([action, idP]) => {
+    concatLatestFrom(action => this.store.select(selectors.oidcIssuer)),
+    mergeMap(([action, oidcIssuer]) => {
       if (action.loggedIn) {
-        return of(CoreActions.serverSessionRequested({idP}))
+        return of(CoreActions.serverSessionRequested({oidcIssuer}))
       } else {
         return EMPTY;
       }
@@ -60,7 +60,7 @@ export class CoreEffects {
 
   serverSessionRequested$ = createEffect(() => this.actions$.pipe(
     ofType(CoreActions.serverSessionRequested),
-    mergeMap(({idP}) => this.id.checkServerSession$(idP)
+    mergeMap(({oidcIssuer}) => this.id.checkServerSession$(oidcIssuer)
       .pipe(
         map(result => CoreActions.serverSessionReceived(result))
       )),
@@ -68,7 +68,7 @@ export class CoreEffects {
 
   serverLoginRequested$ = createEffect(() => this.actions$.pipe(
     ofType(CoreActions.serverLoginRequested),
-    concatLatestFrom(action => this.store.select(redirectUrl)),
+    concatLatestFrom(action => this.store.select(selectors.redirectUrl)),
     tap(([action, redirectUrl]) => this.id.serverLogin(redirectUrl)),
     map(([action, redirectUrl]) => CoreActions.serverLoginInitiated()),
   ))

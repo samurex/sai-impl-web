@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Store} from "@ngrx/store";
-import {serverLoggedInStatus, idP, webId} from "./selectors";
+import {serverLoggedInStatus, oidcIssuer, webId} from "./selectors";
 import {CoreActions} from "./actions";
 
 @Component({
@@ -10,7 +10,7 @@ import {CoreActions} from "./actions";
 })
 export class AppComponent implements OnInit{
   title = 'sai-web-app';
-  idP = this.store.select(idP);
+  oidcIssuer = this.store.select(oidcIssuer);
   webId = this.store.select(webId);
   isServerLoggedIn = this.store.select(serverLoggedInStatus);
 

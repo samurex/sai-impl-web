@@ -516,7 +516,7 @@
             "properties": [
                 {
                     "name": "login$",
-                    "defaultValue": "createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.loginRequested),\n    tap(({idP}) => this.id.login(idP)),\n    map(() => CoreActions.loginInitiated()),\n  ))",
+                    "defaultValue": "createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.loginRequested),\n    tap(({oidcIssuer}) => this.id.login(oidcIssuer)),\n    map(() => CoreActions.loginInitiated()),\n  ))",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
@@ -550,7 +550,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import {Injectable} from \"@angular/core\";\nimport {Actions, createEffect, ofType} from \"@ngrx/effects\";\nimport {catchError, EMPTY, map, tap} from \"rxjs\";\nimport {LoginService} from \"../services/login.service\";\nimport {CoreActions} from \"../actions\";\nimport {mergeMap} from \"rxjs/operators\";\n\n@Injectable()\nexport class CoreEffects {\n\n  constructor(\n    private actions$: Actions,\n    private id: LoginService,\n  ) {}\n\n  login$ = createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.loginRequested),\n    tap(({idP}) => this.id.login(idP)),\n    map(() => CoreActions.loginInitiated()),\n  ))\n\n  receiveLogin$ = createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.webIdReceived),\n    map(({webId}) => CoreActions.loginStatusChanged({loggedIn: Boolean(webId)})),\n  ))\n\n  serverSessionRequested$ = createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.serverSessionRequested),\n    mergeMap(() => this.id.checkServerSession$()\n      .pipe(\n        map(loggedIn => CoreActions.serverSessionReceived({loggedIn})),\n        catchError(() => EMPTY),\n      )),\n  ))\n}\n",
+            "sourceCode": "import {Injectable} from \"@angular/core\";\nimport {Actions, createEffect, ofType} from \"@ngrx/effects\";\nimport {catchError, EMPTY, map, tap} from \"rxjs\";\nimport {LoginService} from \"../services/login.service\";\nimport {CoreActions} from \"../actions\";\nimport {mergeMap} from \"rxjs/operators\";\n\n@Injectable()\nexport class CoreEffects {\n\n  constructor(\n    private actions$: Actions,\n    private id: LoginService,\n  ) {}\n\n  login$ = createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.loginRequested),\n    tap(({oidcIssuer}) => this.id.login(oidcIssuer)),\n    map(() => CoreActions.loginInitiated()),\n  ))\n\n  receiveLogin$ = createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.webIdReceived),\n    map(({webId}) => CoreActions.loginStatusChanged({loggedIn: Boolean(webId)})),\n  ))\n\n  serverSessionRequested$ = createEffect(() => this.actions$.pipe(\n    ofType(CoreActions.serverSessionRequested),\n    mergeMap(() => this.id.checkServerSession$()\n      .pipe(\n        map(loggedIn => CoreActions.serverSessionReceived({loggedIn})),\n        catchError(() => EMPTY),\n      )),\n  ))\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -1794,7 +1794,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { FormControl, FormGroup } from '@angular/forms';\nimport {Store} from \"@ngrx/store\";\nimport {CoreActions} from \"../../actions\";\n\n@Component({\n  selector: 'sai-login',\n  templateUrl: './login.component.html',\n  styleUrls: ['./login.component.scss']\n})\nexport class LoginComponent implements OnInit {\n\n  loginForm = new FormGroup({\n    issuer: new FormControl(''),\n  })\n\n  constructor(\n    private store: Store,\n  ) { }\n\n  ngOnInit(): void {}\n\n  onSubmit() {\n    this.store.dispatch(CoreActions.loginRequested({idP: this.loginForm.get('issuer')!.value}));\n  }\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { FormControl, FormGroup } from '@angular/forms';\nimport {Store} from \"@ngrx/store\";\nimport {CoreActions} from \"../../actions\";\n\n@Component({\n  selector: 'sai-login',\n  templateUrl: './login.component.html',\n  styleUrls: ['./login.component.scss']\n})\nexport class LoginComponent implements OnInit {\n\n  loginForm = new FormGroup({\n    issuer: new FormControl(''),\n  })\n\n  constructor(\n    private store: Store,\n  ) { }\n\n  ngOnInit(): void {}\n\n  onSubmit() {\n    this.store.dispatch(CoreActions.loginRequested({oidcIssuer: this.loginForm.get('issuer')!.value}));\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2602,7 +2602,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "createAction(\n  '[CORE] Login Requested',\n  props<{idP: string}>(),\n)"
+                "defaultValue": "createAction(\n  '[CORE] Login Requested',\n  props<{oidcIssuer: string}>(),\n)"
             },
             {
                 "name": "loginStatusChanged",
@@ -3038,7 +3038,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "createAction(\n  '[CORE] Login Requested',\n  props<{idP: string}>(),\n)"
+                    "defaultValue": "createAction(\n  '[CORE] Login Requested',\n  props<{oidcIssuer: string}>(),\n)"
                 },
                 {
                     "name": "loginStatusChanged",
