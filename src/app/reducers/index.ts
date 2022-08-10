@@ -12,7 +12,7 @@ import {
   APPLICATION_PROFILE_STATE_KEY,
 } from './application.reducer';
 
-import { UniqueId } from '../view-models';
+import { UniqueId } from '@janeirodigital/sai-api-messages';
 import {DESCRIPTIONS_STATE_KEY, descriptionsReducer, DescriptionsState} from "./descriptions.reducer";
 import { localStorageSync } from 'ngrx-store-localstorage';
 

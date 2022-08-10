@@ -1,7 +1,7 @@
 
 import {createReducer, on} from '@ngrx/store';
 import { NormalizedState } from "./index";
-import {Application} from '../view-models';
+import {Application} from '@janeirodigital/sai-api-messages';
 import {DataActions} from "../actions/application.actions";
 import {insertEntity} from "./utils";
 

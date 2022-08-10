@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
+import { Message, ApplicationsRequest, ApplicationsResponse, Application } from '@janeirodigital/sai-api-messages'
 import {ENV} from "../../environments/environment";
-import {Application, Description} from '../view-models';
 import { SolidClient } from '../utils/solid-client';
-import { DataActions } from '../actions/application.actions'
-import { DescActions } from '../actions/description.actions'
 
 const commonOptions = {
       method: 'POST',
@@ -21,30 +19,34 @@ export class DataService {
     private solidClient: SolidClient,
   ) {}
 
-  private async getDataFromApi(options: RequestInit): Promise<any> {
+  private async getDataFromApi(options: RequestInit): Promise<Message> {
     const response = await this.solidClient.fetch(`${ENV.SRV_BASE}/api`, options)
-    return response.json()
+    return (await response.json()) as Message
   }
 
   async getApplicationProfiles(): Promise<Application[]> {
+    const requestMessage = new ApplicationsRequest()
     const options = {
       ...commonOptions,
-      body: JSON.stringify({type: DataActions.applicationsPanelLoaded.type}),
+      body: JSON.stringify({type: requestMessage.type}),
     }
     const data = await this.getDataFromApi(options)
-    return data.profiles as Application[]
+    const responseMessage = new ApplicationsResponse(data)
+    return responseMessage.payload
   }
 
-  async getDescription(applicationId: string, lang: string): Promise<Description[]> {
-    const options = {
-      ...commonOptions,
-      body: JSON.stringify({
-        type: DescActions.descriptionsNeeded.type,
-        applicationId,
-        lang
-      }),
-    }
-    const data = await this.getDataFromApi(options)
-    return data.descriptions as Description[]
-  }
+//   async getDescription(applicationId: string, lang: string): Promise<Description[]> {
+//     const options = {
+//       ...commonOptions,
+//       body: JSON.stringify({
+//         type: MessageTypes.DESCRIPTION_REQUESTED,
+//         applicationId,
+//         lang
+//       }),
+//     }
+//     const data = await this.getDataFromApi(options)
+//     return data.descriptions as Description[]
+//   }
+// }
+
 }

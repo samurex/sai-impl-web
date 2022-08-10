@@ -1,6 +1,6 @@
 import {NormalizedState} from "./index";
 import {createReducer, on} from "@ngrx/store";
-import {Description} from "../view-models";
+import {Description} from "@janeirodigital/sai-api-messages";
 import {DescActions} from "../actions/description.actions";
 import {insertEntities} from "./utils";
 

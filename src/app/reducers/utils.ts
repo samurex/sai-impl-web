@@ -1,5 +1,5 @@
 import {NormalizedState} from "./index";
-import { UniqueId } from '../view-models';
+import { UniqueId } from '@janeirodigital/sai-api-messages';
 
 export const insertEntity = <T extends UniqueId>(state: NormalizedState<T>, entry: T): NormalizedState<T> => {
   const byId = {...state.byId, [entry.id]: entry};

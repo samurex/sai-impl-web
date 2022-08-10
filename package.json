@@ -25,6 +25,7 @@
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
     "@inrupt/solid-client-authn-browser": "^1.11.7",
+    "@janeirodigital/sai-api-messages": "^0.1.0",
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
     "@ngrx/store-devtools": "^13.0.2",
