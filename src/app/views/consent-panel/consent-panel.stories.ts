@@ -1,8 +1,8 @@
 
 import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { Application, AccessNeedGroup } from "@janeirodigital/sai-api-messages";
 import { ConsentPanelComponent } from "./consent-panel.component";
 import {DemoMaterialModule} from "../../../material-module";
-import { Application, AccessNeedGroup } from "../../view-models";
 
 export default {
   title: 'Consent Panel',

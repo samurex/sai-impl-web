@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import type {Application, AccessNeedGroup} from '../../view-models';
+import type {Application, AccessNeedGroup} from '@janeirodigital/sai-api-messages';
 
 @Component({
   selector: 'sai-consent-panel',
