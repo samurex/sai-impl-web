@@ -6,10 +6,8 @@
   <span class="spacer"></span>
   <span *ngIf="isServerLoggedIn; else serverLoggedOut"><mat-icon>dns</mat-icon></span>
   <span class="spacer"></span>
-  <button mat-raised-button (click)="loginServer()">Connect To Server</button>
 </mat-toolbar>
 
 <ng-template #serverLoggedOut>
-  <mat-icon>warning</mat-icon>
-  <p>Server Session Not Found</p>
+  <button mat-raised-button (click)="loginServer()">Connect To Server</button>
 </ng-template>
