@@ -1,7 +1,7 @@
+import {map, mergeMap} from "rxjs";
 import { Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {DataActions} from "../actions/application.actions";
-import {map, mergeMap} from "rxjs";
 import {DataService} from "../services/data.service";
 
 
@@ -21,7 +21,6 @@ export class ApplicationProfileEffects {
   loadConsents$ = createEffect(() => this.actions$.pipe(
     ofType(DataActions.applicationsPanelLoaded),
     map(() => ({type: 'none'})),
-
   ))
 
 }

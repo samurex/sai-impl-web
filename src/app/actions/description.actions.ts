@@ -1,5 +1,5 @@
 import {createAction, props} from "@ngrx/store";
-
+import { Description } from '@janeirodigital/sai-api-messages'
 
 const descriptionsNeeded = createAction(
   '[DESCRIPTIONS] Descriptions needed for application',
@@ -8,8 +8,7 @@ const descriptionsNeeded = createAction(
 
 const descriptionsReceived = createAction(
   '[DESCRIPTIONS] Descriptions received for application',
-  // TODO (angel) typing
-  props<{descriptions: []}>(),
+  props<{descriptions: Description[]}>(),
 )
 
 export const DescActions = {
