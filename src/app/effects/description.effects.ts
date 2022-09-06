@@ -1,8 +1,8 @@
+import {catchError, EMPTY, map, mergeMap} from "rxjs";
 import {Injectable} from "@angular/core";
-import {DataService} from "../services/data.service";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import { DescActions } from "../actions/description.actions";
-import {catchError, EMPTY, map, mergeMap} from "rxjs";
+import {DataService} from "../services/data.service";
 
 @Injectable()
 export class DescriptionEffects {
@@ -11,11 +11,9 @@ export class DescriptionEffects {
     private data: DataService,
   ) {}
 
-  // loadApplicationDescriptions$ = createEffect(() => this.actions$.pipe(
-  //   ofType(DescActions.descriptionsNeeded),
-  //   mergeMap(props => this.data.getDescription(props.applicationId, props.lang).pipe(
-  //     map(descriptions => DescActions.descriptionsReceived({descriptions})),
-  //     catchError(() => EMPTY),
-  //   )),
-  // ))
+  loadApplicationProfiles$ = createEffect(() => this.actions$.pipe(
+    ofType(DescActions.descriptionsNeeded),
+    mergeMap(props => this.data.getDescriptions(props.applicationId, props.lang)),
+    map(descriptions => DescActions.descriptionsReceived({descriptions})),
+  ))
 }

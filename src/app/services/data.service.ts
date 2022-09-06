@@ -1,14 +1,7 @@
 import {Injectable} from '@angular/core';
-import { Message, ApplicationsRequest, ApplicationsResponse, Application } from '@janeirodigital/sai-api-messages'
+import { Request, ResponseMessage, ApplicationsRequest, ApplicationsResponse, ApplicationsResponseMessage, Application, DescriptionsRequest, DescriptionsResponse, Description, IRI, DescriptionsResponseMessage  } from '@janeirodigital/sai-api-messages'
 import {ENV} from "../../environments/environment";
 import { SolidClient } from '../utils/solid-client';
-
-const commonOptions = {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      }
-}
 
 @Injectable({
   providedIn: 'root'
@@ -19,34 +12,32 @@ export class DataService {
     private solidClient: SolidClient,
   ) {}
 
-  private async getDataFromApi(options: RequestInit): Promise<Message> {
+  private async getDataFromApi<T extends ResponseMessage>(request: Request): Promise<T> {
+    const commonOptions = {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json'
+          }
+    }
+    const options = {
+      ...commonOptions,
+      body: request.stringify()
+    }
     const response = await this.solidClient.fetch(`${ENV.SRV_BASE}/api`, options)
-    return (await response.json()) as Message
+    return (await response.json()) as T
   }
 
   async getApplicationProfiles(): Promise<Application[]> {
-    const requestMessage = new ApplicationsRequest()
-    const options = {
-      ...commonOptions,
-      body: JSON.stringify({type: requestMessage.type}),
-    }
-    const data = await this.getDataFromApi(options)
-    const responseMessage = new ApplicationsResponse(data)
-    return responseMessage.payload
+    const request = new ApplicationsRequest()
+    const data = await this.getDataFromApi<ApplicationsResponseMessage>(request)
+    const response = new ApplicationsResponse(data)
+    return response.payload
   }
 
-//   async getDescription(applicationId: string, lang: string): Promise<Description[]> {
-//     const options = {
-//       ...commonOptions,
-//       body: JSON.stringify({
-//         type: MessageTypes.DESCRIPTION_REQUESTED,
-//         applicationId,
-//         lang
-//       }),
-//     }
-//     const data = await this.getDataFromApi(options)
-//     return data.descriptions as Description[]
-//   }
-// }
-
+  async getDescriptions(applicationId: IRI, lang: string): Promise<Description[]> {
+    const request = new DescriptionsRequest(applicationId, lang)
+    const data = await this.getDataFromApi<DescriptionsResponseMessage>(request)
+    const response = new DescriptionsResponse(data)
+    return response.payload
+  }
 }
