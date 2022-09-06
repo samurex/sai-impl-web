@@ -28,3 +28,8 @@ export const serverLoggedInStatus = createSelector(
   selectCore,
   core => core.isServerLoggedIn,
 )
+
+export const requestedPath = createSelector(
+  selectCore,
+  core => core.requestedPath,
+);

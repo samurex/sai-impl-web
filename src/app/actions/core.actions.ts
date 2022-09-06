@@ -46,6 +46,11 @@ const serverSessionReceived = createAction(
   props<{isServerLoggedIn: boolean, redirectUrl?: string}>(),
 )
 
+const pathRequested = createAction(
+  '[CORE] Path requested',
+  props<{requestedPath: string}>()
+)
+
 const requestName = createAction(
   '[CORE] Request Name',
 )
@@ -70,6 +75,7 @@ export const CoreActions = {
   loginStatusChanged,
   serverSessionRequested,
   serverSessionReceived,
+  pathRequested,
   requestName,
   serverLoginRequested,
   serverLoginInitiated

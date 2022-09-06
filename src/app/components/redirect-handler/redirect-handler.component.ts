@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {handleIncomingRedirect} from "@inrupt/solid-client-authn-browser";
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {CoreActions} from "../../actions";
-import {firstValueFrom, Subscription} from "rxjs";
-import {loggedInStatus} from "../../selectors";
+import {Subscription} from "rxjs";
+import {loggedInStatus, requestedPath} from "../../selectors";
 
 @Component({
   selector: 'sai-redirect-handler',
@@ -13,7 +12,9 @@ import {loggedInStatus} from "../../selectors";
 })
 export class RedirectHandlerComponent implements OnInit {
   loggedInStatus$ = this.store.select(loggedInStatus)
-  subscription?: Subscription
+  requestedPath$ = this.store.select(requestedPath)
+  isLoggedInSubscription?: Subscription
+  requestedPathSubscription?: Subscription
 
   constructor(
     private router: Router,
@@ -22,15 +23,18 @@ export class RedirectHandlerComponent implements OnInit {
 
   // TODO: handle case of manual navigation to this route
   async ngOnInit(): Promise<void> {
-    this.subscription = this.loggedInStatus$.subscribe(isLoggedIn => {
+    this.isLoggedInSubscription = this.loggedInStatus$.subscribe(isLoggedIn => {
       if (isLoggedIn) {
-        this.router.navigate(['/'])
+      this.requestedPathSubscription = this.requestedPath$.subscribe(path => {
+          this.router.navigateByUrl(path)
+        })
       }
     })
     this.store.dispatch(CoreActions.incomingLoginRedirect({url: window.location.href}));
   }
 
   OnDestroy() {
-    this.subscription?.unsubscribe()
+    this.isLoggedInSubscription?.unsubscribe()
+    this.requestedPathSubscription?.unsubscribe()
   }
 }
