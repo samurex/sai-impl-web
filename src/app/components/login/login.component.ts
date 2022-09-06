@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {Store} from "@ngrx/store";
 import {CoreActions} from "../../actions";
 import {ENV} from "../../../environments/environment";
@@ -12,8 +12,8 @@ export class LoginComponent implements OnInit {
 
   defaultIdP = ENV.DEFAULT_IDP;
 
-  loginForm = new FormGroup({
-    issuer: new FormControl(''),
+  loginForm = new UntypedFormGroup({
+    issuer: new UntypedFormControl(''),
   })
 
   constructor(
