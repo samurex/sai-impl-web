@@ -1,16 +1,11 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import {from, map, Observable} from 'rxjs';
+import {tap, from, map, Observable} from 'rxjs';
 import {getDefaultSession, onSessionRestore} from '@inrupt/solid-client-authn-browser';
 import {Store} from "@ngrx/store";
 import {loggedInStatus} from "../selectors";
 import {mergeMap} from "rxjs/operators";
 import {CoreActions} from "../actions";
-
-
-onSessionRestore((currentUrl: string) => {
-  console.log('ON SESSION RESTORE', currentUrl);
-})
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +15,13 @@ export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
     private store: Store,
-  ) {}
+  ) {
+    onSessionRestore((currentUrl: string) => {
+      const url = new URL(currentUrl)
+      const requestedPath = url.pathname + url.search
+      this.store.dispatch(CoreActions.pathRequested({ requestedPath }))
+    })
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,

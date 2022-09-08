@@ -4,6 +4,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {AuthGuard} from "./guards/auth.guard.service";
 import {RedirectHandlerComponent} from "./components/redirect-handler/redirect-handler.component";
+import {AuthorizationComponent} from "./components/authorization/authorization.component";
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   },
   {
     path: 'redirect', component: RedirectHandlerComponent,
+  },
+  {
+    path: 'authorize', component: AuthorizationComponent, canActivate: [AuthGuard],
+
   },
 ];
 

@@ -27,6 +27,7 @@ import {MatIconModule} from "@angular/material/icon";
 import { FormsModule } from "@angular/forms";
 import { RedirectHandlerComponent } from './components/redirect-handler/redirect-handler.component';
 import {SolidClient} from "./utils/solid-client";
+import { AuthorizationComponent } from './components/authorization/authorization.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {SolidClient} from "./utils/solid-client";
     DashboardComponent,
     ConsentPanelComponent,
     RedirectHandlerComponent,
+    AuthorizationComponent,
   ],
   imports: [
     BrowserModule,
