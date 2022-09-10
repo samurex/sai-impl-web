@@ -40,8 +40,8 @@ describe('Auth Guard', () => {
     })
 
     it('should grant access to any route', (done) => {
-      const canActivate = guard.canActivate(dummyRoute, fakeRouterState('/fakeUrl')) as Observable<boolean>;
-      canActivate.subscribe(r => {
+      const canActivateChild = guard.canActivateChild(dummyRoute, fakeRouterState('/fakeUrl')) as Observable<boolean>;
+      canActivateChild.subscribe(r => {
         expect(r).toBeTrue();
         done();
       })
@@ -55,8 +55,8 @@ describe('Auth Guard', () => {
 
     it('should deny access to any route', (done) => {
       const spy = spyOn(router, 'parseUrl');
-      const canActivate = guard.canActivate(dummyRoute, fakeRouterState('/fakeUrl')) as Observable<UrlTree>;
-      canActivate.subscribe(r => {
+      const canActivateChild = guard.canActivateChild(dummyRoute, fakeRouterState('/fakeUrl')) as Observable<UrlTree>;
+      canActivateChild.subscribe(r => {
         expect(spy).toHaveBeenCalledWith('login');
         done();
       })

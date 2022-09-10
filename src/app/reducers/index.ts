@@ -35,7 +35,7 @@ export const reducers: ActionReducerMap<RootState> = {
 };
 
 export function localStorageSyncReducer(reducer: ActionReducer<RootState>): ActionReducer<RootState> {
-  return localStorageSync({keys: [CORE_STATE_KEY], rehydrate: true})(reducer);
+  return localStorageSync({keys: [{ [CORE_STATE_KEY]: ['oidcIssuer', 'requestedPath']}], rehydrate: true})(reducer);
 }
 
 export const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [localStorageSyncReducer] : [localStorageSyncReducer];
