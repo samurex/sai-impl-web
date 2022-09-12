@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private store: Store,
-  ) { }
+  ) {}
 
   ngOnInit(): void {}
 

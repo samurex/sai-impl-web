@@ -28,6 +28,9 @@ import { FormsModule } from "@angular/forms";
 import { RedirectHandlerComponent } from './components/redirect-handler/redirect-handler.component';
 import {SolidClient} from "./utils/solid-client";
 import { AuthorizationComponent } from './components/authorization/authorization.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { StartComponent } from './components/start/start.component';
+import { ConnectServerComponent } from './components/connect-server/connect-server.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +41,8 @@ import { AuthorizationComponent } from './components/authorization/authorization
     ConsentPanelComponent,
     RedirectHandlerComponent,
     AuthorizationComponent,
+    StartComponent,
+    ConnectServerComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +57,7 @@ import { AuthorizationComponent } from './components/authorization/authorization
     MatInputModule,
     MatIconModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
     FormsModule,
     StoreModule.forRoot(reducers, {
       metaReducers

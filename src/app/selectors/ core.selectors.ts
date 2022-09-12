@@ -19,6 +19,11 @@ export const webId = createSelector(
   core => core.webId,
 );
 
+export const loginKnown = createSelector(
+  selectCore,
+  core => core.loginKnown
+)
+
 export const loggedInStatus = createSelector(
   selectCore,
   core => core.isLoggedIn,

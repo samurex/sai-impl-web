@@ -3,11 +3,4 @@
     <h3>Solid Authorization Agent</h3>
     <h6 *ngIf="webId">{{webId}}</h6>
   </div>
-  <span class="spacer"></span>
-  <span *ngIf="isServerLoggedIn; else serverLoggedOut"><mat-icon>dns</mat-icon></span>
-  <span class="spacer"></span>
 </mat-toolbar>
-
-<ng-template #serverLoggedOut>
-  <button mat-raised-button (click)="loginServer()">Connect To Server</button>
-</ng-template>
