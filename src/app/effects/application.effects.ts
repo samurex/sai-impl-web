@@ -18,9 +18,9 @@ export class ApplicationProfileEffects {
     map(profiles => DataActions.applicationProfilesReceived({profiles})),
   ))
 
-  loadConsents$ = createEffect(() => this.actions$.pipe(
-    ofType(DataActions.applicationsPanelLoaded),
-    map(() => ({type: 'none'})),
+  loadSocialAgentsProfiles$ = createEffect(() => this.actions$.pipe(
+    ofType(DataActions.socialAgentsPanelLoaded),
+    mergeMap(() => this.data.getSocialAgentProfiles()),
+    map(profiles => DataActions.socialAgentProfilesReceived({profiles})),
   ))
-
 }

@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
-import { Request, ResponseMessage, ApplicationsRequest, ApplicationsResponse, ApplicationsResponseMessage, Application, DescriptionsRequest, DescriptionsResponse, Description, IRI, DescriptionsResponseMessage  } from '@janeirodigital/sai-api-messages'
+import { Request, ResponseMessage, ApplicationsRequest, ApplicationsResponse, ApplicationsResponseMessage,
+  Application, DescriptionsRequest, DescriptionsResponse, Description, IRI, DescriptionsResponseMessage,
+  SocialAgentsRequest, SocialAgentsResponse, SocialAgent, SocialAgentsResponseMessage} from '@janeirodigital/sai-api-messages'
 import {ENV} from "../../environments/environment";
 import { SolidClient } from '../utils/solid-client';
 
@@ -31,6 +33,13 @@ export class DataService {
     const request = new ApplicationsRequest()
     const data = await this.getDataFromApi<ApplicationsResponseMessage>(request)
     const response = new ApplicationsResponse(data)
+    return response.payload
+  }
+
+  async getSocialAgentProfiles(): Promise<SocialAgent[]> {
+    const request = new SocialAgentsRequest()
+    const data = await this.getDataFromApi<SocialAgentsResponseMessage>(request)
+    const response = new SocialAgentsResponse(data)
     return response.payload
   }
 
