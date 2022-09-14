@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivateChild, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import {from, map, Observable} from 'rxjs';
+import {from, map, switchMap, Observable} from 'rxjs';
 import {getDefaultSession} from '@inrupt/solid-client-authn-browser';
 import {Store} from "@ngrx/store";
 import {CoreActions} from "../actions";
+import {bothEndsLoggedIn} from "../selectors"
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +21,12 @@ export class AuthGuard implements CanActivateChild {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     return from(this.tryToRecoverSession()).pipe(
-      map((success) => success || this.router.parseUrl('start'))
+      switchMap(() => this.store.select(bothEndsLoggedIn)),
+      map((bothEndsLoggedIn) => bothEndsLoggedIn || this.router.parseUrl('start'))
     );
   }
 
-  private async tryToRecoverSession(): Promise<boolean> {
+  private async tryToRecoverSession(): Promise<void> {
     const session = getDefaultSession();
 
     if (!session.info.isLoggedIn) {
@@ -32,6 +34,5 @@ export class AuthGuard implements CanActivateChild {
       await session.handleIncomingRedirect({restorePreviousSession: true});
     }
     this.store.dispatch(CoreActions.loginStatusChanged({loggedIn: session.info.isLoggedIn}));
-    return session.info.isLoggedIn
   }
 }

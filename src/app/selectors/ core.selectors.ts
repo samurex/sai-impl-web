@@ -38,3 +38,8 @@ export const requestedPath = createSelector(
   selectCore,
   core => core.requestedPath,
 );
+
+export const bothEndsLoggedIn = createSelector(
+  selectCore,
+  core => core.isLoggedIn && core.isServerLoggedIn
+)
