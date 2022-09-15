@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Application, SocialAgent } from '@janeirodigital/sai-api-messages';
+import { Application, DataRegistry, SocialAgent } from '@janeirodigital/sai-api-messages';
 
 const applicationsPanelLoaded = createAction(
   '[APPLICATION PROFILES] Application Profiles Requested'
@@ -24,11 +24,22 @@ const socialAgentProfilesReceived = createAction(
   props<{profiles: SocialAgent[]}>(),
 )
 
+const dataRegistriesNeeded = createAction(
+  '[DATA REGISTRIES] Data Registries Requested'
+);
+
+const dataRegistriesProvided = createAction(
+  '[DATA REGISTRIES] Data Registries Received',
+  props<{registries: DataRegistry[]}>(),
+)
+
 
 export const DataActions = {
   applicationsPanelLoaded,
   applicationProfilesReceived,
   applicationProfileReceived,
   socialAgentsPanelLoaded,
-  socialAgentProfilesReceived
+  socialAgentProfilesReceived,
+  dataRegistriesNeeded,
+  dataRegistriesProvided
 }
