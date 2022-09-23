@@ -4,6 +4,7 @@ import {Store} from "@ngrx/store";
 import {onSessionRestore} from '@inrupt/solid-client-authn-browser';
 import {CoreActions} from "./actions";
 import {serverLoggedInStatus, oidcIssuer, webId} from "./selectors";
+import { SwPush } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit{
   constructor(
     private router: Router,
     private store: Store,
+    private swPush: SwPush,
   ) {
     // TODO ensure that requestedPath gets set even if oidc session can't be restored
     onSessionRestore((currentUrl: string) => {
@@ -26,6 +28,10 @@ export class AppComponent implements OnInit{
       let requestedPath = url.pathname + url.search
       this.store.dispatch(CoreActions.pathRequested({ requestedPath }))
     })
+
+    this.swPush.notificationClicks.subscribe(({ notification }) => {
+      this.router.navigateByUrl(`/add-agent?webId=${notification.data.webId}`)
+    });
   }
 
   ngOnInit() {

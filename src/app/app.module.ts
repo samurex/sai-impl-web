@@ -31,6 +31,7 @@ import { AuthorizationComponent } from './components/authorization/authorization
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { StartComponent } from './components/start/start.component';
 import { ConnectServerComponent } from './components/connect-server/connect-server.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,12 @@ import { ConnectServerComponent } from './components/connect-server/connect-serv
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),
     EffectsModule.forRoot(Effects),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: true,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

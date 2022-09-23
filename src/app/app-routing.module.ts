@@ -38,6 +38,9 @@ const routes: Routes = [
       },
       {
         path: 'authorize', component: AuthorizationComponent,
+      },
+      {
+        path: 'add-agent', component: StartComponent,
       }
     ]
   }
