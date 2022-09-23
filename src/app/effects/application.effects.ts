@@ -24,6 +24,12 @@ export class ApplicationProfileEffects {
     map(profiles => DataActions.socialAgentProfilesReceived({profiles})),
   ))
 
+  addSocialAgent$ = createEffect(() => this.actions$.pipe(
+    ofType(DataActions.addSocialAgent),
+    mergeMap(({ webId, label, note }) => this.data.addSocialAgent(webId, label, note)),
+    map(profile => DataActions.socialAgentProfileReceived({profile})),
+  ))
+
   loadDataRegistries$ = createEffect(() => this.actions$.pipe(
     ofType(DataActions.dataRegistriesNeeded),
     mergeMap(() => this.data.getDataRegistries()),
