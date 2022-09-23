@@ -1,6 +1,7 @@
 
 <div class="container">
+  <button mat-raised-button *ngIf="!(subscription$ | async)" (click)="subscribeToNotifications()">
+    Enable notifications
+  </button>
   <sai-consent-panel *ngFor="let profile of (this.applications | async)" [profile]="profile"></sai-consent-panel>
 </div>
-
-
