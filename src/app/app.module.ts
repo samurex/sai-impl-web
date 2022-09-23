@@ -66,7 +66,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),
     EffectsModule.forRoot(Effects),
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: true,
+      enabled: ENV.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
