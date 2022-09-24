@@ -33,6 +33,7 @@ import { StartComponent } from './components/start/start.component';
 import { ConnectServerComponent } from './components/connect-server/connect-server.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AddSocialAgentComponent } from './components/add-social-agent/add-social-agent.component';
+import { SocialAgentsComponent } from './components/social-agents/social-agents.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { AddSocialAgentComponent } from './components/add-social-agent/add-socia
     StartComponent,
     ConnectServerComponent,
     AddSocialAgentComponent,
+    SocialAgentsComponent,
   ],
   imports: [
     BrowserModule,

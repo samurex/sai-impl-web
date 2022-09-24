@@ -1,2 +1,1 @@
-
-export * from './ core.selectors';
+export * from './core.selectors';

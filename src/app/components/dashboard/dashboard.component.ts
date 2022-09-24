@@ -3,8 +3,6 @@ import {Store} from "@ngrx/store";
 import {selectApplicationProfiles} from "../../selectors/application.selectors";
 import {BehaviorSubject, Observable} from "rxjs";
 import {serverLoggedInStatus} from "../../selectors";
-import {SolidClient} from "../../utils/solid-client";
-import {CoreActions} from "../../actions";
 import {ENV} from "../../../environments/environment";
 import { SwPush } from '@angular/service-worker';
 import { PushService } from 'src/app/services/push.service';

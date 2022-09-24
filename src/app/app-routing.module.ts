@@ -9,6 +9,7 @@ import {AuthGuard} from "./guards/auth.guard.service";
 import {RedirectHandlerComponent} from "./components/redirect-handler/redirect-handler.component";
 import {AuthorizationComponent} from "./components/authorization/authorization.component";
 import {AddSocialAgentComponent} from "./components/add-social-agent/add-social-agent.component";
+import { SocialAgentsComponent } from './components/social-agents/social-agents.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,9 @@ const routes: Routes = [
       },
       {
         path: 'authorize', component: AuthorizationComponent,
+      },
+      {
+        path: 'social-agents', component: SocialAgentsComponent,
       },
       {
         path: 'add-social-agent', component: AddSocialAgentComponent,
