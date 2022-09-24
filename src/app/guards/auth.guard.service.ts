@@ -33,6 +33,7 @@ export class AuthGuard implements CanActivateChild {
       // if sessoin can be restored it will redirect to oidcIssuer, which will return back to `/redirect`
       await session.handleIncomingRedirect({restorePreviousSession: true});
     }
+    // TODO only dispatch if previous status was different
     this.store.dispatch(CoreActions.loginStatusChanged({loggedIn: session.info.isLoggedIn}));
   }
 }

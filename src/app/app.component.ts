@@ -30,7 +30,7 @@ export class AppComponent implements OnInit{
     })
 
     this.swPush.notificationClicks.subscribe(({ notification }) => {
-      this.router.navigateByUrl(`/add-agent?webId=${notification.data.webId}`)
+      this.router.navigateByUrl(`/add-social-agent?webid=${notification.data.webId}`)
     });
   }
 

@@ -32,6 +32,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { StartComponent } from './components/start/start.component';
 import { ConnectServerComponent } from './components/connect-server/connect-server.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { AddSocialAgentComponent } from './components/add-social-agent/add-social-agent.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     AuthorizationComponent,
     StartComponent,
     ConnectServerComponent,
+    AddSocialAgentComponent,
   ],
   imports: [
     BrowserModule,
