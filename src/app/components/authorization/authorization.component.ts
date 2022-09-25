@@ -20,11 +20,9 @@ export class AuthorizationComponent implements OnInit {
 
   ngOnInit(): void {
     const clientId = this.route.snapshot.queryParamMap.get('client_id')
-    // TODO move language into core state?
     if (clientId) {
       this.store.dispatch(DescActions.descriptionsNeeded({
-        applicationId: clientId,
-        lang: 'en'
+        applicationId: clientId
       }))
     } else {
       throw new Error('authorization requires client_id query parameter')

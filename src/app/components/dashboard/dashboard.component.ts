@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {selectApplicationProfiles} from "../../selectors/application.selectors";
 import {BehaviorSubject, Observable} from "rxjs";
 import {serverLoggedInStatus} from "../../selectors";
 import {ENV} from "../../../environments/environment";
@@ -14,10 +13,6 @@ import { PushService } from 'src/app/services/push.service';
 })
 export class DashboardComponent implements OnInit {
 
-  applications = this.store.select(selectApplicationProfiles);
-  isServerLoggedIn$ = this.store.select(serverLoggedInStatus);
-
-  public latestMessage: Observable<unknown> = new BehaviorSubject<unknown>(JSON.stringify({}));
   public subscription$ = this.swPush.subscription;
 
   constructor(

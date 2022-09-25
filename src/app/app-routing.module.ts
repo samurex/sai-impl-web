@@ -10,6 +10,7 @@ import {RedirectHandlerComponent} from "./components/redirect-handler/redirect-h
 import {AuthorizationComponent} from "./components/authorization/authorization.component";
 import {AddSocialAgentComponent} from "./components/add-social-agent/add-social-agent.component";
 import { SocialAgentsComponent } from './components/social-agents/social-agents.component';
+import { ApplicationsComponent } from './components/applications/applications.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,9 @@ const routes: Routes = [
       },
       {
         path: 'authorize', component: AuthorizationComponent,
+      },
+      {
+        path: 'applications', component: ApplicationsComponent,
       },
       {
         path: 'social-agents', component: SocialAgentsComponent,
