@@ -36,6 +36,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { AddSocialAgentComponent } from './components/add-social-agent/add-social-agent.component';
 import { SocialAgentsComponent } from './components/social-agents/social-agents.component';
 import { ApplicationsComponent } from './components/applications/applications.component';
+import { DataComponent } from './components/data/data.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { ApplicationsComponent } from './components/applications/applications.co
     AddSocialAgentComponent,
     SocialAgentsComponent,
     ApplicationsComponent,
+    DataComponent,
   ],
   imports: [
     BrowserModule,

@@ -17,6 +17,12 @@ import {
   SOCIAL_AGENT_STATE_KEY,
 } from './social-agent.reducer';
 
+import {
+  DataRegistryState,
+  dataRegistriesReducer,
+  DATA_REGISTRY_STATE_KEY,
+} from './data-registry.reducer';
+
 import { UniqueId } from '@janeirodigital/sai-api-messages';
 import {DESCRIPTIONS_STATE_KEY, descriptionsReducer, DescriptionsState} from "./descriptions.reducer";
 import { localStorageSync } from 'ngrx-store-localstorage';
@@ -32,6 +38,7 @@ export interface RootState {
   [APPLICATION_PROFILE_STATE_KEY]: ApplicationProfileState,
   [SOCIAL_AGENT_STATE_KEY]: SocialAgentState,
   [DESCRIPTIONS_STATE_KEY]: DescriptionsState,
+  [DATA_REGISTRY_STATE_KEY]: DataRegistryState,
 }
 
 export const reducers: ActionReducerMap<RootState> = {
@@ -39,6 +46,7 @@ export const reducers: ActionReducerMap<RootState> = {
   [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,
   [SOCIAL_AGENT_STATE_KEY]: socialAgentsReducer,
   [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,
+  [DATA_REGISTRY_STATE_KEY]: dataRegistriesReducer,
 };
 
 export function localStorageSyncReducer(reducer: ActionReducer<RootState>): ActionReducer<RootState> {

@@ -11,6 +11,7 @@ import {AuthorizationComponent} from "./components/authorization/authorization.c
 import {AddSocialAgentComponent} from "./components/add-social-agent/add-social-agent.component";
 import { SocialAgentsComponent } from './components/social-agents/social-agents.component';
 import { ApplicationsComponent } from './components/applications/applications.component';
+import { DataComponent } from './components/data/data.component';
 
 const routes: Routes = [
   {
@@ -50,7 +51,10 @@ const routes: Routes = [
       },
       {
         path: 'add-social-agent', component: AddSocialAgentComponent,
-      }
+      },
+      {
+        path: 'data', component: DataComponent,
+      },
     ]
   }
 ];
