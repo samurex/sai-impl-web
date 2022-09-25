@@ -43,3 +43,8 @@ export const bothEndsLoggedIn = createSelector(
   selectCore,
   core => core.isLoggedIn && core.isServerLoggedIn
 )
+
+export const prefLanguage = createSelector(
+  selectCore,
+  core => core.language
+)

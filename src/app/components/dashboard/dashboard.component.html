@@ -1,7 +1,9 @@
+<button mat-raised-button *ngIf="!(subscription$ | async)" (click)="subscribeToNotifications()">
+  Enable notifications
+</button>
 
-<div class="container">
-  <button mat-raised-button *ngIf="!(subscription$ | async)" (click)="subscribeToNotifications()">
-    Enable notifications
-  </button>
-  <sai-consent-panel *ngFor="let profile of (this.applications | async)" [profile]="profile"></sai-consent-panel>
-</div>
+<mat-nav-list>
+  <a mat-list-item routerLink="/applications">Applications</a>
+  <a mat-list-item routerLink="/social-agents">Peers</a>
+  <a mat-list-item routerLink="/data">Data</a>
+</mat-nav-list>

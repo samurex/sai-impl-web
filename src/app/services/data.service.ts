@@ -53,8 +53,8 @@ export class DataService {
     return response.payload
   }
 
-  async getDataRegistries(): Promise<DataRegistry[]> {
-    const request = new DataRegistriesRequest()
+  async getDataRegistries(lang: string): Promise<DataRegistry[]> {
+    const request = new DataRegistriesRequest(lang)
     const data = await this.getDataFromApi<DataRegistriesResponseMessage>(request)
     const response = new DataRegistriesResponse(data)
     return response.payload

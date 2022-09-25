@@ -3,7 +3,7 @@ import { Description } from '@janeirodigital/sai-api-messages'
 
 const descriptionsNeeded = createAction(
   '[DESCRIPTIONS] Descriptions needed for application',
-  props<{applicationId: string, lang: string}>(),
+  props<{applicationId: string}>(),
 );
 
 const descriptionsReceived = createAction(

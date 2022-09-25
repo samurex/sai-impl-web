@@ -6,7 +6,6 @@ import {LoginService} from "../services/login.service";
 import {CoreActions} from "../actions";
 import {mergeMap} from "rxjs/operators";
 import * as selectors from "../selectors";
-import { Router } from "@angular/router";
 
 @Injectable()
 export class CoreEffects {
@@ -15,7 +14,6 @@ export class CoreEffects {
     private actions$: Actions,
     private id: LoginService,
     private store: Store,
-    private router: Router,
   ) {}
 
   login$ = createEffect(() => this.actions$.pipe(
@@ -48,7 +46,7 @@ export class CoreEffects {
 
   checkServerSession$ = createEffect(() => this.actions$.pipe(
     ofType(CoreActions.loginStatusChanged),
-    concatLatestFrom(action => this.store.select(selectors.oidcIssuer)),
+    concatLatestFrom(() => this.store.select(selectors.oidcIssuer)),
     mergeMap(([action, oidcIssuer]) => {
       if (action.loggedIn) {
         return of(CoreActions.serverSessionRequested({oidcIssuer}))

@@ -11,6 +11,7 @@ export interface CoreState {
   isServerLoggedIn: boolean;
   redirectUrl: string;
   requestedPath: string;
+  language: string;
 }
 
 export const initialState: CoreState = {
@@ -21,6 +22,7 @@ export const initialState: CoreState = {
   isServerLoggedIn: false,
   redirectUrl: '',
   requestedPath: '/dashboard',
+  language: 'en', // TODO allow user to set it
 }
 
 const excludedPaths = ['/', '/start', '/redirect', '/login', '/connect']

@@ -1,0 +1,4 @@
+<mat-card *ngFor="let agent of socialAgents$ | async">
+  <mat-card-title>{{agent.label}}</mat-card-title>
+  <mat-card-content>{{agent.note}}</mat-card-content>
+</mat-card>
