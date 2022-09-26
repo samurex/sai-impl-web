@@ -5,5 +5,5 @@ export const selectDescriptionsFeature = createFeatureSelector<DescriptionsState
 
 export const selectDescriptions = createSelector(
   selectDescriptionsFeature,
-  state => ([...Object.values(state.byId)]),
+  state => ([...Object.values(state.byId)][0]),
 )

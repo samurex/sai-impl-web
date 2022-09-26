@@ -1,5 +1,5 @@
 import {createAction, props} from "@ngrx/store";
-import { Description } from '@janeirodigital/sai-api-messages'
+import { AccessNeedGroup, Description } from '@janeirodigital/sai-api-messages'
 
 const descriptionsNeeded = createAction(
   '[DESCRIPTIONS] Descriptions needed for application',
@@ -8,7 +8,7 @@ const descriptionsNeeded = createAction(
 
 const descriptionsReceived = createAction(
   '[DESCRIPTIONS] Descriptions received for application',
-  props<{descriptions: Description[]}>(),
+  props<{accessNeedGroup: AccessNeedGroup}>(),
 )
 
 export const DescActions = {

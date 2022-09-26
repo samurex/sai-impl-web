@@ -18,6 +18,6 @@ export class DescriptionEffects {
     ofType(DescActions.descriptionsNeeded),
     concatLatestFrom(() => this.store.select(selectors.prefLanguage)),
     mergeMap(([props, lang]) => this.data.getDescriptions(props.applicationId, lang)),
-    map(descriptions => DescActions.descriptionsReceived({descriptions})),
+    map(accessNeedGroup => DescActions.descriptionsReceived({accessNeedGroup})),
   ))
 }

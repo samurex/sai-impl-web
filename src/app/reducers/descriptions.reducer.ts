@@ -1,12 +1,12 @@
 import {NormalizedState} from "./index";
 import {createReducer, on} from "@ngrx/store";
-import {Description} from "@janeirodigital/sai-api-messages";
+import {AccessNeedGroup} from "@janeirodigital/sai-api-messages";
 import {DescActions} from "../actions/description.actions";
-import {insertEntities} from "./utils";
+import {insertEntities, insertEntity} from "./utils";
 
 export const DESCRIPTIONS_STATE_KEY = 'descriptions';
 
-export interface DescriptionsState extends NormalizedState<Description> {}
+export interface DescriptionsState extends NormalizedState<AccessNeedGroup> {}
 
 export const initialState: DescriptionsState = {
   byId: {},
@@ -15,5 +15,5 @@ export const initialState: DescriptionsState = {
 
 export const descriptionsReducer = createReducer(
   initialState,
-  on(DescActions.descriptionsReceived, (state, {descriptions}) => insertEntities(state, descriptions)),
+  on(DescActions.descriptionsReceived, (state, {accessNeedGroup}) => insertEntity(state, accessNeedGroup)),
 )

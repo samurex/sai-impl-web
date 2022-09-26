@@ -3,7 +3,7 @@ import { Request, ResponseMessage, ApplicationsRequest, ApplicationsResponse, Ap
   Application, DescriptionsRequest, DescriptionsResponse, Description, IRI, DescriptionsResponseMessage,
   DataRegistriesRequest, DataRegistriesResponse, DataRegistriesResponseMessage, DataRegistry,
   SocialAgentsRequest, SocialAgentsResponse, SocialAgent, SocialAgentsResponseMessage,
-  AddSocialAgentRequest, SocialAgentResponse, SocialAgentResponseMessage
+  AddSocialAgentRequest, SocialAgentResponse, SocialAgentResponseMessage, AccessNeedGroup
 } from '@janeirodigital/sai-api-messages'
 import {ENV} from "../../environments/environment";
 import { SolidClient } from '../utils/solid-client';
@@ -60,7 +60,7 @@ export class DataService {
     return response.payload
   }
 
-  async getDescriptions(applicationId: IRI, lang: string): Promise<Description[]> {
+  async getDescriptions(applicationId: IRI, lang: string): Promise<AccessNeedGroup> {
     const request = new DescriptionsRequest(applicationId, lang)
     const data = await this.getDataFromApi<DescriptionsResponseMessage>(request)
     const response = new DescriptionsResponse(data)
