@@ -1,3 +1,33 @@
-<pre>
-  {{ descriptions$ | async | json}}
-</pre>
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h1>{{ (authorizationData$ | async)?.accessNeedGroup?.label }}</h1>
+  <h2>{{ (authorizationData$ | async)?.accessNeedGroup?.description }}</h2>
+
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+    <!-- This is the tree node template for leaf nodes -->
+    <!-- There is inline padding applied to this node using styles.
+      This padding value depends on the mat-icon-button width. -->
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+      <mat-card>
+        <mat-card-title>{{node.shapeTree.label}}</mat-card-title>
+        <mat-card-content>{{node.label}}</mat-card-content>
+      </mat-card>
+    </mat-tree-node>
+    <!-- This is the tree node template for expandable nodes -->
+    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+        <div class="mat-tree-node">
+          <mat-card>
+            <mat-card-title>{{node.shapeTree.label}}</mat-card-title>
+            <mat-card-content>{{node.label}}</mat-card-content>
+          </mat-card>
+        </div>
+        <!-- There is inline padding applied to this div using styles.
+            This padding value depends on the mat-icon-button width.  -->
+        <div class="mat-nested-tree-node"
+            role="group">
+          <ng-container matTreeNodeOutlet></ng-container>
+      </div>
+    </mat-nested-tree-node>
+  </mat-tree>
+  <button mat-raised-button color="primary">Authorize</button>
+</form>

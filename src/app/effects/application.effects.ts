@@ -39,4 +39,10 @@ export class ApplicationProfileEffects {
     mergeMap(([props, lang]) => this.data.getDataRegistries(lang)),
     map(registries => DataActions.dataRegistriesProvided({registries})),
   ))
+
+  authorizeApplication$ = createEffect(() => this.actions$.pipe(
+    ofType(DataActions.authorizeApplication),
+    mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),
+    map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),
+  ))
 }

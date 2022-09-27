@@ -11,6 +11,7 @@ import {NavbarComponent} from "./views/navbar/navbar.component";
 import {LoginComponent} from "./components/login/login.component";
 import {MatCardModule} from "@angular/material/card";
 import { MatListModule } from '@angular/material/list';
+import { MatTreeModule } from '@angular/material/tree';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -63,6 +64,7 @@ import { DataComponent } from './components/data/data.component';
     MatToolbarModule,
     MatCardModule,
     MatListModule,
+    MatTreeModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
