@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import { Request, ResponseMessage, ApplicationsRequest, ApplicationsResponse, ApplicationsResponseMessage,
-  Application, DescriptionsRequest, DescriptionsResponse, Description, IRI, DescriptionsResponseMessage,
+  Application, DescriptionsRequest, DescriptionsResponse, IRI, DescriptionsResponseMessage,
   DataRegistriesRequest, DataRegistriesResponse, DataRegistriesResponseMessage, DataRegistry,
   SocialAgentsRequest, SocialAgentsResponse, SocialAgent, SocialAgentsResponseMessage,
-  AddSocialAgentRequest, SocialAgentResponse, SocialAgentResponseMessage, AccessNeedGroup
+  AddSocialAgentRequest, SocialAgentResponse, SocialAgentResponseMessage, AuthorizationData, AccessAuthorization, Authorization, ApplicationAuthorizationRequest, ApplicationAuthorizationResponseMessage, ApplicationAuthorizationResponse
 } from '@janeirodigital/sai-api-messages'
 import {ENV} from "../../environments/environment";
 import { SolidClient } from '../utils/solid-client';
@@ -60,10 +60,17 @@ export class DataService {
     return response.payload
   }
 
-  async getDescriptions(applicationId: IRI, lang: string): Promise<AccessNeedGroup> {
+  async getDescriptions(applicationId: IRI, lang: string): Promise<AuthorizationData> {
     const request = new DescriptionsRequest(applicationId, lang)
     const data = await this.getDataFromApi<DescriptionsResponseMessage>(request)
     const response = new DescriptionsResponse(data)
+    return response.payload
+  }
+
+  async authorizeApplication(authorization: Authorization): Promise<AccessAuthorization> {
+    const request = new ApplicationAuthorizationRequest(authorization)
+    const data = await this.getDataFromApi<ApplicationAuthorizationResponseMessage>(request)
+    const response = new ApplicationAuthorizationResponse(data)
     return response.payload
   }
 }

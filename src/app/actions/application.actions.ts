@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Application, DataRegistry, IRI, SocialAgent } from '@janeirodigital/sai-api-messages';
+import { Application, DataRegistry, IRI, SocialAgent, Authorization, AccessAuthorization } from '@janeirodigital/sai-api-messages';
 
 const applicationsPanelLoaded = createAction(
   '[APPLICATION PROFILES] Application Profiles Requested'
@@ -43,6 +43,16 @@ const dataRegistriesProvided = createAction(
   props<{registries: DataRegistry[]}>(),
 )
 
+const authorizeApplication = createAction(
+  '[APPLICATION PROFILES] Authorize Application',
+  props<{ authorization: Authorization }>()
+)
+
+const authorizationReceived = createAction(
+  '[APPLICATION PROFILES] Authorization Received',
+  props<{ accessAuthorization: AccessAuthorization }>()
+)
+
 
 export const DataActions = {
   applicationsPanelLoaded,
@@ -53,5 +63,7 @@ export const DataActions = {
   addSocialAgent,
   socialAgentProfileReceived,
   dataRegistriesNeeded,
-  dataRegistriesProvided
+  dataRegistriesProvided,
+  authorizeApplication,
+  authorizationReceived
 }
