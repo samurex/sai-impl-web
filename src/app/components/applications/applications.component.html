@@ -1,4 +1,4 @@
 <mat-card *ngFor="let application of applications$ | async">
   <mat-card-title>{{application.name}}</mat-card-title>
-  <mat-card-content>{{application.description}}</mat-card-content>
+  <img *ngIf="application.logo" mat-card-md-image src="{{application.logo}}" >
 </mat-card>

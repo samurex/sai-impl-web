@@ -5,12 +5,10 @@
     <mat-expansion-panel-header class="main-header">
       <mat-panel-title>
         <div class="content">
-          <img src="{{profile.thumbnail}}">
+          <img src="{{profile.logo}}">
           <div class="text-content">
             <h3>{{profile.name}}</h3>
-            <p>{{profile.description}}</p>
             <p class="date-line">
-              <span>{{profile.author}}</span>
               <span>Registered on: {{profile.authorizationDate | date}}</span>
             </p>
           </div>
