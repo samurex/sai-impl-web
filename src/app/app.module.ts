@@ -16,7 +16,6 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ConsentPanelComponent } from './views/consent-panel/consent-panel.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
@@ -45,7 +44,6 @@ import { DataComponent } from './components/data/data.component';
     NavbarComponent,
     LoginComponent,
     DashboardComponent,
-    ConsentPanelComponent,
     RedirectHandlerComponent,
     AuthorizationComponent,
     StartComponent,
