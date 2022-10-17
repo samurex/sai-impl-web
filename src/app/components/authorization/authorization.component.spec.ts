@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { AuthorizationComponent } from './authorization.component';
 
@@ -8,7 +11,14 @@ describe('AuthorizationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AuthorizationComponent ]
+      declarations: [ AuthorizationComponent ],
+      imports: [
+        RouterTestingModule
+      ],
+      providers: [ provideMockStore({}), {
+        provide: ActivatedRoute,
+        useValue: {snapshot: {queryParamMap: convertToParamMap({client_id: 'https://projectron.example'})}}
+      } ]
     })
     .compileComponents();
   });

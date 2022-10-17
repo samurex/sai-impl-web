@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { ConnectServerComponent } from './connect-server.component';
 
@@ -8,7 +9,8 @@ describe('ConnectServerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConnectServerComponent ]
+      declarations: [ ConnectServerComponent ],
+      providers: [ provideMockStore({}) ]
     })
     .compileComponents();
 

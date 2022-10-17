@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { SocialAgentsComponent } from './social-agents.component';
+
 
 describe('SocialAgentsComponent', () => {
   let component: SocialAgentsComponent;
@@ -8,7 +10,8 @@ describe('SocialAgentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SocialAgentsComponent ]
+      declarations: [ SocialAgentsComponent ],
+      providers: [ provideMockStore({}) ],
     })
     .compileComponents();
 
