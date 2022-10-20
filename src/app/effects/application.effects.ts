@@ -2,6 +2,7 @@ import {map, mergeMap} from "rxjs";
 import { Injectable} from "@angular/core";
 import {Actions, concatLatestFrom, createEffect, ofType} from "@ngrx/effects";
 import {DataActions} from "../actions/application.actions";
+import {DescActions} from "../actions/description.actions";
 import {DataService} from "../services/data.service";
 import { Store } from "@ngrx/store";
 import * as selectors from "../selectors";
@@ -38,6 +39,13 @@ export class ApplicationProfileEffects {
     concatLatestFrom(() => this.store.select(selectors.prefLanguage)),
     mergeMap(([props, lang]) => this.data.getDataRegistries(lang)),
     map(registries => DataActions.dataRegistriesProvided({registries})),
+  ))
+
+  loadDescriptions$ = createEffect(() => this.actions$.pipe(
+    ofType(DescActions.descriptionsNeeded),
+    concatLatestFrom(() => this.store.select(selectors.prefLanguage)),
+    mergeMap(([props, lang]) => this.data.getDescriptions(props.applicationId, lang)),
+    map(authorizationData => DescActions.descriptionsReceived({authorizationData})),
   ))
 
   authorizeApplication$ = createEffect(() => this.actions$.pipe(
