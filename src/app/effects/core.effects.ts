@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType, concatLatestFrom} from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { EMPTY, map, tap, of} from "rxjs";
+import { EMPTY, map, tap, of, from} from "rxjs";
 import {LoginService} from "../services/login.service";
 import {CoreActions} from "../actions";
 import {mergeMap} from "rxjs/operators";
@@ -24,7 +24,7 @@ export class CoreEffects {
 
   handleIncomingRedirect$ = createEffect(() => this.actions$.pipe(
     ofType(CoreActions.incomingLoginRedirect),
-    mergeMap(({url}) => this.id.handleIncomingRedirect$(url)),
+    mergeMap(({url}) => from(this.id.handleRedirect(url))),
     map(oidcInfo => {
       if (oidcInfo) {
         return CoreActions.oidcInfoReceived({oidcInfo})
@@ -58,7 +58,7 @@ export class CoreEffects {
 
   serverSessionRequested$ = createEffect(() => this.actions$.pipe(
     ofType(CoreActions.serverSessionRequested),
-    mergeMap(({oidcIssuer}) => this.id.checkServerSession$(oidcIssuer)
+    mergeMap(({oidcIssuer}) => from(this.id.checkServerSession(oidcIssuer))
       .pipe(
         map(result => CoreActions.serverSessionReceived(result))
       )),
