@@ -1,22 +1,13 @@
+import { Application } from '@janeirodigital/sai-api-messages';
 import { applicationProfileReducer } from './application.reducer';
 
 describe('application profile reducer', () => {
   const profile1 = {
     id: 'app-1',
-    name: 'App',
-    logo: 'https://some.example/logo.png',
-    authorizationDate: '2022-10-17T17:07:58.799Z',
-    lastUpdateDate: '2022-10-17T18:07:58.799Z',
-    accessNeedGroup: 'https://some.example/needs',
-  }
+  } as unknown as Application
   const profile2 = {
     id: 'app-2',
-    name: 'App 2',
-    logo: 'https://some.example/logo.png',
-    authorizationDate: '2022-10-17T17:07:58.799Z',
-    lastUpdateDate: '2022-10-17T18:07:58.799Z',
-    accessNeedGroup: 'https://some.example/needs2',
-  }
+  } as unknown as Application
   const priorState = {
     byId: {
       'app-1': profile1
@@ -47,12 +38,8 @@ describe('application profile reducer', () => {
   it('applicationProfilesReceived', () => {
     const profile3 = {
       id: 'app-3',
-      name: 'App 3',
-      logo: 'https://some.example/logo.png',
-      authorizationDate: '2022-10-17T17:07:58.799Z',
-      lastUpdateDate: '2022-10-17T18:07:58.799Z',
-      accessNeedGroup: 'https://some.example/needs3',
-    }
+    } as unknown as Application
+
     const action = {
       type: '[APPLICATION PROFILES] Application Profiles Received',
       profiles: [profile2, profile3]

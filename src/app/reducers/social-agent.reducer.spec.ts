@@ -1,20 +1,13 @@
+import { SocialAgent } from '@janeirodigital/sai-api-messages';
 import { socialAgentsReducer } from './social-agent.reducer';
 
 describe('social agents reducer', () => {
   const profile1 = {
     id: 'agent-1',
-    label: 'Agent',
-    note: 'foo',
-    authorizationDate: '2022-10-17T17:07:58.799Z',
-    lastUpdateDate: '2022-10-17T18:07:58.799Z',
-  }
+  } as unknown as SocialAgent
   const profile2 = {
     id: 'agent-2',
-    name: 'Agent 2',
-    logo: 'https://some.example/logo.png',
-    authorizationDate: '2022-10-17T17:07:58.799Z',
-    lastUpdateDate: '2022-10-17T18:07:58.799Z',
-  }
+  } as unknown as SocialAgent
   const priorState = {
     byId: {
       'agent-1': profile1
@@ -42,14 +35,10 @@ describe('social agents reducer', () => {
     }));
   })
 
-  it('applicationProfilesReceived', () => {
+  it('socialAgentProfilesReceived', () => {
     const profile3 = {
       id: 'agent-3',
-      name: 'Agent 3',
-      logo: 'https://some.example/logo.png',
-      authorizationDate: '2022-10-17T17:07:58.799Z',
-      lastUpdateDate: '2022-10-17T18:07:58.799Z',
-    }
+    } as unknown as SocialAgent
     const action = {
       type: '[SOCIAL AGENT PROFILES] Social Agent Profiles Received',
       profiles: [profile2, profile3]
