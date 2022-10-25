@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { DataComponent } from './data.component';
 
@@ -8,7 +9,8 @@ describe('DataComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DataComponent ]
+      declarations: [ DataComponent ],
+      providers: [ provideMockStore({}) ]
     })
     .compileComponents();
 

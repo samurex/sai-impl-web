@@ -1,12 +1,14 @@
 import { TestBed } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { AuthInterceptor } from './auth.interceptor';
 
 describe('AuthInterceptor', () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [
-      AuthInterceptor
-      ]
+      AuthInterceptor,
+      provideMockStore({}),
+    ]
   }));
 
   it('should be created', () => {

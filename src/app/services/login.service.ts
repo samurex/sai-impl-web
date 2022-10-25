@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {ENV} from "../../environments/environment";
 import {handleIncomingRedirect, ISessionInfo, login} from "@inrupt/solid-client-authn-browser";
 import {SolidClient} from "../utils/solid-client";
-import {from, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -42,14 +41,9 @@ export class LoginService {
     }
   }
 
-  checkServerSession$(oidcIssuer: string): Observable<{isServerLoggedIn: boolean, redirectUrl?: string}> {
-    return from(this.checkServerSession(oidcIssuer));
+  async handleRedirect(url: string): Promise<ISessionInfo | undefined> {
+    return handleIncomingRedirect(url);
   }
-
-  handleIncomingRedirect$(url: string): Observable<ISessionInfo | undefined> {
-    return from(handleIncomingRedirect(url))
-  }
-
 
   async serverLogin(redirectUrl: string) {
     window.location.href = redirectUrl

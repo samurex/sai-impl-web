@@ -36,7 +36,7 @@ describe('Auth Guard', () => {
 
   describe('when the user is logged in', () => {
     beforeEach(() => {
-      store.setState({[CORE_STATE_KEY]: { isLoggedIn: true }});
+      store.setState({[CORE_STATE_KEY]: { isLoggedIn: true, isServerLoggedIn: true}});
     })
 
     it('should grant access to any route', (done) => {
@@ -57,7 +57,7 @@ describe('Auth Guard', () => {
       const spy = spyOn(router, 'parseUrl');
       const canActivateChild = guard.canActivateChild(dummyRoute, fakeRouterState('/fakeUrl')) as Observable<UrlTree>;
       canActivateChild.subscribe(r => {
-        expect(spy).toHaveBeenCalledWith('login');
+        expect(spy).toHaveBeenCalledWith('start');
         done();
       })
     })

@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { DashboardComponent } from './dashboard.component';
 
@@ -8,7 +10,11 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardComponent ]
+      declarations: [ DashboardComponent ],
+      providers: [ provideMockStore({}) ],
+      imports: [
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: false })
+      ]
     })
     .compileComponents();
   });
