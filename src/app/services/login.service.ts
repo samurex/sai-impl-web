@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ENV} from "../../environments/environment";
-import {handleIncomingRedirect, ISessionInfo, login} from "@inrupt/solid-client-authn-browser";
+import {ISessionInfo} from "@inrupt/solid-client-authn-browser";
 import {SolidClient} from "../utils/solid-client";
+import { SolidOidc } from '../utils/solid-oidc';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,12 @@ export class LoginService {
 
   constructor(
     private solidClient: SolidClient,
+    private solidOidc: SolidOidc,
   ) {}
 
   async login(oidcIssuer: string) {
 
-    await login({
+    await this.solidOidc.login({
       clientId: ENV.OIDC_CLIENT_ID,
       oidcIssuer,
       redirectUrl: `${ENV.BASE_URL}/redirect`,
@@ -42,7 +44,7 @@ export class LoginService {
   }
 
   async handleRedirect(url: string): Promise<ISessionInfo | undefined> {
-    return handleIncomingRedirect(url);
+    return this.solidOidc.handleIncomingRedirect(url);
   }
 
   async serverLogin(redirectUrl: string) {
