@@ -37,6 +37,7 @@ import { AddSocialAgentComponent } from './components/add-social-agent/add-socia
 import { SocialAgentsComponent } from './components/social-agents/social-agents.component';
 import { ApplicationsComponent } from './components/applications/applications.component';
 import { DataComponent } from './components/data/data.component';
+import { LanguageComponent } from './views/language/language.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { DataComponent } from './components/data/data.component';
     SocialAgentsComponent,
     ApplicationsComponent,
     DataComponent,
+    LanguageComponent,
   ],
   imports: [
     BrowserModule,
