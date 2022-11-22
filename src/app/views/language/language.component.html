@@ -2,7 +2,7 @@
   <div class="languageSelector">
     <mat-icon matListIcon>language</mat-icon>
     <select #selectLanguage (change)="handleSelectLanguage(selectLanguage.value)">
-      <option *ngFor="let language of languageSelector" [value]="language">
+      <option *ngFor="let language of languages" [value]="language">
         {{language}}
       </option>
     </select>

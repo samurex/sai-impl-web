@@ -16,5 +16,5 @@ const Template: Story = (args) => ({props: args});
 
 export const LanguageSelectClose = Template.bind({});
 LanguageSelectClose.args = {
-  languageSelector: ['English', 'Español', 'Deutsch'],
+  languages: ['English', 'Español', 'Deutsch'],
 };

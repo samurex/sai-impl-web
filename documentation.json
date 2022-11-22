@@ -2667,7 +2667,7 @@
         },
         {
             "name": "LanguageComponent",
-            "id": "component-LanguageComponent-3c095cf8c8032e32a6d50a8af9dbecdb9bbf983fb3b269ebcedd102ea24f60c70e8652fe3c0f3035880deb48ada6d42789526ad0049f983882d693b042544af1",
+            "id": "component-LanguageComponent-e0bf82467e1b64333000c6ab968d91c983e7872b6c2e31d32c0fe1b4ae16eab363ad71e2df6e6442cd19988325700afb0dfde7e8d5d7841b5eaec26cf45bb7a2",
             "file": "src/app/views/language/language.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2685,11 +2685,11 @@
             "viewProviders": [],
             "inputsClass": [
                 {
-                    "name": "languageSelector",
-                    "defaultValue": "Array<Language>",
+                    "name": "languages",
+                    "defaultValue": "new Array<Language>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 16,
+                    "line": 13,
                     "type": "any",
                     "decorators": []
                 }
@@ -2700,7 +2700,7 @@
                     "defaultValue": "new EventEmitter<Language>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 17,
+                    "line": 14,
                     "type": "EventEmitter"
                 }
             ],
@@ -2719,7 +2719,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 24,
+                    "line": 21,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -2743,7 +2743,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 21,
+                    "line": 18,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -2755,11 +2755,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';\n\n// interface Language {\n//   value: string;\n// }\n\ntype Language = string;\n\n@Component({\n  selector: 'sai-language',\n  templateUrl: './language.component.html',\n  styleUrls: ['./language.component.scss']\n})\nexport class LanguageComponent implements OnInit {\n\n  @Input() languageSelector = Array<Language>;\n  @Output() selectedLanguage = new EventEmitter<Language>();\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n  public handleSelectLanguage(language: Language): void {\n    this.selectedLanguage.emit(language);\n  }\n\n}\n",
+            "sourceCode": "import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';\n\n// TODO export type somewhere more visible\nexport type Language = string;\n\n@Component({\n  selector: 'sai-language',\n  templateUrl: './language.component.html',\n  styleUrls: ['./language.component.scss']\n})\nexport class LanguageComponent implements OnInit {\n\n  @Input() languages = new Array<Language>();\n  @Output() selectedLanguage = new EventEmitter<Language>();\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n  public handleSelectLanguage(language: Language): void {\n    this.selectedLanguage.emit(language);\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".languageSelector {\n  display: flex;\n  border: 1px solid #333;\n  border-radius: 5px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0 0 0 1px inset;\n  padding: 5px;\n  min-width: 6%;\n  max-width: 8%;\n  width: auto;\n\n  select {\n    border: none;\n    width: 80%;\n    &:focus-visible {\n      outline: none;\n    }\n    option {\n      display: flex;\n      justify-content: center;\n    }\n  }\n}\n",
+                    "data": ".languageSelector {\n  display: flex;\n  border: 1px solid #333;\n  border-radius: 5px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0 0 0 1px inset;\n  padding: 5px;\n  min-width: 6%;\n  max-width: 15%;\n  width: auto;\n\n  select {\n    border: none;\n    width: 80%;\n    &:focus-visible {\n      outline: none;\n    }\n    option {\n      display: flex;\n      justify-content: center;\n    }\n  }\n}\n",
                     "styleUrl": "./language.component.scss"
                 }
             ],
@@ -2770,12 +2770,12 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 17
+                "line": 14
             },
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<ng-container>\n  <div class=\"languageSelector\">\n    <mat-icon matListIcon>language</mat-icon>\n    <select #selectLanguage (change)=\"handleSelectLanguage(selectLanguage.value)\">\n      <option *ngFor=\"let language of languageSelector\" [value]=\"language\">\n        {{language}}\n      </option>\n    </select>\n  </div>\n</ng-container>\n"
+            "templateData": "<ng-container>\n  <div class=\"languageSelector\">\n    <mat-icon matListIcon>language</mat-icon>\n    <select #selectLanguage (change)=\"handleSelectLanguage(selectLanguage.value)\">\n      <option *ngFor=\"let language of languages\" [value]=\"language\">\n        {{language}}\n      </option>\n    </select>\n  </div>\n</ng-container>\n"
         },
         {
             "name": "LoginComponent",

@@ -10,7 +10,7 @@ export type Language = string;
 })
 export class LanguageComponent implements OnInit {
 
-  @Input() languageSelector = new Array<Language>();
+  @Input() languages = new Array<Language>();
   @Output() selectedLanguage = new EventEmitter<Language>();
 
   constructor() { }
