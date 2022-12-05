@@ -1,4 +1,4 @@
-import {map, mergeMap} from "rxjs";
+import {map, mergeMap, tap} from "rxjs";
 import { Injectable} from "@angular/core";
 import {Actions, concatLatestFrom, createEffect, ofType} from "@ngrx/effects";
 import {DataActions} from "../actions/application.actions";
@@ -53,4 +53,9 @@ export class ApplicationProfileEffects {
     mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),
     map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),
   ))
+
+  redirectToCallbackEndpoint =  createEffect(() => this.actions$.pipe(
+    ofType(DataActions.authorizationReceived),
+    tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint!)
+  ), {dispatch: false});
 }
