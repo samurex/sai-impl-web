@@ -88,7 +88,7 @@ export class AuthorizationComponent implements OnInit {
           dataAuthorizations: this.authorizationData.accessNeedGroup.needs.flatMap(accessNeed => this.createDataAuthorizations(accessNeed))
         }
       }));
-      this.router.navigateByUrl('/dashboard')
+      // TODO: show spinner
     }
   }
 
