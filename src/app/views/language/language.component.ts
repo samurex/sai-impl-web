@@ -1,7 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-
-// TODO export type somewhere more visible
-export type Language = string;
+import {Languages} from "../../languages";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'sai-language',
@@ -10,16 +9,16 @@ export type Language = string;
 })
 export class LanguageComponent implements OnInit {
 
-  @Input() languages = new Array<Language>();
-  @Output() selectedLanguage = new EventEmitter<Language>();
+  @Input() languages = Languages;
 
-  constructor() { }
+  constructor(public translate: TranslateService) {
+    translate.setDefaultLang('en');
 
-  ngOnInit(): void {
+    const browserLang: any  = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|es/) ? browserLang : 'en');
   }
 
-  public handleSelectLanguage(language: Language): void {
-    this.selectedLanguage.emit(language);
+  ngOnInit(): void {
   }
 
 }

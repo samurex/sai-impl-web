@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Languages } from "../../languages";
 
 @Component({
   selector: 'sai-navbar',
@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 export class NavbarComponent implements OnInit {
 
   @Input() webId!: string | null;
+  @Input() languageSelect = Languages;
 
   constructor(
   ) {}

@@ -1,6 +1,12 @@
 <mat-toolbar color="primary">
-  <div>
+  <span>
     <h3>Solid Authorization Agent</h3>
     <h6 *ngIf="webId">{{webId}}</h6>
-  </div>
+  </span>
+  <span class="spacer"></span>
+  <span>
+    <sai-language
+      [languages]="languageSelect">
+    </sai-language>
+  </span>
 </mat-toolbar>

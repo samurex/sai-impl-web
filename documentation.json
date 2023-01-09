@@ -257,7 +257,7 @@
     "injectables": [
         {
             "name": "ApplicationProfileEffects",
-            "id": "injectable-ApplicationProfileEffects-9ec164e77daf4749eac7d10558d2c9621fcf52b5aa1a2e56d442829b7597b53ca97adecd7bdcdf9198797c997e08740c428017a8a1536e6009a1777620b87fb5",
+            "id": "injectable-ApplicationProfileEffects-380dae2bcc368ae254904855dcdd240796db32db67537934635574bde63bb493fd912933024bcc082485d09cb90e862819e1f704c7345606a779ccaac9a734d5",
             "file": "src/app/effects/application.effects.ts",
             "properties": [
                 {
@@ -319,6 +319,16 @@
                     "optional": false,
                     "description": "",
                     "line": 25
+                },
+                {
+                    "name": "redirectToCallbackEndpoint",
+                    "defaultValue": "createEffect(() => this.actions$.pipe(\n    ofType(DataActions.authorizationReceived),\n    //tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint!)\n  ), {dispatch: false})",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 57
                 }
             ],
             "methods": [],
@@ -326,7 +336,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import {map, mergeMap} from \"rxjs\";\nimport { Injectable} from \"@angular/core\";\nimport {Actions, concatLatestFrom, createEffect, ofType} from \"@ngrx/effects\";\nimport {DataActions} from \"../actions/application.actions\";\nimport {DescActions} from \"../actions/description.actions\";\nimport {DataService} from \"../services/data.service\";\nimport { Store } from \"@ngrx/store\";\nimport * as selectors from \"../selectors\";\n\n\n@Injectable()\nexport class ApplicationProfileEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n    private store: Store,\n  ) {}\n\n  loadApplicationProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    mergeMap(() => this.data.getApplicationProfiles()),\n    map(profiles => DataActions.applicationProfilesReceived({profiles})),\n  ))\n\n  loadSocialAgentsProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.socialAgentsPanelLoaded),\n    mergeMap(() => this.data.getSocialAgentProfiles()),\n    map(profiles => DataActions.socialAgentProfilesReceived({profiles})),\n  ))\n\n  addSocialAgent$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.addSocialAgent),\n    mergeMap(({ webId, label, note }) => this.data.addSocialAgent(webId, label, note)),\n    map(profile => DataActions.socialAgentProfileReceived({profile})),\n  ))\n\n  loadDataRegistries$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.dataRegistriesNeeded),\n    concatLatestFrom(() => this.store.select(selectors.prefLanguage)),\n    mergeMap(([props, lang]) => this.data.getDataRegistries(lang)),\n    map(registries => DataActions.dataRegistriesProvided({registries})),\n  ))\n\n  loadDescriptions$ = createEffect(() => this.actions$.pipe(\n    ofType(DescActions.descriptionsNeeded),\n    concatLatestFrom(() => this.store.select(selectors.prefLanguage)),\n    mergeMap(([props, lang]) => this.data.getDescriptions(props.applicationId, lang)),\n    map(authorizationData => DescActions.descriptionsReceived({authorizationData})),\n  ))\n\n  authorizeApplication$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.authorizeApplication),\n    mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),\n    map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),\n  ))\n}\n",
+            "sourceCode": "import {map, mergeMap, tap} from \"rxjs\";\nimport { Injectable} from \"@angular/core\";\nimport {Actions, concatLatestFrom, createEffect, ofType} from \"@ngrx/effects\";\nimport {DataActions} from \"../actions/application.actions\";\nimport {DescActions} from \"../actions/description.actions\";\nimport {DataService} from \"../services/data.service\";\nimport { Store } from \"@ngrx/store\";\nimport * as selectors from \"../selectors\";\n\n\n@Injectable()\nexport class ApplicationProfileEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n    private store: Store,\n  ) {}\n\n  loadApplicationProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    mergeMap(() => this.data.getApplicationProfiles()),\n    map(profiles => DataActions.applicationProfilesReceived({profiles})),\n  ))\n\n  loadSocialAgentsProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.socialAgentsPanelLoaded),\n    mergeMap(() => this.data.getSocialAgentProfiles()),\n    map(profiles => DataActions.socialAgentProfilesReceived({profiles})),\n  ))\n\n  addSocialAgent$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.addSocialAgent),\n    mergeMap(({ webId, label, note }) => this.data.addSocialAgent(webId, label, note)),\n    map(profile => DataActions.socialAgentProfileReceived({profile})),\n  ))\n\n  loadDataRegistries$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.dataRegistriesNeeded),\n    concatLatestFrom(() => this.store.select(selectors.prefLanguage)),\n    mergeMap(([props, lang]) => this.data.getDataRegistries(lang)),\n    map(registries => DataActions.dataRegistriesProvided({registries})),\n  ))\n\n  loadDescriptions$ = createEffect(() => this.actions$.pipe(\n    ofType(DescActions.descriptionsNeeded),\n    concatLatestFrom(() => this.store.select(selectors.prefLanguage)),\n    mergeMap(([props, lang]) => this.data.getDescriptions(props.applicationId, lang)),\n    map(authorizationData => DescActions.descriptionsReceived({authorizationData})),\n  ))\n\n  authorizeApplication$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.authorizeApplication),\n    mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),\n    map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),\n  ))\n\n  redirectToCallbackEndpoint =  createEffect(() => this.actions$.pipe(\n    ofType(DataActions.authorizationReceived),\n    //tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint!)\n  ), {dispatch: false});\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -1648,7 +1658,7 @@
         },
         {
             "name": "AppComponent",
-            "id": "component-AppComponent-3c956ffe37aab28ce0ded12535a75b51fad9489a067bc962698e5df37214be1b830e6744920184b7ccabfbfa183a5251c33c29990e63ad575a07df8296b480c4",
+            "id": "component-AppComponent-45deadf44cb6f01ccc259eb64283f42a197fa9a6869523a60f0967c4521d67d6c4c6603ebc46fa323d031b0e0827f4a59ceabfaef8e4134f21b4ca95099c0fd1",
             "file": "src/app/app.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1675,7 +1685,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 18
+                    "line": 19
                 },
                 {
                     "name": "oidcIssuer",
@@ -1685,7 +1695,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 16
+                    "line": 17
                 },
                 {
                     "name": "title",
@@ -1695,7 +1705,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 15
+                    "line": 16
                 },
                 {
                     "name": "webId",
@@ -1705,7 +1715,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 17
+                    "line": 18
                 }
             ],
             "methodsClass": [
@@ -1715,7 +1725,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 37,
+                    "line": 45,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -1727,7 +1737,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport {Router} from \"@angular/router\";\nimport {Store} from \"@ngrx/store\";\nimport {onSessionRestore} from '@inrupt/solid-client-authn-browser';\nimport {CoreActions} from \"./actions\";\nimport {serverLoggedInStatus, oidcIssuer, webId} from \"./selectors\";\nimport { SwPush } from '@angular/service-worker';\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent implements OnInit{\n  title = 'sai-web-app';\n  oidcIssuer = this.store.select(oidcIssuer);\n  webId = this.store.select(webId);\n  isServerLoggedIn = this.store.select(serverLoggedInStatus);\n\n  constructor(\n    private router: Router,\n    private store: Store,\n    private swPush: SwPush,\n  ) {\n    // TODO ensure that requestedPath gets set even if oidc session can't be restored\n    onSessionRestore((currentUrl: string) => {\n      const url = new URL(currentUrl)\n      let requestedPath = url.pathname + url.search\n      this.store.dispatch(CoreActions.pathRequested({ requestedPath }))\n    })\n\n    this.swPush.notificationClicks.subscribe(({ notification }) => {\n      this.router.navigateByUrl(`/add-social-agent?webid=${notification.data.webId}`)\n    });\n  }\n\n  ngOnInit() {\n    // '/' doesn't trigger any guards and we want to trigger start guard\n    if (window.location.pathname === '/') {\n      this.router.navigateByUrl('/start')\n    }\n  }\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { Router } from \"@angular/router\";\nimport { Store } from \"@ngrx/store\";\nimport { onSessionRestore } from '@inrupt/solid-client-authn-browser';\nimport { CoreActions } from \"./actions\";\nimport { serverLoggedInStatus, oidcIssuer, webId } from \"./selectors\";\nimport { SwPush } from '@angular/service-worker';\nimport { TranslateService } from \"@ngx-translate/core\";\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent implements OnInit{\n  title = 'sai-web-app';\n  oidcIssuer = this.store.select(oidcIssuer);\n  webId = this.store.select(webId);\n  isServerLoggedIn = this.store.select(serverLoggedInStatus);\n\n  constructor(\n    private router: Router,\n    private store: Store,\n    private swPush: SwPush,\n    translate: TranslateService,\n  ) {\n    // TODO ensure that requestedPath gets set even if oidc session can't be restored\n    onSessionRestore((currentUrl: string) => {\n      const url = new URL(currentUrl)\n      let requestedPath = url.pathname + url.search\n      this.store.dispatch(CoreActions.pathRequested({ requestedPath }))\n    })\n\n    this.swPush.notificationClicks.subscribe(({ notification }) => {\n      this.router.navigateByUrl(`/add-social-agent?webid=${notification.data.webId}`)\n    });\n\n    // this language will be used as a fallback when a translation isn't found in the current language\n    translate.setDefaultLang('en');\n\n    // the lang to use, if the lang isn't available, it will use the current loader to get them\n    translate.use('en');\n  }\n\n  ngOnInit() {\n    // '/' doesn't trigger any guards and we want to trigger start guard\n    if (window.location.pathname === '/') {\n      this.router.navigateByUrl('/start')\n    }\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -1759,9 +1769,15 @@
                         "type": "SwPush",
                         "deprecated": false,
                         "deprecationMessage": ""
+                    },
+                    {
+                        "name": "translate",
+                        "type": "TranslateService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
                     }
                 ],
-                "line": 18,
+                "line": 19,
                 "jsdoctags": [
                     {
                         "name": "router",
@@ -1784,6 +1800,15 @@
                     {
                         "name": "swPush",
                         "type": "SwPush",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "translate",
+                        "type": "TranslateService",
                         "deprecated": false,
                         "deprecationMessage": "",
                         "tagName": {
@@ -1890,7 +1915,7 @@
         },
         {
             "name": "AuthorizationComponent",
-            "id": "component-AuthorizationComponent-92ff01f60db95b84e61437604cfab533323261539d3267ead0eeadf607e159158dbf6b1ef5f0f0ef41fc5ed6411bb37d2e62999a7bec3782b8e2b3faeaf02d15",
+            "id": "component-AuthorizationComponent-44986a7d5048ad9b37aa5ea39289689406e1c72f6084860a067d7a99df2931dc80acdd6ee5bf13e8f87446b96903562fe7aa64bbbd9f1faeab2fceb574634590",
             "file": "src/app/components/authorization/authorization.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2080,7 +2105,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { NestedTreeControl } from '@angular/cdk/tree';\nimport { Component, OnInit } from '@angular/core';\nimport { MatTreeNestedDataSource } from '@angular/material/tree';\nimport { ActivatedRoute, Data } from '@angular/router';\nimport { AccessNeed, AuthorizationData, DataAuthorization, IRI } from '@janeirodigital/sai-api-messages';\nimport { Router } from \"@angular/router\";\nimport { Store } from \"@ngrx/store\";\nimport { DescActions } from 'src/app/actions/description.actions';\nimport { selectDescriptions } from 'src/app/selectors/description.selectors'\nimport { UntypedFormControl, UntypedFormGroup } from '@angular/forms';\nimport { DataActions } from 'src/app/actions/application.actions';\nimport { getRtlScrollAxisType } from '@angular/cdk/platform';\n\n@Component({\n  selector: 'sai-authorization',\n  templateUrl: './authorization.component.html',\n  styleUrls: ['./authorization.component.scss']\n})\nexport class AuthorizationComponent implements OnInit {\n\n  clientId?: IRI;\n\n  authorizationData$ = this.store.select(selectDescriptions);\n  authorizationData?: AuthorizationData\n\n  treeControl = new NestedTreeControl<AccessNeed>(node => node.children);\n  dataSource = new MatTreeNestedDataSource<AccessNeed>();\n\n  hasChild = (_: number, node: AccessNeed) => !!node.children && node.children.length > 0;\n\n  loginForm = new UntypedFormGroup({\n    label: new UntypedFormControl(''),\n    note: new UntypedFormControl(''),\n  })\n\n  constructor(\n    private route: ActivatedRoute,\n    private router: Router,\n    private store: Store,\n    ) {\n      this.authorizationData$.subscribe(data => {\n        if (data) {\n          this.authorizationData = data\n          this.dataSource.data = data.accessNeedGroup.needs;\n        }\n      });\n    }\n\n  ngOnInit(): void {\n    const clientId = this.route.snapshot.queryParamMap.get('client_id')\n    if (clientId) {\n      this.clientId = clientId\n      this.store.dispatch(DescActions.descriptionsNeeded({\n        applicationId: clientId\n      }))\n    } else {\n      throw new Error('authorization requires client_id query parameter')\n    }\n  }\n\n  getScope(accessNeed: AccessNeed): string {\n    if (accessNeed.parent) return 'Inherited'\n    // TODO based on user input\n    return 'All'\n  }\n\n  createDataAuthorizations(accessNeed: AccessNeed, parent?: AccessNeed): DataAuthorization[] {\n    const dataAuthorization = {\n      accessNeed: accessNeed.id,\n      scope: this.getScope(accessNeed), // TODO\n    } as DataAuthorization\n    let children: DataAuthorization[] = []\n    if (accessNeed.children) {\n      children = accessNeed.children.flatMap(childAccessNeed => this.createDataAuthorizations(childAccessNeed, accessNeed))\n    }\n\n    return [ dataAuthorization, ...children]\n  }\n\n  onSubmit() {\n    if (this.authorizationData) {\n      const dataAuthorizations: DataAuthorization[] = []\n\n      this.store.dispatch(DataActions.authorizeApplication({\n        authorization: {\n          grantee: this.authorizationData.id,\n          accessNeedGroup: this.authorizationData.accessNeedGroup.id,\n          dataAuthorizations: this.authorizationData.accessNeedGroup.needs.flatMap(accessNeed => this.createDataAuthorizations(accessNeed))\n        }\n      }));\n      this.router.navigateByUrl('/dashboard')\n    }\n  }\n\n}\n",
+            "sourceCode": "import { NestedTreeControl } from '@angular/cdk/tree';\nimport { Component, OnInit } from '@angular/core';\nimport { MatTreeNestedDataSource } from '@angular/material/tree';\nimport { ActivatedRoute, Data } from '@angular/router';\nimport { AccessNeed, AuthorizationData, DataAuthorization, IRI } from '@janeirodigital/sai-api-messages';\nimport { Router } from \"@angular/router\";\nimport { Store } from \"@ngrx/store\";\nimport { DescActions } from 'src/app/actions/description.actions';\nimport { selectDescriptions } from 'src/app/selectors/description.selectors'\nimport { UntypedFormControl, UntypedFormGroup } from '@angular/forms';\nimport { DataActions } from 'src/app/actions/application.actions';\nimport { getRtlScrollAxisType } from '@angular/cdk/platform';\n\n@Component({\n  selector: 'sai-authorization',\n  templateUrl: './authorization.component.html',\n  styleUrls: ['./authorization.component.scss']\n})\nexport class AuthorizationComponent implements OnInit {\n\n  clientId?: IRI;\n\n  authorizationData$ = this.store.select(selectDescriptions);\n  authorizationData?: AuthorizationData\n\n  treeControl = new NestedTreeControl<AccessNeed>(node => node.children);\n  dataSource = new MatTreeNestedDataSource<AccessNeed>();\n\n  hasChild = (_: number, node: AccessNeed) => !!node.children && node.children.length > 0;\n\n  loginForm = new UntypedFormGroup({\n    label: new UntypedFormControl(''),\n    note: new UntypedFormControl(''),\n  })\n\n  constructor(\n    private route: ActivatedRoute,\n    private router: Router,\n    private store: Store,\n    ) {\n      this.authorizationData$.subscribe(data => {\n        if (data) {\n          this.authorizationData = data\n          this.dataSource.data = data.accessNeedGroup.needs;\n        }\n      });\n    }\n\n  ngOnInit(): void {\n    const clientId = this.route.snapshot.queryParamMap.get('client_id')\n    if (clientId) {\n      this.clientId = clientId\n      this.store.dispatch(DescActions.descriptionsNeeded({\n        applicationId: clientId\n      }))\n    } else {\n      throw new Error('authorization requires client_id query parameter')\n    }\n  }\n\n  getScope(accessNeed: AccessNeed): string {\n    if (accessNeed.parent) return 'Inherited'\n    // TODO based on user input\n    return 'All'\n  }\n\n  createDataAuthorizations(accessNeed: AccessNeed, parent?: AccessNeed): DataAuthorization[] {\n    const dataAuthorization = {\n      accessNeed: accessNeed.id,\n      scope: this.getScope(accessNeed), // TODO\n    } as DataAuthorization\n    let children: DataAuthorization[] = []\n    if (accessNeed.children) {\n      children = accessNeed.children.flatMap(childAccessNeed => this.createDataAuthorizations(childAccessNeed, accessNeed))\n    }\n\n    return [ dataAuthorization, ...children]\n  }\n\n  onSubmit() {\n    if (this.authorizationData) {\n      const dataAuthorizations: DataAuthorization[] = []\n\n      this.store.dispatch(DataActions.authorizeApplication({\n        authorization: {\n          grantee: this.authorizationData.id,\n          accessNeedGroup: this.authorizationData.accessNeedGroup.id,\n          dataAuthorizations: this.authorizationData.accessNeedGroup.needs.flatMap(accessNeed => this.createDataAuthorizations(accessNeed))\n        }\n      }));\n      // TODO: show spinner\n    }\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2667,7 +2692,7 @@
         },
         {
             "name": "LanguageComponent",
-            "id": "component-LanguageComponent-e0bf82467e1b64333000c6ab968d91c983e7872b6c2e31d32c0fe1b4ae16eab363ad71e2df6e6442cd19988325700afb0dfde7e8d5d7841b5eaec26cf45bb7a2",
+            "id": "component-LanguageComponent-a8e90c03068f9f891da97f65428185d1c01f6d78d8abdee8144f3365138bfd91d92db4e5b91c42be953d7d85b1f41521f0d4497e54429414f0ba7b752cb7c5d3",
             "file": "src/app/views/language/language.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2686,64 +2711,37 @@
             "inputsClass": [
                 {
                     "name": "languages",
-                    "defaultValue": "new Array<Language>()",
+                    "defaultValue": "Languages",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 13,
+                    "line": 12,
                     "type": "any",
                     "decorators": []
                 }
             ],
-            "outputsClass": [
+            "outputsClass": [],
+            "propertiesClass": [
                 {
-                    "name": "selectedLanguage",
-                    "defaultValue": "new EventEmitter<Language>()",
+                    "name": "translate",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 14,
-                    "type": "EventEmitter"
-                }
-            ],
-            "propertiesClass": [],
-            "methodsClass": [
-                {
-                    "name": "handleSelectLanguage",
-                    "args": [
-                        {
-                            "name": "language",
-                            "type": "Language",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        }
-                    ],
+                    "type": "TranslateService",
                     "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 21,
-                    "deprecated": false,
-                    "deprecationMessage": "",
+                    "description": "",
+                    "line": 14,
                     "modifierKind": [
                         123
-                    ],
-                    "jsdoctags": [
-                        {
-                            "name": "language",
-                            "type": "Language",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
                     ]
-                },
+                }
+            ],
+            "methodsClass": [
                 {
                     "name": "ngOnInit",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 18,
+                    "line": 21,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -2755,11 +2753,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';\n\n// TODO export type somewhere more visible\nexport type Language = string;\n\n@Component({\n  selector: 'sai-language',\n  templateUrl: './language.component.html',\n  styleUrls: ['./language.component.scss']\n})\nexport class LanguageComponent implements OnInit {\n\n  @Input() languages = new Array<Language>();\n  @Output() selectedLanguage = new EventEmitter<Language>();\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n  public handleSelectLanguage(language: Language): void {\n    this.selectedLanguage.emit(language);\n  }\n\n}\n",
+            "sourceCode": "import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';\nimport {Languages} from \"../../models/languages\";\nimport {TranslateService} from \"@ngx-translate/core\";\n\n@Component({\n  selector: 'sai-language',\n  templateUrl: './language.component.html',\n  styleUrls: ['./language.component.scss']\n})\nexport class LanguageComponent implements OnInit {\n\n  @Input() languages = Languages;\n\n  constructor(public translate: TranslateService) {\n    translate.setDefaultLang('en');\n\n    const browserLang: any  = translate.getBrowserLang();\n    translate.use(browserLang.match(/en|es/) ? browserLang : 'en');\n  }\n\n  ngOnInit(): void {\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".languageSelector {\n  display: flex;\n  border: 1px solid #333;\n  border-radius: 5px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0 0 0 1px inset;\n  padding: 5px;\n  min-width: 6%;\n  max-width: 15%;\n  width: auto;\n\n  select {\n    border: none;\n    width: 80%;\n    &:focus-visible {\n      outline: none;\n    }\n    option {\n      display: flex;\n      justify-content: center;\n    }\n  }\n}\n",
+                    "data": ".languageSelector {\n  display: flex;\n  border: 1px solid #333;\n  border-radius: 5px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0 0 0 1px inset;\n  padding: 5px;\n  width: 200px;\n  background: #fff;\n  justify-content: flex-end;\n\n  .mat-icon {\n    color: #000;\n  }\n\n  select {\n    border: none;\n    width: 80%;\n    &:focus-visible {\n      outline: none;\n    }\n    option {\n      display: flex;\n      justify-content: center;\n    }\n  }\n}\n",
                     "styleUrl": "./language.component.scss"
                 }
             ],
@@ -2769,13 +2767,31 @@
                 "description": "",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "args": [],
-                "line": 14
+                "args": [
+                    {
+                        "name": "translate",
+                        "type": "TranslateService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 12,
+                "jsdoctags": [
+                    {
+                        "name": "translate",
+                        "type": "TranslateService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
             },
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<ng-container>\n  <div class=\"languageSelector\">\n    <mat-icon matListIcon>language</mat-icon>\n    <select #selectLanguage (change)=\"handleSelectLanguage(selectLanguage.value)\">\n      <option *ngFor=\"let language of languages\" [value]=\"language\">\n        {{language}}\n      </option>\n    </select>\n  </div>\n</ng-container>\n"
+            "templateData": "<ng-container>\n  <div class=\"languageSelector\">\n    <mat-icon matListIcon>language</mat-icon>\n    <select #langSelect (change)=\"translate.use(langSelect.value)\">\n      <option *ngFor=\"let language of languages\" [value]=\"language.id\" [selected]=\"language.id === translate.currentLang\">{{ language.label }}</option>\n    </select>\n  </div>\n</ng-container>\n"
         },
         {
             "name": "LoginComponent",
@@ -2886,11 +2902,11 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "\n<mat-card>\n  <mat-card-content>\n    <form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n      <h2>Log In</h2>\n      <mat-form-field class=\"full-width-input\">\n        <input matInput [placeholder]=\"defaultIdP\" formControlName=\"issuer\">\n        <mat-error>Please provide a valid Solid Provider</mat-error>\n      </mat-form-field>\n      <button mat-raised-button color=\"primary\">Login</button>\n    </form>\n  </mat-card-content>\n</mat-card>\n"
+            "templateData": "<mat-card>\n  <mat-card-content>\n    <form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n      <h2>{{'LOGIN.TITLE' | translate}}</h2>\n      <mat-form-field class=\"full-width-input\">\n        <input matInput [placeholder]=\"defaultIdP\" formControlName=\"issuer\">\n        <mat-error>Please provide a valid Solid Provider</mat-error>\n      </mat-form-field>\n      <button mat-raised-button color=\"primary\">{{'LOGIN.CTA' | translate}}</button>\n    </form>\n  </mat-card-content>\n</mat-card>\n"
         },
         {
             "name": "NavbarComponent",
-            "id": "component-NavbarComponent-2d522fcb73baf9b378cb107d535a7d1e819fff7af82561e50d247fc38ac28604ffc79ba8e9c057c1b948784d142708fc4b6b746e748ca7621c749398a95a7581",
+            "id": "component-NavbarComponent-d20cb054eec27cf4b4c72e8f23f4543a1958a1a18578a07f667485d7d8d13d25c7a343edaaf532059fce357e02a0215ebe750fdc78d6f76c099421456aea662e",
             "file": "src/app/views/navbar/navbar.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2907,6 +2923,15 @@
             ],
             "viewProviders": [],
             "inputsClass": [
+                {
+                    "name": "languageSelect",
+                    "defaultValue": "Languages",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 13,
+                    "type": "any",
+                    "decorators": []
+                },
                 {
                     "name": "webId",
                     "deprecated": false,
@@ -2925,7 +2950,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 16,
+                    "line": 20,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -2937,11 +2962,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Input, OnInit } from '@angular/core';\nimport { Store } from '@ngrx/store';\n\n@Component({\n  selector: 'sai-navbar',\n  templateUrl: './navbar.component.html',\n  styleUrls: ['./navbar.component.scss']\n})\nexport class NavbarComponent implements OnInit {\n\n  @Input() webId!: string | null;\n\n  constructor(\n  ) {}\n\n  ngOnInit(): void {}\n\n}\n",
+            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {Languages} from \"../../models/languages\";\n\n@Component({\n  selector: 'sai-navbar',\n  templateUrl: './navbar.component.html',\n  styleUrls: ['./navbar.component.scss']\n})\nexport class NavbarComponent implements OnInit {\n\n  @Input() webId!: string | null;\n  // @Input() languageSelect = Array<Languages>();\n  @Input() languageSelect = Languages;\n  // @Input() languageSelect = AllLanguages;\n  // @Output() selectedLanguage = new EventEmitter<Languages>();\n\n  constructor(\n  ) {}\n\n  ngOnInit(): void {}\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "\nh6 {\n  font-size: 0.7rem;\n  margin-left: 15px;\n}\n\np {\n  font-size: 0.7rem;\n  margin: 0 auto;\n}\n\n.spacer {\n  flex: 1 1 auto;\n}\n",
+                    "data": "\nh6 {\n  font-size: 0.7rem;\n  margin-left: 15px;\n}\n\np {\n  font-size: 0.7rem;\n  margin: 0 auto;\n}\n\n.spacer {\n  flex: 1 1 auto;\n}\n.appInfoWrapper {\n\n}\n.languageWrapper {\n  flex: 1 1;\n}\n",
                     "styleUrl": "./navbar.component.scss"
                 }
             ],
@@ -2952,12 +2977,12 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 11
+                "line": 13
             },
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<mat-toolbar color=\"primary\">\n  <div>\n    <h3>Solid Authorization Agent</h3>\n    <h6 *ngIf=\"webId\">{{webId}}</h6>\n  </div>\n</mat-toolbar>\n"
+            "templateData": "<mat-toolbar color=\"primary\">\n  <span>\n    <h3>Solid Authorization Agent</h3>\n    <h6 *ngIf=\"webId\">{{webId}}</h6>\n  </span>\n  <span class=\"spacer\"></span>\n  <span>\n    <sai-language\n      [languages]=\"languageSelect\">\n    </sai-language>\n  </span>\n</mat-toolbar>\n"
         },
         {
             "name": "PageComponent",
@@ -3290,13 +3315,13 @@
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-cb50e8e1a36ab1a9b30dfda027e3c8337f60de2963765b7b902b5ff76989e3d368727067d48ae5002f0b3a2c86d90932b8c29987741db7ca50ef1419218dd1b5",
+            "id": "module-AppModule-f77876ea9e09256e450f913a826603a29630011881a54aac1389a8bbec8dcac1a384b1a4de5ba1814fa18045a78cffeb091cf7aa1dec3a5f0943c468879e8763",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./views/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatCardModule} from \"@angular/material/card\";\nimport { MatListModule } from '@angular/material/list';\nimport { MatTreeModule } from '@angular/material/tree';\nimport {ReactiveFormsModule} from \"@angular/forms\";\nimport {MatFormFieldModule} from \"@angular/material/form-field\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport { DashboardComponent } from './components/dashboard/dashboard.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport { StoreModule } from '@ngrx/store';\nimport { reducers, metaReducers } from './reducers';\nimport { StoreDevtoolsModule } from '@ngrx/store-devtools';\nimport { ENV } from '../environments/environment';\nimport { EffectsModule } from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./effects\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport { FormsModule } from \"@angular/forms\";\nimport { RedirectHandlerComponent } from './components/redirect-handler/redirect-handler.component';\nimport {SolidClient} from \"./utils/solid-client\";\nimport { AuthorizationComponent } from './components/authorization/authorization.component';\nimport {MatProgressSpinnerModule} from '@angular/material/progress-spinner';\nimport { StartComponent } from './components/start/start.component';\nimport { ConnectServerComponent } from './components/connect-server/connect-server.component';\nimport { ServiceWorkerModule } from '@angular/service-worker';\nimport { AddSocialAgentComponent } from './components/add-social-agent/add-social-agent.component';\nimport { SocialAgentsComponent } from './components/social-agents/social-agents.component';\nimport { ApplicationsComponent } from './components/applications/applications.component';\nimport { DataComponent } from './components/data/data.component';\nimport { LanguageComponent } from './views/language/language.component';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    RedirectHandlerComponent,\n    AuthorizationComponent,\n    StartComponent,\n    ConnectServerComponent,\n    AddSocialAgentComponent,\n    SocialAgentsComponent,\n    ApplicationsComponent,\n    DataComponent,\n    LanguageComponent,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    MatListModule,\n    MatTreeModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatIconModule,\n    MatExpansionModule,\n    MatProgressSpinnerModule,\n    FormsModule,\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),\n    EffectsModule.forRoot(Effects),\n    ServiceWorkerModule.register('ngsw-worker.js', {\n      enabled: ENV.production,\n      // Register the ServiceWorker as soon as the application is stable\n      // or after 30 seconds (whichever comes first).\n      registrationStrategy: 'registerWhenStable:30000'\n    }),\n  ],\n  providers: [\n    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},\n    SolidClient,\n  ],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from \"@angular/common/http\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./views/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatCardModule} from \"@angular/material/card\";\nimport { MatListModule } from '@angular/material/list';\nimport { MatTreeModule } from '@angular/material/tree';\nimport {ReactiveFormsModule} from \"@angular/forms\";\nimport {MatFormFieldModule} from \"@angular/material/form-field\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport { DashboardComponent } from './components/dashboard/dashboard.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport { StoreModule } from '@ngrx/store';\nimport { reducers, metaReducers } from './reducers';\nimport { StoreDevtoolsModule } from '@ngrx/store-devtools';\nimport { ENV } from '../environments/environment';\nimport { EffectsModule } from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./effects\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport { FormsModule } from \"@angular/forms\";\nimport { RedirectHandlerComponent } from './components/redirect-handler/redirect-handler.component';\nimport {SolidClient} from \"./utils/solid-client\";\nimport { AuthorizationComponent } from './components/authorization/authorization.component';\nimport {MatProgressSpinnerModule} from '@angular/material/progress-spinner';\nimport { StartComponent } from './components/start/start.component';\nimport { ConnectServerComponent } from './components/connect-server/connect-server.component';\nimport { ServiceWorkerModule } from '@angular/service-worker';\nimport { AddSocialAgentComponent } from './components/add-social-agent/add-social-agent.component';\nimport { SocialAgentsComponent } from './components/social-agents/social-agents.component';\nimport { ApplicationsComponent } from './components/applications/applications.component';\nimport { DataComponent } from './components/data/data.component';\nimport { LanguageComponent } from './views/language/language.component';\nimport {TranslateLoader, TranslateModule} from \"@ngx-translate/core\";\nimport { TranslateHttpLoader } from '@ngx-translate/http-loader';\n\nexport function HttpLoaderFactory(http: HttpClient) {\n  return new TranslateHttpLoader(http);\n}\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    RedirectHandlerComponent,\n    AuthorizationComponent,\n    StartComponent,\n    ConnectServerComponent,\n    AddSocialAgentComponent,\n    SocialAgentsComponent,\n    ApplicationsComponent,\n    DataComponent,\n    LanguageComponent,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    MatListModule,\n    MatTreeModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatIconModule,\n    MatExpansionModule,\n    MatProgressSpinnerModule,\n    FormsModule,\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),\n    EffectsModule.forRoot(Effects),\n    ServiceWorkerModule.register('ngsw-worker.js', {\n      enabled: ENV.production,\n      // Register the ServiceWorker as soon as the application is stable\n      // or after 30 seconds (whichever comes first).\n      registrationStrategy: 'registerWhenStable:30000'\n    }),\n    TranslateModule.forRoot({\n      defaultLanguage: 'en',\n      loader: {\n        provide: TranslateLoader,\n        useFactory: HttpLoaderFactory,\n        deps: [HttpClient]\n      }\n    }),\n  ],\n  providers: [\n    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},\n    SolidClient,\n  ],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -3805,6 +3830,16 @@
                 "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, entry: T): NormalizedState<T> => {\n  const byId = {...state.byId, [entry.id]: entry};\n  const allIds = [...state.allIds, entry.id];\n\n  return {byId, allIds}\n}"
             },
             {
+                "name": "Languages",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/models/languages.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Array<any>",
+                "defaultValue": "[\n  {\n    label: 'English',\n    id: 'en'\n  },\n  {\n    label: 'Español',\n    id: 'es'\n  }\n]"
+            },
+            {
                 "name": "LanguageSelectClose",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -4311,7 +4346,7 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/views/language/language.stories.ts",
+                "file": "src/app/views/navbar/navbar.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -4321,7 +4356,7 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/views/navbar/navbar.stories.ts",
+                "file": "src/app/views/language/language.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -4349,6 +4384,34 @@
             }
         ],
         "functions": [
+            {
+                "name": "HttpLoaderFactory",
+                "file": "src/app/app.module.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "args": [
+                    {
+                        "name": "http",
+                        "type": "HttpClient",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "jsdoctags": [
+                    {
+                        "name": "http",
+                        "type": "HttpClient",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
             {
                 "name": "localStorageSyncReducer",
                 "file": "src/app/reducers/index.ts",
@@ -4390,19 +4453,7 @@
                 "returnType": "Observable<T>"
             }
         ],
-        "typealiases": [
-            {
-                "name": "Language",
-                "ctype": "miscellaneous",
-                "subtype": "typealias",
-                "rawtype": "string",
-                "file": "src/app/views/language/language.component.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "description": "",
-                "kind": 149
-            }
-        ],
+        "typealiases": [],
         "enumerations": [],
         "groupedVariables": {
             "src/app/actions/application.actions.ts": [
@@ -5066,6 +5117,18 @@
                     "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, id: string): NormalizedState<T> => {\n\n  if (!state.allIds.includes(id)) return state;\n\n  const byId = {...state.byId};\n  const allIds = [...state.allIds].filter(_id => _id != id);\n\n  delete byId[id];\n  return {byId, allIds}\n}"
                 }
             ],
+            "src/app/models/languages.ts": [
+                {
+                    "name": "Languages",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/models/languages.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Array<any>",
+                    "defaultValue": "[\n  {\n    label: 'English',\n    id: 'en'\n  },\n  {\n    label: 'Español',\n    id: 'es'\n  }\n]"
+                }
+            ],
             "src/app/views/language/language.stories.ts": [
                 {
                     "name": "LanguageSelectClose",
@@ -5348,6 +5411,36 @@
             ]
         },
         "groupedFunctions": {
+            "src/app/app.module.ts": [
+                {
+                    "name": "HttpLoaderFactory",
+                    "file": "src/app/app.module.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "http",
+                            "type": "HttpClient",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "http",
+                            "type": "HttpClient",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
             "src/app/reducers/index.ts": [
                 {
                     "name": "localStorageSyncReducer",
@@ -5394,21 +5487,7 @@
             ]
         },
         "groupedEnumerations": {},
-        "groupedTypeAliases": {
-            "src/app/views/language/language.component.ts": [
-                {
-                    "name": "Language",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "string",
-                    "file": "src/app/views/language/language.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 149
-                }
-            ]
-        }
+        "groupedTypeAliases": {}
     },
     "routes": {
         "name": "<root>",
@@ -5775,6 +5854,16 @@
                 "status": "low"
             },
             {
+                "filePath": "src/app/app.module.ts",
+                "type": "function",
+                "linktype": "miscellaneous",
+                "linksubtype": "function",
+                "name": "HttpLoaderFactory",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "src/app/components/add-social-agent/add-social-agent.component.ts",
                 "type": "component",
                 "linktype": "component",
@@ -5870,7 +5959,7 @@
                 "linktype": "injectable",
                 "name": "ApplicationProfileEffects",
                 "coveragePercent": 0,
-                "coverageCount": "0/8",
+                "coverageCount": "0/9",
                 "status": "low"
             },
             {
@@ -5917,6 +6006,16 @@
                 "name": "AuthInterceptor",
                 "coveragePercent": 0,
                 "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/models/languages.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Languages",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -6453,7 +6552,7 @@
                 "linktype": "component",
                 "name": "LanguageComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/6",
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {
@@ -6482,7 +6581,7 @@
                 "linktype": "component",
                 "name": "NavbarComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {

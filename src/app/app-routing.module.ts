@@ -12,6 +12,7 @@ import {AddSocialAgentComponent} from "./components/add-social-agent/add-social-
 import { SocialAgentsComponent } from './components/social-agents/social-agents.component';
 import { ApplicationsComponent } from './components/applications/applications.component';
 import { DataComponent } from './components/data/data.component';
+import {TranslateModule} from "@ngx-translate/core";
 
 const routes: Routes = [
   {
@@ -60,7 +61,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), TranslateModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
-import {Store} from "@ngrx/store";
-import {onSessionRestore} from '@inrupt/solid-client-authn-browser';
-import {CoreActions} from "./actions";
-import {serverLoggedInStatus, oidcIssuer, webId} from "./selectors";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { onSessionRestore } from '@inrupt/solid-client-authn-browser';
+import { CoreActions } from "./actions";
+import { serverLoggedInStatus, oidcIssuer, webId } from "./selectors";
 import { SwPush } from '@angular/service-worker';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit{
     private router: Router,
     private store: Store,
     private swPush: SwPush,
+    translate: TranslateService,
   ) {
     // TODO ensure that requestedPath gets set even if oidc session can't be restored
     onSessionRestore((currentUrl: string) => {
@@ -32,6 +34,12 @@ export class AppComponent implements OnInit{
     this.swPush.notificationClicks.subscribe(({ notification }) => {
       this.router.navigateByUrl(`/add-social-agent?webid=${notification.data.webId}`)
     });
+
+    // this language will be used as a fallback when a translation isn't found in the current language
+    translate.setDefaultLang('en');
+
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    translate.use('en');
   }
 
   ngOnInit() {

@@ -1,7 +1,7 @@
 
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { Story, moduleMetadata } from '@storybook/angular';
 import { NavbarComponent } from "./navbar.component";
-import {DemoMaterialModule} from "../../../material-module";
+import { DemoMaterialModule } from "../../../material-module";
 
 export default {
   title: 'Navbar',
