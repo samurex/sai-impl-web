@@ -1,7 +1,7 @@
 <ng-container>
   <div class="languageSelector">
     <mat-icon matListIcon>language</mat-icon>
-    <select #langSelect (change)="translate.use(langSelect.value)">
+    <select #langSelect (change)="onChange($event)">
       <option *ngFor="let language of languages" [value]="language.id" [selected]="language.id === translate.currentLang">{{ language.label }}</option>
     </select>
   </div>

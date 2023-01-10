@@ -2,6 +2,9 @@ import {createReducer, on} from "@ngrx/store";
 import {CoreActions} from "../actions";
 
 export const CORE_STATE_KEY = 'core';
+export const CORE_LANGUAGE_KEY = 'coreLanguage';
+
+export const preferLanguage = JSON.parse(localStorage.getItem(CORE_LANGUAGE_KEY) || '{}');
 
 export interface CoreState {
   oidcIssuer: string;
@@ -22,7 +25,7 @@ export const initialState: CoreState = {
   isServerLoggedIn: false,
   redirectUrl: '',
   requestedPath: '/dashboard',
-  language: 'en', // TODO allow user to set it
+  language: preferLanguage.language === '' || preferLanguage.language === undefined ? navigator.language.split('-')[0] : preferLanguage.language,
 }
 
 const excludedPaths = ['/', '/start', '/redirect', '/login', '/connect']
