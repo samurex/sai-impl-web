@@ -3,14 +3,16 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 127.0.0.1 --disable-host-check true",
+    "start": "npm run start:dev",
+    "start:prod": "ng serve --host 127.0.0.1 --disable-host-check true --configuration=production",
+    "start:dev": "ng serve --host 127.0.0.1 --disable-host-check true --configuration=development",
     "start:ssl": "ng serve --ssl",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
-    "storybook": "npm run docs:json && start-storybook -p 6006",
-    "build-storybook": "npm run docs:json && build-storybook"
+    "storybook": "npm run docs:json && ng run sai-web-app:storybook",
+    "build-storybook": "npm run docs:json && ng run sai-web-app:build-storybook"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +31,7 @@
     "@inrupt/solid-client-authn-browser": "^1.11.7",
     "@janeirodigital/sai-api-messages": "^0.6.0",
     "@ngrx/effects": "^14.3.2",
+    "@ngrx/entity": "^14.3.2",
     "@ngrx/store": "^14.3.2",
     "@ngrx/store-devtools": "^14.3.2",
     "@ngx-translate/core": "^14.0.0",

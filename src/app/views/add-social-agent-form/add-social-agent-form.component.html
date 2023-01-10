@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-card-title>
+    <h2>Add Social Agent</h2>
+  </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field class="full-width-input">
+        <mat-label>WebId</mat-label>
+        <input matInput required formControlName="webid">
+        <mat-error>WebId is required</mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width-input">
+        <mat-label>Name</mat-label>
+        <input matInput required formControlName="label">
+        <mat-error>Name is required</mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width-input">
+        <mat-label>Note</mat-label>
+        <textarea matInput formControlName="note"></textarea>
+      </mat-form-field>
+      <button mat-raised-button color="primary">Add</button>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,7 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {Languages} from "../../languages";
 import {TranslateService} from "@ngx-translate/core";
-import {CORE_LANGUAGE_KEY, initialState, preferLanguage} from "../../reducers/core.reducer";
+import {CORE_LANGUAGE_KEY, initialState, preferLanguage} from "../../state/reducers/core.reducer";
 
 @Component({
   selector: 'sai-language',

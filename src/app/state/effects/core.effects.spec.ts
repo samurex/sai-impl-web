@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { Action } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { oidcIssuer, redirectUrl } from '../selectors';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../../services/login.service';
 import { CoreEffects } from './core.effects';
 import { ISessionInfo } from '@inrupt/solid-client-authn-browser';
 

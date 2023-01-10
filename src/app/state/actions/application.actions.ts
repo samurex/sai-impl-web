@@ -53,7 +53,6 @@ const authorizationReceived = createAction(
   props<{ accessAuthorization: AccessAuthorization }>()
 )
 
-
 export const DataActions = {
   applicationsPanelLoaded,
   applicationProfilesReceived,
@@ -65,5 +64,5 @@ export const DataActions = {
   dataRegistriesNeeded,
   dataRegistriesProvided,
   authorizeApplication,
-  authorizationReceived
+  authorizationReceived,
 }

@@ -1,0 +1,34 @@
+
+<mat-card>
+  <mat-card-header>
+    <img mat-card-avatar class="header-image" alt="application logo" src="{{application.logo}}">
+    <mat-card-title>{{application.name}}</mat-card-title>
+    <mat-card-subtitle>Last updated on: {{(application.lastUpdateDate || application.authorizationDate) | date}}</mat-card-subtitle>
+    <mat-card-actions align="end">
+      <button mat-button *ngIf="!expanded" (click)="expanded = !expanded">Edit</button>
+      <button mat-button *ngIf="expanded" [disabled]="!changed" (click)="submit()">Save</button>
+      <button mat-button *ngIf="expanded" (click)="handleDiscard()">
+        <span *ngIf="changed">Discard</span>
+        <span *ngIf="!changed">Cancel</span>
+      </button>
+
+      <button mat-button color="warn" (click)="remove.emit({id: application.id})">Remove</button>
+    </mat-card-actions>
+  </mat-card-header>
+  <mat-card-content *ngIf="expanded && group">
+    <p>{{application.name}} has the following access needs</p>
+    <div>
+      <h3>{{group.label}}</h3>
+      <p>{{group.description}}</p>
+    </div>
+    <ng-container *ngIf="needs; else loadingNeeds">
+        <sai-access-need-view *ngFor="let need of needs" [need]="need" [shapetree]="getShapetreesForNeed(need)" (changed)="handleNeedChange($event)"></sai-access-need-view>
+    </ng-container>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #loadingNeeds>
+  <div class="centered">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

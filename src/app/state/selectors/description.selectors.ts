@@ -5,5 +5,10 @@ export const selectDescriptionsFeature = createFeatureSelector<DescriptionsState
 
 export const selectDescriptions = createSelector(
   selectDescriptionsFeature,
-  state => (state.selectedApplication ? state.byId[state.selectedApplication]: null),
+  state => (state.byId[state.selectedApplication!]),
 )
+
+export const selectCurrentApplication = createSelector(
+  selectDescriptionsFeature,
+  state => state.selectedApplication,
+);

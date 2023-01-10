@@ -1,0 +1,21 @@
+
+.container {
+  border: solid darkgray 1px;
+  padding: 5px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+mat-radio-group {
+  display: flex;
+  gap: 10px 10px;
+}
+
+
+div > mat-checkbox,
+div > ul
+li {
+  padding-left: 50px;
+}

@@ -1,5 +1,5 @@
-import { Application } from '@janeirodigital/sai-api-messages';
-import { applicationProfileReducer } from './application.reducer';
+import {Application} from '@janeirodigital/sai-api-messages';
+import {applicationProfileReducer, ApplicationsState} from './application.reducer';
 
 describe('application profile reducer', () => {
   const profile1 = {
@@ -8,15 +8,18 @@ describe('application profile reducer', () => {
   const profile2 = {
     id: 'app-2',
   } as unknown as Application
+
   const priorState = {
-    byId: {
+    selectedApplication: null,
+    entities: {
       'app-1': profile1
     },
-    allIds: ['app-1']
+    ids: ['app-1']
   }
 
+
   it('initial state', () => {
-    const state = { byId: {}, allIds: [] }
+    const state: ApplicationsState = { selectedApplication: null, ids: [], entities: {} }
     const expected = {...state}
     const action = { type: 'foo' } as any;
     expect(applicationProfileReducer(undefined, action)).toEqual(expected);
@@ -28,11 +31,11 @@ describe('application profile reducer', () => {
       profile: profile2
     }
     const newState = applicationProfileReducer(priorState, action)
-    expect(newState.allIds).toEqual(jasmine.arrayContaining(['app-1', 'app-2']));
-    expect(newState.byId).toEqual(jasmine.objectContaining({
+    expect(newState.ids).toEqual(jasmine.arrayContaining(['app-1', 'app-2']));
+    expect(newState.entities).toEqual(jasmine.objectContaining({
       'app-1': profile1,
       'app-2': profile2
-    }));
+    }))
   })
 
   it('applicationProfilesReceived', () => {
@@ -45,8 +48,8 @@ describe('application profile reducer', () => {
       profiles: [profile2, profile3]
     }
     const newState = applicationProfileReducer(priorState, action)
-    expect(newState.allIds).toEqual(jasmine.arrayContaining(['app-1', 'app-2', 'app-3']));
-    expect(newState.byId).toEqual(jasmine.objectContaining({
+    expect(newState.ids).toEqual(jasmine.arrayContaining(['app-1', 'app-2', 'app-3']));
+    expect(newState.entities).toEqual(jasmine.objectContaining({
       'app-1': profile1,
       'app-2': profile2,
       'app-3': profile3

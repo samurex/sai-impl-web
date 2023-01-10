@@ -3,8 +3,8 @@ import {ActivatedRouteSnapshot, CanActivateChild, Router, RouterStateSnapshot, U
 import {from, map, tap, switchMap, Observable, withLatestFrom} from 'rxjs';
 import {getDefaultSession} from '@inrupt/solid-client-authn-browser';
 import {Store} from "@ngrx/store";
-import {CoreActions} from "../actions";
-import {bothEndsLoggedIn, loggedInStatus} from "../selectors"
+import {CoreActions} from "../state/actions";
+import {bothEndsLoggedIn, loggedInStatus} from "../state/selectors"
 
 @Injectable({
   providedIn: 'root'

@@ -3,7 +3,7 @@ import {TestBed} from '@angular/core/testing';
 import {AuthGuard} from './auth.guard.service';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
 import {MockStore, provideMockStore} from "@ngrx/store/testing";
-import {CORE_STATE_KEY} from "../reducers/core.reducer";
+import {CORE_STATE_KEY} from "../state/reducers/core.reducer";
 import {RouterTestingModule} from "@angular/router/testing";
 import {Observable} from "rxjs";
 

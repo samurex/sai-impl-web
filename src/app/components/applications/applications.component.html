@@ -1,4 +1,8 @@
-<mat-card *ngFor="let application of applications$ | async">
-  <mat-card-title>{{application.name}}</mat-card-title>
-  <img *ngIf="application.logo" mat-card-md-image src="{{application.logo}}" >
-</mat-card>
+<div *ngFor="let app of allApps$ | async">
+  <sai-app-view (click)="requestDescriptions(app.id)"
+                [application]="app"
+                [group]="currentGroup$ | async"
+                [needs]="currentNeeds$ | async"
+                [shapetrees]="currentShapeTrees$ | async"
+  ></sai-app-view>
+</div>

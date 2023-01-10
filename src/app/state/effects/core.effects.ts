@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType, concatLatestFrom} from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { EMPTY, map, tap, of, from} from "rxjs";
-import {LoginService} from "../services/login.service";
+import {LoginService} from "../../services/login.service";
 import {CoreActions} from "../actions";
 import {mergeMap} from "rxjs/operators";
 import * as selectors from "../selectors";

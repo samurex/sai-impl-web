@@ -1,0 +1,15 @@
+
+
+<div class="container">
+  <p>Select the data registries you want to share from</p>
+  <div>
+  <mat-checkbox [(ngModel)]="selectAll" [ngModelOptions]="{standalone: true}">Select all</mat-checkbox>
+  <ul>
+    <li *ngFor="let instance of registryIds">
+      <mat-checkbox [id]="instance" [disabled]="selectAll" [checked]="selectAll" (change)="handleToggle($event)">
+        {{instance}}<a [href]="instance" target="_blank">
+        <button mat-icon-button><mat-icon>open_in_new</mat-icon></button></a>
+      </mat-checkbox>
+    </li>
+  </ul>
+</div>

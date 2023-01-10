@@ -1,17 +1,4 @@
-<mat-card>
-  <mat-card-title>{{webId}}</mat-card-title>
-  <mat-card-content>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <mat-form-field class="full-width-input">
-        <mat-label>Name</mat-label>
-        <input matInput required formControlName="label">
-        <mat-error>Name is required</mat-error>
-      </mat-form-field>
-      <mat-form-field class="full-width-input">
-        <mat-label>Note</mat-label>
-        <textarea matInput formControlName="note"></textarea>
-      </mat-form-field>
-      <button mat-raised-button color="primary">Accept</button>
-    </form>
-  </mat-card-content>
-</mat-card>
+
+<div>
+  <sai-add-social-agent-form [webid]="this.webid" (submit)="onSubmit($event)"></sai-add-social-agent-form>
+</div>

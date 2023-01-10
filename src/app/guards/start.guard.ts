@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, filter, switchMap } from 'rxjs';
 import {Store} from "@ngrx/store";
-import {loginKnown, loggedInStatus, requestedPath, serverLoggedInStatus, redirectUrl} from "../selectors";
+import {loginKnown, loggedInStatus, requestedPath, serverLoggedInStatus, redirectUrl} from "../state/selectors";
 
 @Injectable({
   providedIn: 'root'

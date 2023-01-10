@@ -1,5 +1,5 @@
 
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<div *ngIf="clientId; else noClientId">
   <h1>{{ (authorizationData$ | async)?.accessNeedGroup?.label }}</h1>
   <h2>{{ (authorizationData$ | async)?.accessNeedGroup?.description }}</h2>
 
@@ -15,19 +15,41 @@
     </mat-tree-node>
     <!-- This is the tree node template for expandable nodes -->
     <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-        <div class="mat-tree-node">
-          <mat-card>
-            <mat-card-title>{{node.shapeTree.label}}</mat-card-title>
-            <mat-card-content>{{node.label}}</mat-card-content>
-          </mat-card>
-        </div>
-        <!-- There is inline padding applied to this div using styles.
-            This padding value depends on the mat-icon-button width.  -->
-        <div class="mat-nested-tree-node"
-            role="group">
-          <ng-container matTreeNodeOutlet></ng-container>
+      <div class="mat-tree-node">
+        <mat-card>
+          <mat-card-title>{{node.shapeTree.label}}</mat-card-title>
+          <mat-card-content>{{node.label}}</mat-card-content>
+        </mat-card>
+      </div>
+      <!-- There is inline padding applied to this div using styles.
+          This padding value depends on the mat-icon-button width.  -->
+      <div class="mat-nested-tree-node"
+           role="group">
+        <ng-container matTreeNodeOutlet></ng-container>
       </div>
     </mat-nested-tree-node>
   </mat-tree>
-  <button mat-raised-button color="primary">Authorize</button>
-</form>
+  <button mat-raised-button color="primary" (click)="onSubmit()">Authorize</button>
+</div>
+
+<!--<div>-->
+<!--  <sai-app-view expanded="true" [application]="applications$ | async">-->
+
+<!--  </sai-app-view>-->
+
+<!--</div>-->
+
+
+<ng-template #noClientId>
+  <div class="form-container">
+    <h3 class="missing-client-warn">Please provide a client id</h3>
+    <form [routerLink]="'/authorize'" [queryParams]="{client_id: clientIdInput}">
+      <mat-form-field class="full-width-input">
+        <mat-label>Application ID</mat-label>
+        <input matInput required [(ngModel)]="clientIdInput" [ngModelOptions]="{standalone: true}">
+        <mat-error>Application ID is required</mat-error>
+      </mat-form-field>
+      <button mat-raised-button>Search</button>
+    </form>
+  </div>
+</ng-template>

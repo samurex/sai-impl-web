@@ -1,12 +1,21 @@
 <mat-toolbar color="primary">
-  <span>
-    <h3>Solid Authorization Agent</h3>
-    <h6 *ngIf="webId">{{webId}}</h6>
-  </span>
+  <h3>Solid Authorization Agent</h3>
+  <div *ngIf="isLoggedIn">
+    <button mat-button routerLink="/dashboard">
+      <mat-icon fontIcon="home"></mat-icon>
+    </button>
+    <button mat-button routerLink="/applications">Applications</button>
+    <button mat-button routerLink="/social-agents">Social Agents</button>
+    <button mat-button routerLink="/data">Data</button>
+    <button mat-raised-button color="accent" *ngIf="withNotificationsAction" (click)="notifications.emit()">
+      <mat-icon>notification_important</mat-icon>
+      Enable Notifications
+    </button>
+  </div>
   <span class="spacer"></span>
   <span>
-    <sai-language
-      [languages]="languageSelect">
-    </sai-language>
+  	<sai-language
+  	  [languages]="languageSelect">
+  	</sai-language>
   </span>
 </mat-toolbar>

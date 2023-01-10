@@ -1,9 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { Router } from "@angular/router";
-import { Store } from "@ngrx/store";
-import { DataActions } from 'src/app/actions/application.actions';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Store} from "@ngrx/store";
+import {IRI} from "@janeirodigital/sai-api-messages";
+import {DataActions} from "../../state/actions/application.actions";
 
 @Component({
   selector: 'sai-add-social-agent',
@@ -11,13 +10,7 @@ import { DataActions } from 'src/app/actions/application.actions';
   styleUrls: ['./add-social-agent.component.scss']
 })
 export class AddSocialAgentComponent implements OnInit {
-
-  @Input() webId: string | null = null
-
-  loginForm = new UntypedFormGroup({
-    label: new UntypedFormControl(''),
-    note: new UntypedFormControl(''),
-  })
+  webid: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,24 +19,13 @@ export class AddSocialAgentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.webId = this.route.snapshot.queryParamMap.get('webid')
-    if (!this.webId) {
-      throw new Error('authorization requires webid query parameter')
-    }
+    this.webid = this.route.snapshot.queryParamMap.get('webid')
   }
 
-  onSubmit() {
-    const label = this.loginForm.get('label')!.value
-    const note = this.loginForm.get('note')!.value
-
-    if(this.webId! && label) {
-      this.store.dispatch(DataActions.addSocialAgent({
-        webId: this.webId,
-        label,
-        note
-      }));
-    }
-    this.router.navigateByUrl('/dashboard')
+  onSubmit(data: {webid: IRI, label: string, note?: string}) {
+    const { webid: webId, label, note } = data;
+    this.store.dispatch(DataActions.addSocialAgent({webId, label, note}))
+    // TODO confirm action was successful/handle error before turning the user away
+    this.router.navigateByUrl('/dashboard');
   }
-
 }

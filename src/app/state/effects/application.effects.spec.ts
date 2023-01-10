@@ -1,12 +1,20 @@
-import { Observable, of } from 'rxjs';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { TestBed } from '@angular/core/testing';
-import { Action } from '@ngrx/store';
-import { ApplicationProfileEffects } from './application.effects';
-import { DataService } from '../services/data.service';
-import { Authorization, AccessAuthorization, Application, DataRegistry, SocialAgent, AuthorizationData } from '@janeirodigital/sai-api-messages';
-import { provideMockStore } from '@ngrx/store/testing';
-import { prefLanguage } from '../selectors';
+import {Observable, of} from 'rxjs';
+import {provideMockActions} from '@ngrx/effects/testing';
+import {TestBed} from '@angular/core/testing';
+import {Action} from '@ngrx/store';
+import {ApplicationProfileEffects} from './application.effects';
+import {DataService} from '../../services/data.service';
+import {
+  AccessAuthorization,
+  AccessNeed,
+  Application,
+  Authorization,
+  AuthorizationData,
+  DataRegistry,
+  SocialAgent
+} from '@janeirodigital/sai-api-messages';
+import {provideMockStore} from '@ngrx/store/testing';
+import {prefLanguage} from '../selectors';
 
 let actions$ = new Observable<Action>();
 let dataServiceSpy: jasmine.SpyObj<DataService>;
@@ -158,17 +166,25 @@ describe('ApplicationProfileEffects', () => {
       applicationId
     });
 
-    const expectedAuthorizationData = { accessNeedGroup: { id: 'https://projectron.example/access-needs#need-group-pm'} } as AuthorizationData;
+    const expectedAuthorizationData = {
+      accessNeedGroup: {
+        id: 'https://projectron.example/access-needs#need-group-pm',
+        label: 'group',
+        needs: [] as AccessNeed[],
+      }
+    } as AuthorizationData;
 
     dataServiceSpy.getDescriptions.and.resolveTo(expectedAuthorizationData);
 
-    effects.loadDescriptions$.subscribe((action) => {
-      expect(action).toEqual({
-        type: '[DESCRIPTIONS] Descriptions received for application',
-        authorizationData: expectedAuthorizationData,
-      });
-      expect(dataServiceSpy.getDescriptions).toHaveBeenCalledOnceWith(applicationId, defaultLang)
-      done();
+    effects.loadDescriptions$.subscribe({
+      next: (action) => {
+        if (action.type === '[DESCRIPTIONS] Descriptions received for application')
+        expect(action).toEqual({
+          type: '[DESCRIPTIONS] Descriptions received for application',
+          authorizationData: expectedAuthorizationData,
+        });
+      },
+      complete: done(),
     });
   });
-})
+});

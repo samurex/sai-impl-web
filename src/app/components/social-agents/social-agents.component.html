@@ -1,4 +1,10 @@
 <mat-card *ngFor="let agent of socialAgents$ | async">
-  <mat-card-title>{{agent.label}}</mat-card-title>
-  <mat-card-content>{{agent.note}}</mat-card-content>
+  <mat-card-header>
+    <mat-card-title>{{agent.label}} <a mat-icon-button target="_blank" href="{{agent.id}}"><mat-icon>link</mat-icon></a></mat-card-title>
+    <mat-card-subtitle>Authorized on {{agent.authorizationDate | date}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{agent.label}}</p>
+    <p>{{agent.note}}</p>
+  </mat-card-content>
 </mat-card>

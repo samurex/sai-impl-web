@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {Store} from "@ngrx/store";
-import {CoreActions} from "../../actions";
+import {CoreActions} from "../../state/actions";
 import {ENV} from "../../../environments/environment";
 @Component({
   selector: 'sai-login',

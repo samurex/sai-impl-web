@@ -1,15 +1,12 @@
-import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, OnInit } from '@angular/core';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { ActivatedRoute, Data } from '@angular/router';
-import { AccessNeed, AuthorizationData, DataAuthorization, IRI } from '@janeirodigital/sai-api-messages';
-import { Router } from "@angular/router";
-import { Store } from "@ngrx/store";
-import { DescActions } from 'src/app/actions/description.actions';
-import { selectDescriptions } from 'src/app/selectors/description.selectors'
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { DataActions } from 'src/app/actions/application.actions';
-import { getRtlScrollAxisType } from '@angular/cdk/platform';
+import {NestedTreeControl} from '@angular/cdk/tree';
+import {Component, OnInit} from '@angular/core';
+import {MatTreeNestedDataSource} from '@angular/material/tree';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AccessNeed, AuthorizationData, DataAuthorization, IRI} from '@janeirodigital/sai-api-messages';
+import {Store} from "@ngrx/store";
+import {DescActions} from 'src/app/state/actions/description.actions';
+import {selectDescriptions} from 'src/app/state/selectors/description.selectors'
+import {DataActions} from 'src/app/state/actions/application.actions';
 
 @Component({
   selector: 'sai-authorization',
@@ -17,8 +14,8 @@ import { getRtlScrollAxisType } from '@angular/cdk/platform';
   styleUrls: ['./authorization.component.scss']
 })
 export class AuthorizationComponent implements OnInit {
-
   clientId?: IRI;
+  clientIdInput: string = '';
 
   authorizationData$ = this.store.select(selectDescriptions);
   authorizationData?: AuthorizationData
@@ -27,11 +24,6 @@ export class AuthorizationComponent implements OnInit {
   dataSource = new MatTreeNestedDataSource<AccessNeed>();
 
   hasChild = (_: number, node: AccessNeed) => !!node.children && node.children.length > 0;
-
-  loginForm = new UntypedFormGroup({
-    label: new UntypedFormControl(''),
-    note: new UntypedFormControl(''),
-  })
 
   constructor(
     private route: ActivatedRoute,
@@ -47,14 +39,12 @@ export class AuthorizationComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    const clientId = this.route.snapshot.queryParamMap.get('client_id')
+    const params = this.route.snapshot.queryParams;
+    const clientId = params['client_id'];
+
     if (clientId) {
-      this.clientId = clientId
-      this.store.dispatch(DescActions.descriptionsNeeded({
-        applicationId: clientId
-      }))
-    } else {
-      throw new Error('authorization requires client_id query parameter')
+      this.clientId = clientId;
+      this.fetchApplication(clientId);
     }
   }
 
@@ -75,6 +65,12 @@ export class AuthorizationComponent implements OnInit {
     }
 
     return [ dataAuthorization, ...children]
+  }
+
+  fetchApplication(clientId: IRI): void {
+      this.store.dispatch(DescActions.descriptionsNeeded({
+        applicationId: clientId
+      }));
   }
 
   onSubmit() {

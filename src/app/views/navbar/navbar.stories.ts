@@ -15,9 +15,18 @@ export default {
 
 const Template: Story = (args) => ({props: args});
 
-export const LoggedIn = Template.bind({});
-LoggedIn.args = {
+export const LoggedIn_NotificationsDisabled = Template.bind({});
+LoggedIn_NotificationsDisabled.args = {
   webId: 'https://solid.provider/user/profile/card#me',
+  isLoggedIn: true,
+  withNotificationsAction: true,
+};
+
+export const LoggedIn_NotificationsEnabled = Template.bind({});
+LoggedIn_NotificationsEnabled.args = {
+  webId: 'https://solid.provider/user/profile/card#me',
+  isLoggedIn: true,
+  withNotificationsAction: false,
 };
 
 export const LoggedOut = Template.bind({});
