@@ -21,7 +21,7 @@ describe('application profile reducer', () => {
   it('initial state', () => {
     const state: ApplicationsState = { selectedApplication: null, ids: [], entities: {} }
     const expected = {...state}
-    const action = { type: 'foo' } as any;
+    const action = { type: 'foo' };
     expect(applicationProfileReducer(undefined, action)).toEqual(expected);
   });
 

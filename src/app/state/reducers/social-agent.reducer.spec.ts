@@ -18,7 +18,7 @@ describe('social agents reducer', () => {
   it('initial state', () => {
     const state = { entities: {}, ids: [] }
     const expected = {...state}
-    const action = { type: 'foo' } as any;
+    const action = { type: 'foo' };
     expect(socialAgentsReducer(undefined, action)).toEqual(expected);
   });
 

@@ -68,8 +68,7 @@ describe('handleRedirect', () => {
   })
 })
 
+// TODO
 describe('serverLogin', () => {
-  xit('window.location.href gets set', () => {
-
-  })
+  xit('window.location.href gets set', () => undefined)
 })

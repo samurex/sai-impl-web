@@ -1,14 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {Component} from '@angular/core';
+import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {Store} from "@ngrx/store";
 import {CoreActions} from "../../state/actions";
 import {ENV} from "../../../environments/environment";
+
 @Component({
   selector: 'sai-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   defaultIdP = ENV.DEFAULT_IDP;
 
@@ -20,10 +21,8 @@ export class LoginComponent implements OnInit {
     private store: Store,
   ) {}
 
-  ngOnInit(): void {}
-
   onSubmit() {
-    const oidcIssuer = this.loginForm.get('issuer')!.value || ENV.DEFAULT_IDP;
+    const oidcIssuer = this.loginForm.get('issuer')?.value || ENV.DEFAULT_IDP;
     this.store.dispatch(CoreActions.loginRequested({ oidcIssuer }));
   }
 }

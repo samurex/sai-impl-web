@@ -12,7 +12,8 @@
     "test": "ng test",
     "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
     "storybook": "npm run docs:json && ng run sai-web-app:storybook",
-    "build-storybook": "npm run docs:json && ng run sai-web-app:build-storybook"
+    "build-storybook": "npm run docs:json && ng run sai-web-app:build-storybook",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -44,10 +45,16 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.1",
+    "@angular-eslint/builder": "14.4.0",
+    "@angular-eslint/eslint-plugin": "14.4.0",
+    "@angular-eslint/eslint-plugin-template": "14.4.0",
+    "@angular-eslint/schematics": "14.4.0",
+    "@angular-eslint/template-parser": "14.4.0",
     "@angular/cli": "^14.2.1",
     "@angular/compiler-cli": "^14.2.0",
     "@babel/core": "^7.17.0",
     "@compodoc/compodoc": "^1.1.18",
+    "@ngrx/eslint-plugin": "^14.3.2",
     "@rdfjs/types": "^1.1.0",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",
@@ -57,7 +64,10 @@
     "@storybook/manager-webpack5": "^6.5.12",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "5.43.0",
+    "@typescript-eslint/parser": "5.43.0",
     "babel-loader": "^8.2.3",
+    "eslint": "^8.28.0",
     "jasmine-core": "~4.0.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",

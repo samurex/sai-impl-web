@@ -1,8 +1,7 @@
-import { TestBed } from '@angular/core/testing';
-import { ENV } from 'src/environments/environment';
-import { SolidClient } from '../utils/solid-client';
+import {ENV} from 'src/environments/environment';
+import {SolidClient} from '../utils/solid-client';
 
-import { PushService } from './push.service';
+import {PushService} from './push.service';
 
 let pushService: PushService;
 let solidClientSpy: jasmine.SpyObj<SolidClient>;
@@ -25,7 +24,7 @@ describe('subscribe', () => {
         'Content-Type': 'application/json'
       }
     }
-    const result = await pushService.subscribe(subscription);
+    await pushService.subscribe(subscription);
     expect(solidClientSpy.fetch).toHaveBeenCalledWith(url , options);
   })
 });

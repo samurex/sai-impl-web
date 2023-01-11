@@ -5,9 +5,6 @@ describe('descriptions reducer', () => {
   const authorizationData1 = {
     id: 'auth-data-1'
   } as unknown as AuthorizationData
-  const authorizationData2 = {
-    id: 'auth-data-2'
-  } as unknown as AuthorizationData
 
   const priorState = {
     byId: {
@@ -20,7 +17,7 @@ describe('descriptions reducer', () => {
   it('initial state', () => {
     const state = { byId: {}, allIds: [], selectedApplication: null }
     const expected = {...state}
-    const action = { type: 'foo' } as any;
+    const action = { type: 'foo' };
     expect(descriptionsReducer(undefined, action)).toEqual(expected);
   });
 

@@ -32,11 +32,11 @@ const excludedPaths = ['/', '/start', '/redirect', '/login', '/connect']
 
 export const coreReducer = createReducer(
   initialState,
-  on(CoreActions.loginInitiated, (state, {oidcIssuer}) => ({...state, oidcIssuer})),
-  on(CoreActions.webIdReceived, (state, {webId}) => ({...state, webId})),
-  on(CoreActions.loginStatusChanged, (state, {loggedIn}) => ({...state, isLoggedIn: loggedIn, loginKnown: true})),
-  on(CoreActions.serverSessionReceived, (state, {isServerLoggedIn, redirectUrl}) => ({...state, isServerLoggedIn, redirectUrl: redirectUrl ? redirectUrl : ''})),
-  on(CoreActions.pathRequested, (state, {requestedPath}) => ({
+  on(CoreActions.loginInitiated, (state, {oidcIssuer}): CoreState => ({...state, oidcIssuer})),
+  on(CoreActions.webIdReceived, (state, {webId}): CoreState => ({...state, webId})),
+  on(CoreActions.loginStatusChanged, (state, {loggedIn}): CoreState => ({...state, isLoggedIn: loggedIn, loginKnown: true})),
+  on(CoreActions.serverSessionReceived, (state, {isServerLoggedIn, redirectUrl}): CoreState => ({...state, isServerLoggedIn, redirectUrl: redirectUrl ? redirectUrl : ''})),
+  on(CoreActions.pathRequested, (state, {requestedPath}): CoreState => ({
     ...state,
     requestedPath: excludedPaths.includes(requestedPath) ? '/dashboard' : requestedPath
   }))

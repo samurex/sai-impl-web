@@ -15,7 +15,7 @@ const initialState = {
 describe('core reducer', () => {
   it('initial state', () => {
     const expected = {...initialState}
-    const action = { type: 'foo' } as any;
+    const action = { type: 'foo' };
     expect(coreReducer(undefined, action)).toEqual(expected);
   });
 
@@ -59,7 +59,6 @@ describe('core reducer', () => {
 
   it('serverSessionReceived without redirectUrl', () => {
     const isServerLoggedIn = true;
-    const redirectUrl = 'http://issuer.example/authorization/'
     const action = {
       type: '[CORE] Server session status received',
       isServerLoggedIn,

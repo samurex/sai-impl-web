@@ -1,7 +1,7 @@
 <sai-navbar
   [webId]="(webId | async)!"
   [isLoggedIn]="(isLoggedIn | async)!"
-  [withNotificationsAction]="!(subscription$|async)"
+  [withNotificationsAction]="(subscription$|async) === null"
   (notifications)="subscribeToNotifications()"
 ></sai-navbar>
 <router-outlet></router-outlet>

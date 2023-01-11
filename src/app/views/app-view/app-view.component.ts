@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Application, IRI} from "@janeirodigital/sai-api-messages";
 
 import {AccessNeed, AccessNeedGroup, ShapeTree} from "../../state/models";
@@ -10,7 +10,7 @@ export type AppChangeSet = {[AccessNeedId: IRI]: IRI[]};
   templateUrl: './app-view.component.html',
   styleUrls: ['./app-view.component.scss']
 })
-export class AppViewComponent implements OnInit {
+export class AppViewComponent {
 
   @Input() expanded = false;
   @Input() application!: Application;
@@ -24,11 +24,6 @@ export class AppViewComponent implements OnInit {
 
   public changeSet: AppChangeSet = {};
   public changed = false;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   handleNeedChange(changed: {id: IRI, access: IRI[]}): void {
     this.changed = true;
@@ -46,7 +41,12 @@ export class AppViewComponent implements OnInit {
   }
 
   getShapetreesForNeed(need: AccessNeed): ShapeTree {
-    const match = this.shapetrees!.filter(tree => need.shapeTree.includes(tree.id)).pop()!;
-    return match;
+    if (!this.shapetrees) throw Error("Invalid shapetree data");
+
+    const shapetrees =  this.shapetrees.filter(tree => need.shapeTree.includes(tree.id)).pop();
+
+    if (!shapetrees) throw Error("Invalid shapetree data");
+
+    return shapetrees;
   }
 }

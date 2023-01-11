@@ -15,7 +15,7 @@ import {DataActions} from 'src/app/state/actions/application.actions';
 })
 export class AuthorizationComponent implements OnInit {
   clientId?: IRI;
-  clientIdInput: string = '';
+  clientIdInput = '';
 
   authorizationData$ = this.store.select(selectDescriptions);
   authorizationData?: AuthorizationData
@@ -54,10 +54,12 @@ export class AuthorizationComponent implements OnInit {
     return 'All'
   }
 
+  // TODO use case when there is a `parent` access need
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   createDataAuthorizations(accessNeed: AccessNeed, parent?: AccessNeed): DataAuthorization[] {
     const dataAuthorization = {
       accessNeed: accessNeed.id,
-      scope: this.getScope(accessNeed), // TODO
+      scope: this.getScope(accessNeed),
     } as DataAuthorization
     let children: DataAuthorization[] = []
     if (accessNeed.children) {
@@ -75,8 +77,6 @@ export class AuthorizationComponent implements OnInit {
 
   onSubmit() {
     if (this.authorizationData) {
-      const dataAuthorizations: DataAuthorization[] = []
-
       this.store.dispatch(DataActions.authorizeApplication({
         authorization: {
           grantee: this.authorizationData.id,

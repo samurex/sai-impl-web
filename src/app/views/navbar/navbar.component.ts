@@ -1,26 +1,23 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import { Store } from '@ngrx/store';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Router} from "@angular/router";
-import { Languages } from "../../languages";
+import {Languages} from "../../languages";
 
 @Component({
   selector: 'sai-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
 
   @Input() webId!: string | null;
-  @Input() isLoggedIn : boolean = false;
-  @Input() withNotificationsAction: boolean = true;
+  @Input() isLoggedIn  = false;
+  @Input() withNotificationsAction = true;
   @Input() languageSelect = Languages;
-  
+
   @Output() notifications = new EventEmitter();
 
 
   constructor(
     public router: Router,
   ) {}
-
-  ngOnInit(): void {}
 }

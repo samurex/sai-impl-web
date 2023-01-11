@@ -16,13 +16,13 @@ export class CoreEffects {
     private store: Store,
   ) {}
 
-  login$ = createEffect(() => this.actions$.pipe(
+  login$ = createEffect(() => { return this.actions$.pipe(
     ofType(CoreActions.loginRequested),
     map(({oidcIssuer}) => CoreActions.loginInitiated({oidcIssuer})),
     tap(({oidcIssuer}) => this.id.login(oidcIssuer)),
-  ))
+  ) })
 
-  handleIncomingRedirect$ = createEffect(() => this.actions$.pipe(
+  handleIncomingRedirect$ = createEffect(() => { return this.actions$.pipe(
     ofType(CoreActions.incomingLoginRedirect),
     mergeMap(({url}) => from(this.id.handleRedirect(url))),
     map(oidcInfo => {
@@ -32,21 +32,22 @@ export class CoreEffects {
         throw new Error('oidcInfo undefined')
       }
     })
-  ))
+  ) })
 
-  setLoggedIn$ = createEffect(() => this.actions$.pipe(
+  setLoggedIn$ = createEffect(() => { return this.actions$.pipe(
     ofType(CoreActions.oidcInfoReceived),
     map(({oidcInfo}) => CoreActions.loginStatusChanged({loggedIn: oidcInfo.isLoggedIn}))
-  ))
+  ) })
 
-  setWebId$ = createEffect(() => this.actions$.pipe(
+  setWebId$ = createEffect(() => { return this.actions$.pipe(
     ofType(CoreActions.oidcInfoReceived),
-    map(({oidcInfo}) => CoreActions.webIdReceived({webId: oidcInfo.webId!}))
-  ))
+    // TODO handle invalid webid
+    map(({oidcInfo}) => CoreActions.webIdReceived({webId: oidcInfo.webId || ''}))
+  ) })
 
-  checkServerSession$ = createEffect(() => this.actions$.pipe(
+  checkServerSession$ = createEffect(() => { return this.actions$.pipe(
     ofType(CoreActions.loginStatusChanged),
-    concatLatestFrom(() => this.store.select(selectors.oidcIssuer)),
+    concatLatestFrom(() => this.store.select(selectors.selectIssuer)),
     mergeMap(([action, oidcIssuer]) => {
       if (action.loggedIn) {
         return of(CoreActions.serverSessionRequested({oidcIssuer}))
@@ -54,20 +55,20 @@ export class CoreEffects {
         return EMPTY;
       }
     }),
-  ))
+  ) })
 
-  serverSessionRequested$ = createEffect(() => this.actions$.pipe(
+  serverSessionRequested$ = createEffect(() => { return this.actions$.pipe(
     ofType(CoreActions.serverSessionRequested),
     mergeMap(({oidcIssuer}) => from(this.id.checkServerSession(oidcIssuer))
       .pipe(
         map(result => CoreActions.serverSessionReceived(result))
       )),
-  ))
+  ) })
 
-  serverLoginRequested$ = createEffect(() => this.actions$.pipe(
+  serverLoginRequested$ = createEffect(() => { return this.actions$.pipe(
     ofType(CoreActions.serverLoginRequested),
-    concatLatestFrom(action => this.store.select(selectors.redirectUrl)),
-    tap(([action, redirectUrl]) => this.id.serverLogin(redirectUrl)),
-    map(([action, redirectUrl]) => CoreActions.serverLoginInitiated()),
-  ))
+    concatLatestFrom(() => this.store.select(selectors.selectRedirectUrl)),
+    tap(([, redirectUrl]) => this.id.serverLogin(redirectUrl)),
+    map(() => CoreActions.serverLoginInitiated()),
+  ) })
 }

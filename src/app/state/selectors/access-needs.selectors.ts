@@ -7,7 +7,7 @@ import {
   SHAPE_TREE_STATE_KEY,
   ShapetreesState,
 } from "../reducers/access-needs.reducer";
-import {getSelectedApplication} from "./application.selectors";
+import {selectSelectedApplication} from "./application.selectors";
 import {AccessNeed, AccessNeedGroup, ShapeTree} from "../models";
 
 export const selectAccessNeedsFeature = createFeatureSelector<AccessNeedsState>(ACCESS_NEEDS_STATE_KEY);
@@ -17,7 +17,7 @@ export const selectAccessNeedGroupFeature = createFeatureSelector<AccessNeedGrou
 // For now, it is assumed that only one group per application is possible
 export const selectCurrentGroup = createSelector(
   selectAccessNeedGroupFeature,
-  getSelectedApplication,
+  selectSelectedApplication,
   (state, app) => app ? state.entities[app.accessNeedGroup] as AccessNeedGroup : null
 )
 
@@ -32,7 +32,7 @@ export const selectCurrentShapeTrees = createSelector(
   selectCurrentNeeds,
   // TODO ! is it possible to ensure that shapetree is always defined/work around the undefined?
   function (state, needs) {
-    return needs ? needs.map(need => state.entities[need!.shapeTree]) as ShapeTree[] : null;
+    return needs ? needs.map(need => state.entities[need?.shapeTree]) as ShapeTree[] : null;
   },
 )
 

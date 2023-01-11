@@ -18,7 +18,7 @@ describe('data registry reducer', () => {
   it('initial state', () => {
     const state = { byId: {}, allIds: [] }
     const expected = {...state}
-    const action = { type: 'foo' } as any;
+    const action = { type: 'foo' };
     expect(dataRegistriesReducer(undefined, action)).toEqual(expected);
   });
 

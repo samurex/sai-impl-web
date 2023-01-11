@@ -3,8 +3,6 @@ import {Store} from "@ngrx/store";
 import {selectApplications} from 'src/app/state/selectors/application.selectors';
 import {DataActions} from 'src/app/state/actions/application.actions';
 import {DescActions} from "../../state/actions/description.actions";
-import {selectDescriptions} from "../../state/selectors/description.selectors";
-import {map} from "rxjs";
 import {
   selectCurrentGroup,
   selectCurrentNeeds,

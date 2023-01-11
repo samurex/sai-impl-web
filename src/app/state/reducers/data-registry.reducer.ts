@@ -5,7 +5,7 @@ import {DataActions} from "../actions/application.actions";
 import {insertEntities} from "./utils";
 
 export const DATA_REGISTRY_STATE_KEY = 'data';
-export interface DataRegistryState extends NormalizedState<DataRegistry> {}
+export type DataRegistryState = NormalizedState<DataRegistry>
 
 export const initialState: DataRegistryState = {
   byId: {},

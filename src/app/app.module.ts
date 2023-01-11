@@ -44,7 +44,6 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {DemoMaterialModule} from "../material-module";
 import {AddSocialAgentFormComponent} from './views/add-social-agent-form/add-social-agent-form.component';
-import {InstanceSelectorComponent} from './views/instance-selector/instance-selector.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatRadioModule} from "@angular/material/radio";
 
@@ -73,7 +72,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppViewComponent,
     AccessNeedViewComponent,
     AddSocialAgentFormComponent,
-    InstanceSelectorComponent,
   ],
   imports: [
     BrowserModule,

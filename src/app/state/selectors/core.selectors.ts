@@ -4,47 +4,47 @@ import {CORE_STATE_KEY, CoreState} from "../reducers/core.reducer";
 
 export const selectCore = createFeatureSelector<CoreState>(CORE_STATE_KEY);
 
-export const oidcIssuer = createSelector(
+export const selectIssuer = createSelector(
   selectCore,
   core => core.oidcIssuer,
 );
 
-export const redirectUrl = createSelector(
+export const selectRedirectUrl = createSelector(
   selectCore,
   core => core.redirectUrl,
 );
 
-export const webId = createSelector(
+export const selectWebId = createSelector(
   selectCore,
   core => core.webId,
 );
 
-export const loginKnown = createSelector(
+export const selectLoginKnown = createSelector(
   selectCore,
   core => core.loginKnown
 )
 
-export const loggedInStatus = createSelector(
+export const selectLoggedInStatus = createSelector(
   selectCore,
   core => core.isLoggedIn,
 )
 
-export const serverLoggedInStatus = createSelector(
+export const selectServerLoggedInStatus = createSelector(
   selectCore,
   core => core.isServerLoggedIn,
 )
 
-export const requestedPath = createSelector(
+export const selectRequestedPath = createSelector(
   selectCore,
   core => core.requestedPath,
 );
 
-export const bothEndsLoggedIn = createSelector(
+export const selectBothEndsLoggedIn = createSelector(
   selectCore,
   core => core.isLoggedIn && core.isServerLoggedIn
 )
 
-export const prefLanguage = createSelector(
+export const selectPrefLanguage = createSelector(
   selectCore,
   core => core.language
 )

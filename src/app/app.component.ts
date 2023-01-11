@@ -3,22 +3,22 @@ import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {onSessionRestore} from '@inrupt/solid-client-authn-browser';
 import {CoreActions} from "./state/actions";
-import {loggedInStatus, oidcIssuer, webId} from "./state/selectors";
+import {selectLoggedInStatus, selectIssuer, selectWebId} from "./state/selectors";
 import {SwPush} from '@angular/service-worker';
 import {PushService} from "./services/push.service";
 import {ENV} from "../environments/environment";
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({
-  selector: 'app-root',
+  selector: 'sai-app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
   title = 'sai-web-app';
-  oidcIssuer = this.store.select(oidcIssuer);
-  webId = this.store.select(webId);
-  isLoggedIn = this.store.select(loggedInStatus);
+  oidcIssuer = this.store.select(selectIssuer);
+  webId = this.store.select(selectWebId);
+  isLoggedIn = this.store.select(selectLoggedInStatus);
 
   subscription$ = this.swPush.subscription;
 
@@ -32,12 +32,12 @@ export class AppComponent implements OnInit{
     // TODO ensure that requestedPath gets set even if oidc session can't be restored
     onSessionRestore((currentUrl: string) => {
       const url = new URL(currentUrl)
-      let requestedPath = url.pathname + url.search
+      const requestedPath = url.pathname + url.search
       this.store.dispatch(CoreActions.pathRequested({ requestedPath }))
     })
 
     this.swPush.notificationClicks.subscribe(({ notification }) => {
-      this.router.navigateByUrl(`/add-social-agent?webid=${notification.data.webId}`)
+      this.router.navigateByUrl(`/add-social-agent?webid=${notification.data.webId}`).catch(() => {throw Error("Navigation Failed")});
     });
 
     // this language will be used as a fallback when a translation isn't found in the current language
@@ -48,9 +48,9 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
-    // '/' doesn't trigger any guards and we want to trigger start guard
+    // '/' doesn't trigger any guards, and we want to trigger start guard
     if (window.location.pathname === '/') {
-      this.router.navigateByUrl('/start')
+      this.router.navigateByUrl('/start').catch(() => {throw Error("Navigation failed")});
     }
   }
 

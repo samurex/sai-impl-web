@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Languages} from "../../languages";
 import {TranslateService} from "@ngx-translate/core";
 import {CORE_LANGUAGE_KEY, initialState, preferLanguage} from "../../state/reducers/core.reducer";
@@ -8,7 +8,7 @@ import {CORE_LANGUAGE_KEY, initialState, preferLanguage} from "../../state/reduc
   templateUrl: './language.component.html',
   styleUrls: ['./language.component.scss']
 })
-export class LanguageComponent implements OnInit {
+export class LanguageComponent {
 
   @Input() languages = Languages;
 
@@ -17,12 +17,11 @@ export class LanguageComponent implements OnInit {
     translate.use(browserLang.match(/en|es/) ? browserLang : 'en');
   }
 
-  ngOnInit(): void {
-  }
+  onChange(selectEvent: Event) {
+    const { target } = selectEvent;
+    if (!target) return;
 
-  onChange(languageValue: any) {
-    //Set user prefer language
-    const languageSelectedValue: string = languageValue.target.value;
+    const languageSelectedValue: string = (<HTMLSelectElement>target).value;
     this.translate.use(languageSelectedValue);
     //Set localStorage with user prefer language
     preferLanguage.language = languageSelectedValue;

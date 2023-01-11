@@ -13,7 +13,7 @@ const internalSelectors = applicationAdapter.getSelectors();
 //   state => state.selectedApplication,
 // );
 
-export const getSelectedApplication = createSelector(
+export const selectSelectedApplication = createSelector(
   selectApplicationsFeature,
   // getSelectedApplicationId,
   selectCurrentApplication,

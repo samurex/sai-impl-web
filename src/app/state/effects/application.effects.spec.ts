@@ -14,7 +14,7 @@ import {
   SocialAgent
 } from '@janeirodigital/sai-api-messages';
 import {provideMockStore} from '@ngrx/store/testing';
-import {prefLanguage} from '../selectors';
+import {selectPrefLanguage} from '../selectors';
 
 let actions$ = new Observable<Action>();
 let dataServiceSpy: jasmine.SpyObj<DataService>;
@@ -32,7 +32,7 @@ describe('ApplicationProfileEffects', () => {
         provideMockStore({
           selectors: [
             {
-              selector: prefLanguage,
+              selector: selectPrefLanguage,
               value: defaultLang
             }
           ]
@@ -50,7 +50,7 @@ describe('ApplicationProfileEffects', () => {
   })
 
 
-  it('loadApplicationProfiles', (done: any) => {
+  it('loadApplicationProfiles', (done) => {
     actions$ = of({
       type: '[APPLICATION PROFILES] Application Profiles Requested',
     });
@@ -70,7 +70,7 @@ describe('ApplicationProfileEffects', () => {
     });
   });
 
-  it('loadSocialAgentsProfiles', (done: any) => {
+  it('loadSocialAgentsProfiles', (done) => {
     actions$ = of({
       type: '[SOCIAL AGENT PROFILES] Social Agent Profiles Requested',
     });
@@ -90,7 +90,7 @@ describe('ApplicationProfileEffects', () => {
     });
   });
 
-  it('addSocialAgent', (done: any) => {
+  it('addSocialAgent', (done) => {
     const webId = 'https://jane.example'
     const label = 'Jana'
     const note = 'A truck driver'
@@ -116,7 +116,7 @@ describe('ApplicationProfileEffects', () => {
     });
   });
 
-  it('loadDataRegistries', (done: any) => {
+  it('loadDataRegistries', (done) => {
     const lang = 'en'
     actions$ = of({
       type: '[DATA REGISTRIES] Data Registries Requested',
@@ -137,7 +137,7 @@ describe('ApplicationProfileEffects', () => {
     });
   });
 
-  it('authorizeApplication', (done: any) => {
+  it('authorizeApplication', (done) => {
     const authorization = { grantee: 'https://bob.example'} as Authorization
     actions$ = of({
       type: '[APPLICATION PROFILES] Authorize Application',
@@ -158,7 +158,7 @@ describe('ApplicationProfileEffects', () => {
     });
   });
 
-  it('loadDescriptions', (done: any) => {
+  it('loadDescriptions', (done) => {
     const applicationId = 'https://projectron.example'
 
     actions$ = of({
@@ -184,7 +184,12 @@ describe('ApplicationProfileEffects', () => {
           authorizationData: expectedAuthorizationData,
         });
       },
-      complete: done(),
+      complete: () => done(),
     });
+  });
+
+  // TODO
+  xit('redirect to callback', async() => {
+    effects.redirectToCallbackEndpoint.subscribe().unsubscribe();
   });
 });

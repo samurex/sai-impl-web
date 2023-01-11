@@ -24,6 +24,6 @@ export const initialState: DescriptionsState = {
 
 export const descriptionsReducer = createReducer(
   initialState,
-  on(DescActions.descriptionsNeeded, (state, {applicationId}) => ({...state, selectedApplication: applicationId })),
+  on(DescActions.descriptionsNeeded, (state, {applicationId}): DescriptionsState => ({...state, selectedApplication: applicationId })),
   on(DescActions.descriptionsReceived, (state, {authorizationData}) => ({ selectedApplication: state.selectedApplication, ...insertEntity(state, authorizationData)})),
 )

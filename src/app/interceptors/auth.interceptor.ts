@@ -20,15 +20,14 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      tap((event: HttpEvent<any>) => {
+      tap((event: HttpEvent<unknown>) => {
         // Ignore the outgoing requests
         if (event.type === HttpEventType.Sent) return;
 
         event = event as HttpResponse<unknown>;
-        console.log(event.url);
 
-        if (event instanceof HttpResponse && event.status === 401) {
-          console.log('[Auth Interceptor] Received 401 response - setting login status to false')
+        if (event.status === 401) {
+          console.info('[Auth Interceptor] Received 401 response - setting login status to false')
           this.store.dispatch(CoreActions.loginStatusChanged({loggedIn: false}));
         }
       })

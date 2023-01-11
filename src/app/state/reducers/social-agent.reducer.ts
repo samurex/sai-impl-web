@@ -4,7 +4,7 @@ import {DataActions} from "../actions/application.actions";
 import {createEntityAdapter, EntityState} from "@ngrx/entity";
 
 export const SOCIAL_AGENT_STATE_KEY = 'social-agents';
-export interface SocialAgentState extends EntityState<SocialAgent> {}
+export type SocialAgentState = EntityState<SocialAgent>
 const adapter = createEntityAdapter<SocialAgent>();
 
 export const initialState: SocialAgentState = adapter.getInitialState();

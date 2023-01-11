@@ -1,12 +1,12 @@
-import { EMPTY, Observable, of } from 'rxjs';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { TestBed } from '@angular/core/testing';
-import { Action } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
-import { oidcIssuer, redirectUrl } from '../selectors';
-import { LoginService } from '../../services/login.service';
-import { CoreEffects } from './core.effects';
-import { ISessionInfo } from '@inrupt/solid-client-authn-browser';
+import {EMPTY, Observable, of} from 'rxjs';
+import {provideMockActions} from '@ngrx/effects/testing';
+import {TestBed} from '@angular/core/testing';
+import {Action} from '@ngrx/store';
+import {provideMockStore} from '@ngrx/store/testing';
+import {selectIssuer, selectRedirectUrl} from '../selectors';
+import {LoginService} from '../../services/login.service';
+import {CoreEffects} from './core.effects';
+import {ISessionInfo} from '@inrupt/solid-client-authn-browser';
 
 let actions$ = new Observable<Action>();
 let loginServiceSpy: jasmine.SpyObj<LoginService>;
@@ -19,7 +19,6 @@ const spy = jasmine.createSpyObj('LoginService', [
   'checkServerSession',
 ]);
 
-const defaultLang = 'en';
 const issuer = 'https://op.example'
 const redirect = 'https://op.example/auth?beep=boop'
 
@@ -31,11 +30,11 @@ describe('CoreEffects', () => {
         provideMockStore({
           selectors: [
             {
-              selector: oidcIssuer,
+              selector: selectIssuer,
               value: issuer,
             },
             {
-              selector: redirectUrl,
+              selector: selectRedirectUrl,
               value: redirect,
             },
           ],
@@ -52,7 +51,7 @@ describe('CoreEffects', () => {
     effects = TestBed.inject<CoreEffects>(CoreEffects);
   });
 
-  it('login', (done: any) => {
+  it('login', (done) => {
 
     actions$ = of({
       type: '[CORE] Login Requested',
@@ -80,7 +79,7 @@ describe('CoreEffects', () => {
 
     const url = 'https://server.example';
 
-    it('success', (done: any) => {
+    it('success', (done) => {
       const expectedSessionInfo = {
         isLoggedIn: true,
         sessionId: 'session-id',
@@ -100,7 +99,7 @@ describe('CoreEffects', () => {
       });
     });
 
-    it('failure', (done: any) => {
+    it('failure', (done) => {
       const errorMessage = 'oidcInfo undefined'
       loginServiceSpy.handleRedirect.and.callFake(
         async () => undefined
@@ -117,7 +116,7 @@ describe('CoreEffects', () => {
     });
   });
   describe('setLoggedIn', () => {
-    it('logged in', (done: any) => {
+    it('logged in', (done) => {
       actions$ = of({
         type: '[CORE] OIDC Info Received',
         oidcInfo: {
@@ -133,7 +132,7 @@ describe('CoreEffects', () => {
       });
     });
 
-    it('not logged in', (done: any) => {
+    it('not logged in', (done) => {
       actions$ = of({
         type: '[CORE] OIDC Info Received',
         oidcInfo: {
@@ -152,7 +151,7 @@ describe('CoreEffects', () => {
 
   describe('setWebId', () => {
     const webId = 'https://alice.example'
-    it('logged in', (done: any) => {
+    it('logged in', (done) => {
       actions$ = of({
         type: '[CORE] OIDC Info Received',
         oidcInfo: {
@@ -170,7 +169,7 @@ describe('CoreEffects', () => {
   });
 
   describe('checkServerSession', () => {
-    it('logged in', (done: any) => {
+    it('logged in', (done) => {
       actions$ = of({
         type: '[CORE] Login Status Changed',
         loggedIn: true
@@ -185,12 +184,13 @@ describe('CoreEffects', () => {
     });
 
     // TODO possibly change the implementation
-    xit('not logged in', (done: any) => {
+    xit('not logged in', (done) => {
       actions$ = of({
         type: '[CORE] Login Status Changed',
         loggedIn: false
       });
       effects.checkServerSession$.subscribe((action) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         expect(action).toEqual(EMPTY);
         done();
@@ -199,7 +199,7 @@ describe('CoreEffects', () => {
   });
 
   describe('serverSessionRequested', () => {
-    it('logged in', (done: any) => {
+    it('logged in', (done) => {
       actions$ = of({
         type: '[CORE] Server session status requested'
       });
@@ -213,7 +213,7 @@ describe('CoreEffects', () => {
       });
     });
 
-    it('not logged in', (done: any) => {
+    it('not logged in', (done) => {
       actions$ = of({
         type: '[CORE] Server session status requested'
       });
@@ -230,12 +230,12 @@ describe('CoreEffects', () => {
   });
 
   describe('serverLoginRequested', () => {
-    it('redirects to correct url', (done: any) => {
+    it('redirects to correct url', (done) => {
 
       actions$ = of({
         type: '[CORE] Server Login Requested'
       });
-      loginServiceSpy.serverLogin.and.callFake(async () => {})
+      loginServiceSpy.serverLogin.and.callFake(async () => undefined)
       effects.serverLoginRequested$.subscribe((action) => {
         expect(action).toEqual({
           type: '[CORE] Server login Initiated'

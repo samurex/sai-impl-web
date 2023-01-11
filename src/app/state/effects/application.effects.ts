@@ -20,51 +20,53 @@ export class ApplicationProfileEffects {
     private store: Store,
   ) {}
 
-  loadApplicationProfiles$ = createEffect(() => this.actions$.pipe(
+  loadApplicationProfiles$ = createEffect(() => { return this.actions$.pipe(
     ofType(DataActions.applicationsPanelLoaded),
     mergeMap(() => this.data.getApplicationProfiles()),
     map(profiles => DataActions.applicationProfilesReceived({profiles})),
-  ))
+  ) })
 
-  loadSocialAgentsProfiles$ = createEffect(() => this.actions$.pipe(
+  loadSocialAgentsProfiles$ = createEffect(() => { return this.actions$.pipe(
     ofType(DataActions.socialAgentsPanelLoaded),
     mergeMap(() => this.data.getSocialAgentProfiles()),
     map(profiles => DataActions.socialAgentProfilesReceived({profiles})),
-  ))
+  ) })
 
-  addSocialAgent$ = createEffect(() => this.actions$.pipe(
+  addSocialAgent$ = createEffect(() => { return this.actions$.pipe(
     ofType(DataActions.addSocialAgent),
     mergeMap(({ webId, label, note }) => this.data.addSocialAgent(webId, label, note)),
     map(profile => DataActions.socialAgentProfileReceived({profile})),
-  ))
+  ) })
 
-  loadDataRegistries$ = createEffect(() => this.actions$.pipe(
+  loadDataRegistries$ = createEffect(() => { return this.actions$.pipe(
     ofType(DataActions.dataRegistriesNeeded),
-    concatLatestFrom(() => this.store.select(selectors.prefLanguage)),
-    mergeMap(([props, lang]) => this.data.getDataRegistries(lang)),
+    concatLatestFrom(() => this.store.select(selectors.selectPrefLanguage)),
+    mergeMap(([, lang]) => this.data.getDataRegistries(lang)),
     map(registries => DataActions.dataRegistriesProvided({registries})),
-  ))
+  ) })
 
-  loadDescriptions$ = createEffect(() => this.actions$.pipe(
+  loadDescriptions$ = createEffect(() => { return this.actions$.pipe(
     ofType(DescActions.descriptionsNeeded),
-    concatLatestFrom(() => this.store.select(selectors.prefLanguage)),
+    concatLatestFrom(() => this.store.select(selectors.selectPrefLanguage)),
     mergeMap(([props, lang]) => this.data.getDescriptions(props.applicationId, lang)),
+    // TODO split into a single action per effect
+    // eslint-disable-next-line @ngrx/no-multiple-actions-in-effects
     switchMap(authorizationData => [
       DescActions.descriptionsReceived({authorizationData}),
       ...mapAuthorizationDataToNeedsActions(authorizationData).flat(),
     ]),
-  ))
+  ) })
 
-  authorizeApplication$ = createEffect(() => this.actions$.pipe(
+  authorizeApplication$ = createEffect(() => { return this.actions$.pipe(
     ofType(DataActions.authorizeApplication),
     mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),
     map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),
-  ))
+  ) })
 
-  redirectToCallbackEndpoint =  createEffect(() => this.actions$.pipe(
+  redirectToCallbackEndpoint =  createEffect(() => { return this.actions$.pipe(
     ofType(DataActions.authorizationReceived),
-    tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint!)
-  ), {dispatch: false});
+    tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint || '')
+  ) }, {dispatch: false});
 }
 
 const mapAuthorizationDataToNeedsActions = (data: AuthorizationData) => {
