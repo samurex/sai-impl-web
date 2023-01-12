@@ -15,12 +15,16 @@ export class LoginService {
   ) {}
 
   async login(oidcIssuer: string) {
+    try {
+      await this.solidOidc.login({
+        clientId: ENV.OIDC_CLIENT_ID,
+        oidcIssuer,
+        redirectUrl: `${ENV.BASE_URL}/redirect`,
+      });
+    } catch (e) {
+      throw new Error(`fail retrieving server, status = ${e}`);
+    }
 
-    await this.solidOidc.login({
-      clientId: ENV.OIDC_CLIENT_ID,
-      oidcIssuer,
-      redirectUrl: `${ENV.BASE_URL}/redirect`,
-    });
   }
 
   async checkServerSession(oidcIssuer: string): Promise<{isServerLoggedIn: boolean, redirectUrl?: string}> {
@@ -39,7 +43,7 @@ export class LoginService {
       const {redirectUrl} = await result.json()
       return  {isServerLoggedIn: false, redirectUrl}
     } else {
-      throw new Error(`login check failed, stauts=${result.status}`)
+      throw new Error(`login check failed, status = ${result.status}`)
     }
   }
 
