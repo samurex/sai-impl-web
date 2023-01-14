@@ -1,0 +1,12 @@
+{
+  "@context": "https://www.w3.org/ns/solid/oidc-context.jsonld",
+  "client_id":"${BASE_URL}/assets/id.jsonld",
+  "redirect_uris":[
+    "${BASE_URL}",
+    "${BASE_URL}/",
+    "${BASE_URL}/redirect",
+    "${BASE_URL}/redirect?iss=${ENCODED_DEFAULT_IDP}"
+  ],
+  "grant_types": [ "authorization_code", "refresh_token"],
+  "client_name":"${WEB_CLIENT_NAME}"
+}
