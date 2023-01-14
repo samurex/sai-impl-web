@@ -5,7 +5,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: sai-web
+  IMAGE_NAME: janeirodigital/sai-web
 
 jobs:
   build-and-push-image:
