@@ -29,7 +29,7 @@
       </div>
     </mat-nested-tree-node>
   </mat-tree>
-  <button mat-raised-button color="primary" (click)="onSubmit()">Authorize</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">{{'APP.CTA-AUTHORIZED' | translate}}</button>
 </div>
 
 <!--<div>-->
@@ -42,14 +42,14 @@
 
 <ng-template #noClientId>
   <div class="form-container">
-    <h3 class="missing-client-warn">Please provide a client id</h3>
+    <h3 class="missing-client-warn">{{'APP.AUTH-CLIENT-ID-MISSING' | translate}}</h3>
     <form [routerLink]="'/authorize'" [queryParams]="{client_id: clientIdInput}">
       <mat-form-field class="full-width-input">
-        <mat-label>Application ID</mat-label>
+        <mat-label>{{'APP.AUTH-APP-ID' | translate}}</mat-label>
         <input matInput required [(ngModel)]="clientIdInput" [ngModelOptions]="{standalone: true}">
-        <mat-error>Application ID is required</mat-error>
+        <mat-error>{{'APP.AUTH-APP-ID-REQUIRED' | translate}}</mat-error>
       </mat-form-field>
-      <button mat-raised-button>Search</button>
+      <button mat-raised-button>{{'APP.CTA-SEARCH' | translate}}</button>
     </form>
   </div>
 </ng-template>

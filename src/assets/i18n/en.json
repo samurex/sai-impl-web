@@ -1,6 +1,40 @@
 {
-  "LOGIN": {
-    "TITLE": "Log In",
-    "CTA": "Login"
+  "APP": {
+    "GLOBAL-APP": "SOLID Authorization Agent",
+    "CTA-AUTHORIZED": "Authorize",
+    "CTA-SERVER-CONNECT":  "Connect to Server",
+    "CTA-ACCEPT": "Accept",
+    "CTA-CANCEL": "Cancel",
+    "CTA-SAVE": "Save",
+    "CTA-SEARCH": "Search",
+    "CTA-ADD": "Add",
+    "CTA-REMOVE": "Remove",
+    "CTA-DISCARD": "Discard",
+    "CTA-EDIT": "Edit",
+    "CTA-ADD-APP":  "Add Application",
+    "CTA-ADD-SOCIAL-AGENT": "Add Social Agent",
+    "LOGIN-TITLE": "Log in",
+    "LOGIN-CTA": "Login",
+    "LOGIN-ERROR": "Please provide a valid Solid Provider",
+    "NAV-APPS": "Apps",
+    "NAV-PEERS": "Peers",
+    "NAV-DATA": "Information",
+    "NAV-CTA": "Enable notifications",
+    "SOCIAL-AGENT-NAME": "Name",
+    "SOCIAL-AGENT-REQUIRED": "Name is required",
+    "SOCIAL-AGENT-NOTE": "Note",
+    "SOCIAL-AGENT-DATE": "Authorized on",
+    "WEB-ID": "WebId",
+    "WEB-ID-REQUIRED": "WebId is required",
+    "AUTH-CLIENT-ID-MISSING": "Please provide a client id",
+    "AUTH-APP-ID": "Application ID",
+    "AUTH-APP-ID-REQUIRED": "Application ID is required",
+    "AUTH-SERVER": "Authorize server to use your account",
+    "SERVER-MSG": "Solid Authorization Server needs your approval to manage your Solid data and services.",
+    "SERVER-AUTH-MSG": "Click the button below to authorize.",
+    "ACCESS-REGISTRY": "Registries to share from",
+    "ACCESS-LEVEL": "Access level to grant",
+    "ACCESS-NEEDS": "has the following access needs",
+    "LAST-UPDATE": "Last update on"
   }
 }

@@ -1,8 +1,8 @@
 
 <div>
-  <h1>Authorize server to use your account</h1>
-  <p>Solid Authorization Server needs your approval to manage your Solid data and services.</p>
-  <p>Click the button below to authorize.</p>
-  <button mat-raised-button (click)="loginServer()">Authorize</button>
+  <h1>{{'APP.AUTH-SERVER' | translate}}</h1>
+  <p>{{'APP.SERVER-MSG' | translate}}</p>
+  <p>{{'APP.SERVER-AUTH-MSG'}}</p>
+  <button mat-raised-button (click)="loginServer()">{{'APP.CTA-SERVER-CONNECT' | translate}}</button>
 </div>
 

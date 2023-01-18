@@ -3,20 +3,20 @@
   <mat-card-header>
     <img mat-card-avatar class="header-image" alt="application logo" src="{{application.logo}}">
     <mat-card-title>{{application.name}}</mat-card-title>
-    <mat-card-subtitle>Last updated on: {{(application.lastUpdateDate || application.authorizationDate) | date}}</mat-card-subtitle>
+    <mat-card-subtitle>{{'APP.LAST-UPDATE' | translate}}: {{(application.lastUpdateDate || application.authorizationDate) | date}}</mat-card-subtitle>
     <mat-card-actions align="end">
-      <button mat-button *ngIf="!expanded" (click)="expanded = !expanded">Edit</button>
-      <button mat-button *ngIf="expanded" [disabled]="!changed" (click)="submit()">Save</button>
+      <button mat-button *ngIf="!expanded" (click)="expanded = !expanded">{{'APP.CTA-EDIT' | translate}}</button>
+      <button mat-button *ngIf="expanded" [disabled]="!changed" (click)="submit()">{{'APP.CTA-SAVE' | translate}}</button>
       <button mat-button *ngIf="expanded" (click)="handleDiscard()">
-        <span *ngIf="changed">Discard</span>
-        <span *ngIf="!changed">Cancel</span>
+        <span *ngIf="changed">{{'APP.CTA-DISCARD' | translate}}</span>
+        <span *ngIf="!changed">{{'APP.CTA-CANCEL' | translate}}</span>
       </button>
 
-      <button mat-button color="warn" (click)="remove.emit({id: application.id})">Remove</button>
+      <button mat-button color="warn" (click)="remove.emit({id: application.id})">{{'APP.CTA-REMOVE' | translate}}</button>
     </mat-card-actions>
   </mat-card-header>
   <mat-card-content *ngIf="expanded && group">
-    <p>{{application.name}} has the following access needs</p>
+    <p>{{application.name}} {{'APP.ACCESS-NEEDS' | translate}}</p>
     <div>
       <h3>{{group.label}}</h3>
       <p>{{group.description}}</p>

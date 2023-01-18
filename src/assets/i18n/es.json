@@ -1,6 +1,40 @@
 {
-  "LOGIN": {
-    "TITLE": "Iniciar sesión",
-    "CTA": "Iniciar sesión"
+  "APP": {
+    "GLOBAL-APP": "Persona de autorización de SOLID",
+    "CTA-AUTHORIZED": "Autorizar",
+    "CTA-SERVER-CONNECT":  "Conectar al Servidor",
+    "CTA-ACCEPT": "Aceptar",
+    "CTA-CANCEL": "Cancelar",
+    "CTA-SAVE": "Guardar",
+    "CTA-SEARCH": "Buscar",
+    "CTA-ADD": "Agregar",
+    "CTA-REMOVE": "Remover",
+    "CTA-DISCARD": "Descartar",
+    "CTA-EDIT": "Editar",
+    "CTA-ADD-APP":  "Agregar Aplicación",
+    "CTA-ADD-SOCIAL-AGENT": "Agregar Persona",
+    "LOGIN-TITLE": "Iniciar sesión",
+    "LOGIN-CTA": "Iniciar sesión",
+    "LOGIN-ERROR": "Por favor proporcione un servidor de SOLID válido",
+    "NAV-APPS": "Aplicaciones",
+    "NAV-PEERS": "Colaboradores",
+    "NAV-DATA": "Información",
+    "NAV-CTA": "Activar notificaciones",
+    "SOCIAL-AGENT-NAME": "Nombre",
+    "SOCIAL-AGENT-REQUIRED": "Nombre requerido",
+    "SOCIAL-AGENT-NOTE": "Nota",
+    "SOCIAL-AGENT-DATE": "Autorizado el",
+    "WEB-ID": "WebId",
+    "WEB-ID-REQUIRED": "El WebId es requerido",
+    "AUTH-CLIENT-ID-MISSING": "Por favor proporcione un ID de cliente",
+    "AUTH-APP-ID": "ID de aplicación",
+    "AUTH-APP-ID-REQUIRED": "El ID de la aplicacin es requerido",
+    "AUTH-SERVER": "Autorice el servidor para usar su cuenta",
+    "SERVER-MSG": "El Servidor de Autorización de Solid necesita su aprovación para manejar su información y servicios de Solid.",
+    "SERVER-AUTH-MSG": "Hacer click en el botón de abajo para autorizar.",
+    "ACCESS-REGISTRY": "Registros para compartir",
+    "ACCESS-LEVEL": "Nivel de acceso a concerder",
+    "ACCESS-NEEDS": "tiene las siguientes necesidades de acceso ",
+    "LAST-UPDATE": "Ultima actualización"
   }
 }

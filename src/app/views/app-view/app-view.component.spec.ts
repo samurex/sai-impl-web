@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AppViewComponent } from './app-view.component';
+import {RouterTestingModule} from "@angular/router/testing";
+import {TranslateModule} from "@ngx-translate/core";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('AppViewComponent', () => {
   let component: AppViewComponent;
@@ -8,7 +11,12 @@ describe('AppViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AppViewComponent ]
+      declarations: [ AppViewComponent ],
+      imports: [
+        RouterTestingModule,
+        TranslateModule.forRoot(),
+        HttpClientTestingModule
+      ]
     })
     .compileComponents();
 

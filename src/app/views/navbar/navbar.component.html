@@ -1,15 +1,15 @@
 <mat-toolbar color="primary">
-  <h3>Solid Authorization Agent</h3>
+  <h3>{{'APP.GLOBAL-APP' | translate}}</h3>
   <div *ngIf="isLoggedIn">
     <button mat-button routerLink="/dashboard">
       <mat-icon fontIcon="home"></mat-icon>
     </button>
-    <button mat-button routerLink="/applications">Applications</button>
-    <button mat-button routerLink="/social-agents">Social Agents</button>
-    <button mat-button routerLink="/data">Data</button>
+    <button mat-button routerLink="/applications">{{'APP.NAV-APPS' | translate}}</button>
+    <button mat-button routerLink="/social-agents">{{'APP.NAV-PEERS' | translate}}</button>
+    <button mat-button routerLink="/data">{{'APP.NAV-DATA' | translate}}</button>
     <button mat-raised-button color="accent" *ngIf="withNotificationsAction" (click)="notifications.emit()">
       <mat-icon>notification_important</mat-icon>
-      Enable Notifications
+      {{'APP.NAV-CTA' | translate}}
     </button>
   </div>
   <span class="spacer"></span>

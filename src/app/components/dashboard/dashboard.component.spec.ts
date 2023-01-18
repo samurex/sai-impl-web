@@ -3,6 +3,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { DashboardComponent } from './dashboard.component';
+import {RouterTestingModule} from "@angular/router/testing";
+import {TranslateModule} from "@ngx-translate/core";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -13,6 +16,9 @@ describe('DashboardComponent', () => {
       declarations: [ DashboardComponent ],
       providers: [ provideMockStore({}) ],
       imports: [
+        RouterTestingModule,
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: false })
       ]
     })

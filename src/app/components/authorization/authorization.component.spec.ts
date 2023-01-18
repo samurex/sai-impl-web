@@ -4,6 +4,8 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {provideMockStore} from '@ngrx/store/testing';
 
 import {AuthorizationComponent} from './authorization.component';
+import {TranslateModule} from "@ngx-translate/core";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('AuthorizationComponent', () => {
   let component: AuthorizationComponent;
@@ -13,7 +15,10 @@ describe('AuthorizationComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ AuthorizationComponent ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        RouterTestingModule,
+        TranslateModule.forRoot(),
+        HttpClientTestingModule
       ],
       providers: [
         provideMockStore({}),
