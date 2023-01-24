@@ -39,6 +39,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatTreeModule} from "@angular/material/tree";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
+import {I18nModule} from "./app/i18n.module";
 
 @NgModule({
   exports: [
@@ -84,6 +85,7 @@ import {ReactiveFormsModule, FormsModule} from "@angular/forms";
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
+    I18nModule,
   ]
 })
 export class DemoMaterialModule {}
