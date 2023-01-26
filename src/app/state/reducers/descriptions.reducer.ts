@@ -1,7 +1,7 @@
 import {NormalizedState} from "./index";
 import {createReducer, on} from "@ngrx/store";
 import {AuthorizationData, IRI} from "@janeirodigital/sai-api-messages";
-import {DescActions} from "../actions/description.actions";
+import * as DescActions from "../actions/description.actions";
 import {insertEntity} from "./utils";
 
 /*

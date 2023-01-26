@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Store} from "@ngrx/store";
 import {IRI} from "@janeirodigital/sai-api-messages";
-import {DataActions} from "../../state/actions/application.actions";
+import * as DataActions from "../../state/actions/application.actions";
 
 @Component({
   selector: 'sai-add-social-agent',

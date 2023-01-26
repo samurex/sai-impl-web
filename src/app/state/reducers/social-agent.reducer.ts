@@ -1,6 +1,7 @@
 import {createReducer, on} from '@ngrx/store';
 import {SocialAgent} from '@janeirodigital/sai-api-messages';
-import {DataActions} from "../actions/application.actions";
+// TODO why are `DATA`actions imported from `APPLICATION`.actions in the `SOCIAL_AGENTS`.reducer?
+import * as DataActions from "../actions/application.actions";
 import {createEntityAdapter, EntityState} from "@ngrx/entity";
 
 export const SOCIAL_AGENT_STATE_KEY = 'social-agents';

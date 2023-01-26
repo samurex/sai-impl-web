@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {onSessionRestore} from '@inrupt/solid-client-authn-browser';
-import {CoreActions} from "./state/actions";
+import * as CoreActions from "./state/actions/core.actions";
 import {selectLoggedInStatus, selectIssuer, selectWebId} from "./state/selectors";
 import {SwPush} from '@angular/service-worker';
 import {PushService} from "./services/push.service";

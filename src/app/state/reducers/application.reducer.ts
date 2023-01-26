@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import {Application, IRI} from '@janeirodigital/sai-api-messages';
-import {DataActions} from "../actions/application.actions";
+import * as DataActions from "../actions/application.actions";
 import {createEntityAdapter, EntityState} from "@ngrx/entity";
 
 export const APPLICATION_PROFILE_STATE_KEY = 'applications';

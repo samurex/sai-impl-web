@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType, concatLatestFrom} from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { EMPTY, map, tap, of, from} from "rxjs";
 import {LoginService} from "../../services/login.service";
-import {CoreActions} from "../actions";
+import * as CoreActions from "../actions/core.actions";
 import {mergeMap} from "rxjs/operators";
 import * as selectors from "../selectors";
 

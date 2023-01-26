@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {Store} from "@ngrx/store";
-import {CoreActions} from "../../state/actions";
+import * as CoreActions from "../../state/actions/core.actions";
 import {ENV} from "../../../environments/environment";
 
 @Component({

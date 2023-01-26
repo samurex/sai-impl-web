@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
-import {CoreActions} from "../../state/actions";
+import * as CoreActions from "../../state/actions/core.actions";
 
 @Component({
   selector: 'sai-redirect-handler',

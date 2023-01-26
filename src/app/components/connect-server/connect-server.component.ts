@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Store} from '@ngrx/store'
-import {CoreActions} from 'src/app/state/actions';
+import * as CoreActions from 'src/app/state/actions/core.actions';
 
 @Component({
   selector: 'sai-connect-server',

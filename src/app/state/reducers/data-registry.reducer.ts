@@ -1,7 +1,7 @@
 import {createReducer, on} from '@ngrx/store';
 import { NormalizedState } from "./index";
 import {DataRegistry} from '@janeirodigital/sai-api-messages';
-import {DataActions} from "../actions/application.actions";
+import * as DataActions from "../actions/application.actions";
 import {insertEntities} from "./utils";
 
 export const DATA_REGISTRY_STATE_KEY = 'data';

@@ -1,5 +1,5 @@
 import {createReducer, on} from "@ngrx/store";
-import {CoreActions} from "../actions";
+import * as CoreActions from "../actions/core.actions";
 
 export const CORE_STATE_KEY = 'core';
 export const CORE_LANGUAGE_KEY = 'coreLanguage';
