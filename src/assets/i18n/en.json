@@ -2,6 +2,7 @@
   "APP": {
     "GLOBAL-APP": "SOLID Authorization Agent",
     "CTA-AUTHORIZED": "Authorize",
+    "CTA-DENY": "Denied",
     "CTA-SERVER-CONNECT":  "Connect to Server",
     "CTA-ACCEPT": "Accept",
     "CTA-CANCEL": "Cancel",

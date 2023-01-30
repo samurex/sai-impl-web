@@ -30,7 +30,7 @@
     "@angular/router": "^14.2.7",
     "@angular/service-worker": "^14.2.7",
     "@inrupt/solid-client-authn-browser": "^1.11.7",
-    "@janeirodigital/sai-api-messages": "^0.6.0",
+    "@janeirodigital/sai-api-messages": "^0.7.0",
     "@ngrx/effects": "^14.3.2",
     "@ngrx/entity": "^14.3.2",
     "@ngrx/store": "^14.3.2",

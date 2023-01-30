@@ -2,6 +2,7 @@
   "APP": {
     "GLOBAL-APP": "Persona de autorización de SOLID",
     "CTA-AUTHORIZED": "Autorizar",
+    "CTA-DENY": "Denegar",
     "CTA-SERVER-CONNECT":  "Conectar al Servidor",
     "CTA-ACCEPT": "Aceptar",
     "CTA-CANCEL": "Cancelar",

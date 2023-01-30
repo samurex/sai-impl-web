@@ -2,11 +2,12 @@ import {NestedTreeControl} from '@angular/cdk/tree';
 import {Component, OnInit} from '@angular/core';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AccessNeed, AuthorizationData, DataAuthorization, IRI} from '@janeirodigital/sai-api-messages';
+import {AccessNeed, Authorization, AuthorizationData, DataAuthorization, IRI} from '@janeirodigital/sai-api-messages';
 import {Store} from "@ngrx/store";
 import * as DescActions from 'src/app/state/actions/description.actions';
-import {selectDescriptions} from 'src/app/state/selectors/description.selectors'
 import * as DataActions from 'src/app/state/actions/application.actions';
+import {selectDescriptions} from 'src/app/state/selectors/description.selectors'
+import { BaseAuthorization } from '@janeirodigital/sai-api-messages';
 
 @Component({
   selector: 'sai-authorization',
@@ -75,17 +76,27 @@ export class AuthorizationComponent implements OnInit {
       }));
   }
 
-  onSubmit() {
+  authorize(granted = true) {
     if (this.authorizationData) {
-      this.store.dispatch(DataActions.authorizeApplication({
-        authorization: {
-          grantee: this.authorizationData.id,
-          accessNeedGroup: this.authorizationData.accessNeedGroup.id,
-          dataAuthorizations: this.authorizationData.accessNeedGroup.needs.flatMap(accessNeed => this.createDataAuthorizations(accessNeed))
+      let authorization: Authorization
+      const baseAuthorization = {
+        grantee: this.authorizationData.id,
+        accessNeedGroup: this.authorizationData.accessNeedGroup.id,
+      } as BaseAuthorization;
+      if (granted) {
+        authorization =  {
+          ...baseAuthorization,
+          dataAuthorizations: this.authorizationData.accessNeedGroup.needs.flatMap(accessNeed => this.createDataAuthorizations(accessNeed)),
+          granted: true,
         }
-      }));
+      } else {
+        authorization =  {
+          ...baseAuthorization,
+          granted: false,
+        }
+      }
+      this.store.dispatch(DataActions.authorizeApplication({ authorization }));
       // TODO: show spinner
     }
   }
-
 }

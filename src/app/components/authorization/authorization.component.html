@@ -29,7 +29,10 @@
       </div>
     </mat-nested-tree-node>
   </mat-tree>
-  <button mat-raised-button color="primary" (click)="onSubmit()">{{'APP.CTA-AUTHORIZED' | translate}}</button>
+  <div *ngIf="dataSource.data.length">
+    <button mat-raised-button color="primary" (click)="authorize()">{{'APP.CTA-AUTHORIZED' | translate}}</button>
+    <button mat-raised-button color="warn" (click)="authorize(false)">{{'APP.CTA-DENY' | translate}}</button>
+  </div>
 </div>
 
 <!--<div>-->
