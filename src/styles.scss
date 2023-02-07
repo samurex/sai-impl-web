@@ -1,17 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'src/assets/styles/sdk-theme';
+@use '@angular/material' as mat;
+@include mat.core();
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-//mat-expansion-panel-header > .mat-content {
-//  justify-content: flex-start;
-//}
+$theme-primary: mat.define-palette(sdk-theme.$theme-primary-color);
+$theme-secondary: mat.define-palette(sdk-theme.$theme-secondary-color);
+$theme-highlight-primary: mat.define-palette(sdk-theme.$theme-highlight-primary-color);
+$theme-highlight-secondary: mat.define-palette(sdk-theme.$theme-highlight-secondary-color);
 
-//.mat-content > mat-panel-title, .mat-content > mat-panel-description {
-//  flex: 0 0 auto;
-//}
+$theme-typo-level: mat.define-typography-level(
+  $font-family: Roboto,
+  $font-weight: 400,
+  $font-size: 1rem,
+  $line-height: 1,
+  $letter-spacing: normal,
+);
 
-//mat-expansion-panel-header-description, mat-expansion-panel-header-title {
-//  flex-basis: 0;
-//}
+$theme-palette: mat.define-light-theme((
+  color: (
+    primary: $theme-primary,
+    secondary: $theme-secondary,
+    primary-highlight: $theme-highlight-primary,
+    secondary-highlight: $theme-highlight-secondary,
+    accent: $theme-highlight-primary,
+  )
+));
+
+@include mat.all-component-themes($theme-palette);

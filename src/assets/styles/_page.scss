@@ -1,0 +1,26 @@
+@import "src/assets/styles/vars";
+
+.page {
+  display: flex;
+  flex-direction: column;
+  max-width: 1440px;
+  margin: 0 auto;
+  height: calc(100vh - #{$nav-height} - #{$banner-height});
+
+  &.page-full-width {
+    max-width: 100%;
+    margin: 0;
+    height: calc(100vh - #{$nav-height});
+  }
+
+  &.v-align {
+    justify-content: center;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
+}
