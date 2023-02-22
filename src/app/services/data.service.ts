@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
+
 import { Request, ResponseMessage, ApplicationsRequest, ApplicationsResponse, ApplicationsResponseMessage,
   Application, DescriptionsRequest, DescriptionsResponse, IRI, DescriptionsResponseMessage,
   DataRegistriesRequest, DataRegistriesResponse, DataRegistriesResponseMessage, DataRegistry,
   SocialAgentsRequest, SocialAgentsResponse, SocialAgent, SocialAgentsResponseMessage,
-  AddSocialAgentRequest, SocialAgentResponse, SocialAgentResponseMessage, AuthorizationData, AccessAuthorization, Authorization, ApplicationAuthorizationRequest, ApplicationAuthorizationResponseMessage, ApplicationAuthorizationResponse
+  AddSocialAgentRequest, SocialAgentResponse, SocialAgentResponseMessage, AuthorizationData, AccessAuthorization, Authorization, ApplicationAuthorizationRequest, ApplicationAuthorizationResponseMessage, ApplicationAuthorizationResponse,
+  Resource, ResourceResponse, ResourceRequest, ShareAuthorization, ShareAuthorizationConfirmation, ShareAuthorizationRequest, ShareAuthorizationResponseMessage, ShareAuthorizationResponse
 } from '@janeirodigital/sai-api-messages'
 import {ENV} from "../../environments/environment";
 import { SolidClient } from '../utils/solid-client';
@@ -73,4 +75,20 @@ export class DataService {
     const response = new ApplicationAuthorizationResponse(data)
     return response.payload
   }
+
+  async getResource(id: IRI, lang: string): Promise<Resource> {
+    const request = new ResourceRequest(id, lang)
+    const data = await this.getDataFromApi<ResourceResponse>(request)
+    const response = new ResourceResponse(data)
+    return response.payload
+  }
+
+
+  async shareResource(shareAuthorization: ShareAuthorization): Promise<ShareAuthorizationConfirmation> {
+    const request = new ShareAuthorizationRequest(shareAuthorization)
+    const data = await this.getDataFromApi<ShareAuthorizationResponseMessage>(request)
+    const response = new ShareAuthorizationResponse(data)
+    return response.payload
+  }
+
 }

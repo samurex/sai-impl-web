@@ -39,6 +39,8 @@ import {
   AccessNeedsState
 } from "./access-needs.reducer";
 
+import { resourcesReducer, ResourceState, RESOURCE_STATE_KEY } from './resource.reducer';
+
 export interface NormalizedState<T extends UniqueId> {
   byId: { [id: string]: T },
   allIds: string[],
@@ -49,6 +51,7 @@ export interface RootState {
   [CORE_STATE_KEY]: CoreState,
   [APPLICATION_PROFILE_STATE_KEY]: ApplicationsState,
   [SOCIAL_AGENT_STATE_KEY]: SocialAgentState,
+  [RESOURCE_STATE_KEY]: ResourceState,
   [DESCRIPTIONS_STATE_KEY]: DescriptionsState,
   [DATA_REGISTRY_STATE_KEY]: DataRegistryState,
   [ACCESS_NEEDS_STATE_KEY]: AccessNeedsState,
@@ -60,6 +63,7 @@ export const reducers: ActionReducerMap<RootState> = {
   [CORE_STATE_KEY]: coreReducer,
   [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,
   [SOCIAL_AGENT_STATE_KEY]: socialAgentsReducer,
+  [RESOURCE_STATE_KEY]: resourcesReducer,
   [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,
   [DATA_REGISTRY_STATE_KEY]: dataRegistriesReducer,
   [ACCESS_NEEDS_STATE_KEY]: accessNeedsReducer,

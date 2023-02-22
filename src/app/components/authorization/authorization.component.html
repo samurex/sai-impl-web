@@ -1,5 +1,5 @@
 
-<div *ngIf="clientId; else noClientId">
+<div *ngIf="!resource$">
   <h1>{{ (authorizationData$ | async)?.accessNeedGroup?.label }}</h1>
   <h2>{{ (authorizationData$ | async)?.accessNeedGroup?.description }}</h2>
 
@@ -34,6 +34,30 @@
     <button mat-raised-button color="warn" (click)="authorize(false)">{{'APP.CTA-DENY' | translate}}</button>
   </div>
 </div>
+<div *ngIf="(resource$ | async) as resource">
+  <mat-card>
+    <mat-card-title>{{ resource.shapeTree.label }}</mat-card-title>
+    <mat-card-content>
+      {{ resource.label }}
+      <mat-selection-list #children>
+        <mat-list-option *ngFor="let child of resource.children" [value]="child.shapeTree.id">
+          {{child.shapeTree.label}} ({{ child.count }})
+        </mat-list-option>
+      </mat-selection-list>
+    </mat-card-content>
+  </mat-card>
+  <mat-selection-list #agents>
+    <mat-list-option *ngFor="let agent of potentialAccessGrantees$ | async" [value]="agent.id">
+      {{agent.label}}
+    </mat-list-option>
+  </mat-selection-list>
+  <button [disabled]="!agents.selectedOptions.selected.length" mat-raised-button color="primary" (click)="share(agents.selectedOptions.selected, children.selectedOptions.selected)">{{'APP.CTA-SHARE' | translate}}</button>
+  <mat-list>
+    <mat-list-item *ngFor="let agent of existingAccessGrantees$ | async">
+      {{ agent.label }}
+    </mat-list-item>
+  </mat-list>
+</div>
 
 <!--<div>-->
 <!--  <sai-app-view expanded="true" [application]="applications$ | async">-->
@@ -42,7 +66,7 @@
 
 <!--</div>-->
 
-
+<!--
 <ng-template #noClientId>
   <div class="form-container">
     <h3 class="missing-client-warn">{{'APP.AUTH-CLIENT-ID-MISSING' | translate}}</h3>
@@ -55,4 +79,4 @@
       <button mat-raised-button>{{'APP.CTA-SEARCH' | translate}}</button>
     </form>
   </div>
-</ng-template>
+</ng-template> -->

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Application, DataRegistry, IRI, SocialAgent, Authorization, AccessAuthorization } from '@janeirodigital/sai-api-messages';
+import { Application, DataRegistry, IRI, SocialAgent, Authorization, AccessAuthorization, Resource, ShareAuthorization, ShareAuthorizationConfirmation } from '@janeirodigital/sai-api-messages';
 
 export const applicationsPanelLoaded = createAction(
   '[APPLICATION PROFILES] Application Profiles Requested'
@@ -51,4 +51,24 @@ export const authorizeApplication = createAction(
 export const authorizationReceived = createAction(
   '[APPLICATION PROFILES] Authorization Received',
   props<{ accessAuthorization: AccessAuthorization }>()
+)
+
+export const loadResource = createAction(
+  '[RESOURCE] Resource Requested',
+  props<{ id: IRI }>()
+)
+
+export const resourceReceived = createAction(
+  '[RESOURCE] Resource Received',
+  props<{ resource: Resource }>()
+)
+
+export const shareResource = createAction(
+  '[RESOURCE] Share Resource',
+  props<{ shareAuthorization: ShareAuthorization }>()
+)
+
+export const shareResourceConfirmed = createAction(
+  '[RESOURCE] Share Confirmation',
+  props<{ confirmation: ShareAuthorizationConfirmation }>()
 )

@@ -63,10 +63,29 @@ export class ApplicationProfileEffects {
     map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),
   ) })
 
-  redirectToCallbackEndpoint =  createEffect(() => { return this.actions$.pipe(
+  redirectToCallbackEndpoint$ =  createEffect(() => { return this.actions$.pipe(
     ofType(DataActions.authorizationReceived),
     tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint || '')
   ) }, {dispatch: false});
+
+  loadResource$ = createEffect(() => { return this.actions$.pipe(
+    ofType(DataActions.loadResource),
+    concatLatestFrom(() => this.store.select(selectors.selectPrefLanguage)),
+    mergeMap(([{id}, lang]) => this.data.getResource(id, lang)),
+    map(resource => DataActions.resourceReceived({resource})),
+  ) })
+
+  shareResource$ = createEffect(() => { return this.actions$.pipe(
+    ofType(DataActions.shareResource),
+    mergeMap(({ shareAuthorization }) => this.data.shareResource(shareAuthorization)),
+    map(confirmation => DataActions.shareResourceConfirmed({ confirmation })),
+  ) })
+
+  redirectToCallbackEndpointAfterShare$ =  createEffect(() => { return this.actions$.pipe(
+    ofType(DataActions.shareResourceConfirmed),
+    tap(({confirmation}) => window.location.href = confirmation.callbackEndpoint)
+  ) }, {dispatch: false});
+
 }
 
 const mapAuthorizationDataToNeedsActions = (data: AuthorizationData) => {

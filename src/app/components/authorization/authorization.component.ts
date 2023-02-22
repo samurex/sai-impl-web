@@ -7,7 +7,13 @@ import {Store} from "@ngrx/store";
 import * as DescActions from 'src/app/state/actions/description.actions';
 import * as DataActions from 'src/app/state/actions/application.actions';
 import {selectDescriptions} from 'src/app/state/selectors/description.selectors'
-import { BaseAuthorization } from '@janeirodigital/sai-api-messages';
+import { BaseAuthorization, Resource, ShareAuthorization } from '@janeirodigital/sai-api-messages';
+import { filter, map, mergeMap, Observable, take, tap, withLatestFrom } from 'rxjs';
+import { selectResource } from 'src/app/state/selectors/resource.selectors';
+import { SocialAgent } from '@janeirodigital/sai-api-messages';
+import { selectSocialAgents } from 'src/app/state/selectors/social-agent.selectors';
+import { MatListOption } from '@angular/material/list';
+import { concatLatestFrom } from '@ngrx/effects';
 
 @Component({
   selector: 'sai-authorization',
@@ -18,6 +24,13 @@ export class AuthorizationComponent implements OnInit {
   clientId?: IRI;
   clientIdInput = '';
 
+  socialAgents$: Observable<SocialAgent[]> = this.store.select(selectSocialAgents);
+  potentialAccessGrantees$?: Observable<SocialAgent[]>;
+  existingAccessGrantees$?: Observable<SocialAgent[]>;
+
+  resource$?: Observable<Resource | undefined>;
+
+  // TODO: consider using factory selectors selectDescriptions(clientId)
   authorizationData$ = this.store.select(selectDescriptions);
   authorizationData?: AuthorizationData
 
@@ -40,13 +53,37 @@ export class AuthorizationComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    // TODO: use observables for query params handling
     const params = this.route.snapshot.queryParams;
-    const clientId = params['client_id'];
+    this.clientId = params['client_id'];
 
-    if (clientId) {
-      this.clientId = clientId;
-      this.fetchApplication(clientId);
+    if (params['resource']) {
+      this.resource$ = this.route.queryParams.pipe(
+        map(params => decodeURIComponent(params['resource'])),
+        tap(id => this.store.dispatch(DataActions.loadResource({ id }))),
+        tap(() => this.store.dispatch(DataActions.socialAgentsPanelLoaded())),
+        mergeMap(id =>  this.store.select(selectResource( id ))),
+      );
+
+      this.potentialAccessGrantees$ = this.resource$.pipe(
+        filter(resource => !!resource),
+        concatLatestFrom(() => this.socialAgents$),
+        map(([resource, socialAgents]) =>
+          socialAgents.filter(socialAgent => !resource!.accessGrantedTo.includes(socialAgent.id)))
+      )
+
+      this.existingAccessGrantees$ = this.resource$.pipe(
+        filter(resource => !!resource),
+        concatLatestFrom(() => this.socialAgents$),
+        map(([resource, socialAgents]) =>
+          socialAgents.filter(socialAgent => resource!.accessGrantedTo.includes(socialAgent.id)))
+      )
     }
+
+    this.store.dispatch(DescActions.descriptionsNeeded({
+      applicationId: this.clientId!
+    }));
+
   }
 
   getScope(accessNeed: AccessNeed): string {
@@ -68,12 +105,6 @@ export class AuthorizationComponent implements OnInit {
     }
 
     return [ dataAuthorization, ...children]
-  }
-
-  fetchApplication(clientId: IRI): void {
-      this.store.dispatch(DescActions.descriptionsNeeded({
-        applicationId: clientId
-      }));
   }
 
   authorize(granted = true) {
@@ -98,5 +129,22 @@ export class AuthorizationComponent implements OnInit {
       this.store.dispatch(DataActions.authorizeApplication({ authorization }));
       // TODO: show spinner
     }
+  }
+
+  // TODO: access modes
+  share(agentOptions: MatListOption[], resourceOptions: MatListOption[]) {
+    this.resource$?.pipe(
+      filter(resource => !!resource),
+      take(1)
+    ).subscribe(resource => {
+      const shareAuthorization: ShareAuthorization = {
+        resource: resource!.id,
+        applicationId: this.clientId!,
+        agents: agentOptions.map(opt => opt.value),
+        children: resourceOptions.map(opt => opt.value)
+      }
+      this.store.dispatch(DataActions.shareResource({ shareAuthorization }));
+      // TODO: show spinner
+    });
   }
 }

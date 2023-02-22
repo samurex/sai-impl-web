@@ -6,9 +6,7 @@
  * These models can be constructed from the models in sai-api-messages and vice-versa
  */
 
-import {UniqueId} from "@janeirodigital/sai-api-messages";
-import {IRI} from "@janeirodigital/sai-api-messages/src";
-
+import {UniqueId, IRI} from "@janeirodigital/sai-api-messages";
 export type ACL = 'http://www.w3.org/ns/auth/acl#Read'
   | 'http://www.w3.org/ns/auth/acl#Write'
   |'http://www.w3.org/ns/auth/acl#Control'
