@@ -6,6 +6,7 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {MatButtonModule} from "@angular/material/button";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {NavbarComponent} from "./views/navbar/navbar.component";
 import {LoginComponent} from "./components/login/login.component";
@@ -73,6 +74,7 @@ import {I18nModule} from "./i18n.module";
     BrowserAnimationsModule,
     HttpClientModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatToolbarModule,
     MatCardModule,
     MatListModule,

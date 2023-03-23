@@ -2,13 +2,13 @@ import {NestedTreeControl} from '@angular/cdk/tree';
 import {Component, OnInit} from '@angular/core';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AccessNeed, Authorization, AuthorizationData, DataAuthorization, IRI} from '@janeirodigital/sai-api-messages';
+import {AccessNeed, Authorization, AuthorizationData, DataAuthorization, IRI, AccessModes, ShareAuthorizationModes} from '@janeirodigital/sai-api-messages';
 import {Store} from "@ngrx/store";
 import * as DescActions from 'src/app/state/actions/description.actions';
 import * as DataActions from 'src/app/state/actions/application.actions';
 import {selectDescriptions} from 'src/app/state/selectors/description.selectors'
 import { BaseAuthorization, Resource, ShareAuthorization } from '@janeirodigital/sai-api-messages';
-import { filter, map, mergeMap, Observable, take, tap, withLatestFrom } from 'rxjs';
+import { filter, map, mergeMap, Observable, take, tap} from 'rxjs';
 import { selectResource } from 'src/app/state/selectors/resource.selectors';
 import { SocialAgent } from '@janeirodigital/sai-api-messages';
 import { selectSocialAgents } from 'src/app/state/selectors/social-agent.selectors';
@@ -20,9 +20,15 @@ import { concatLatestFrom } from '@ngrx/effects';
   templateUrl: './authorization.component.html',
   styleUrls: ['./authorization.component.scss']
 })
+
 export class AuthorizationComponent implements OnInit {
   clientId?: IRI;
   clientIdInput = '';
+
+  shareData: ShareAuthorizationModes = {
+    accessMode: [],
+    children: []
+  }
 
   socialAgents$: Observable<SocialAgent[]> = this.store.select(selectSocialAgents);
   potentialAccessGrantees$?: Observable<SocialAgent[]>;
@@ -41,7 +47,6 @@ export class AuthorizationComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private store: Store,
     ) {
       this.authorizationData$.subscribe(data => {
@@ -63,17 +68,16 @@ export class AuthorizationComponent implements OnInit {
         tap(id => this.store.dispatch(DataActions.loadResource({ id }))),
         tap(() => this.store.dispatch(DataActions.socialAgentsPanelLoaded())),
         mergeMap(id =>  this.store.select(selectResource( id ))),
+        filter(resource => !!resource),
       );
 
       this.potentialAccessGrantees$ = this.resource$.pipe(
-        filter(resource => !!resource),
         concatLatestFrom(() => this.socialAgents$),
         map(([resource, socialAgents]) =>
           socialAgents.filter(socialAgent => !resource!.accessGrantedTo.includes(socialAgent.id)))
       )
 
       this.existingAccessGrantees$ = this.resource$.pipe(
-        filter(resource => !!resource),
         concatLatestFrom(() => this.socialAgents$),
         map(([resource, socialAgents]) =>
           socialAgents.filter(socialAgent => resource!.accessGrantedTo.includes(socialAgent.id)))
@@ -83,6 +87,13 @@ export class AuthorizationComponent implements OnInit {
     this.store.dispatch(DescActions.descriptionsNeeded({
       applicationId: this.clientId!
     }));
+
+    this.resource$?.subscribe((resource) => {
+      this.shareData.children = resource!.children.map(child => ({
+        shapeTree: child.shapeTree.id,
+        accessMode: []
+      }))
+    })
 
   }
 
@@ -132,19 +143,46 @@ export class AuthorizationComponent implements OnInit {
   }
 
   // TODO: access modes
-  share(agentOptions: MatListOption[], resourceOptions: MatListOption[]) {
+  share(agentOptions: MatListOption[]) {
     this.resource$?.pipe(
       filter(resource => !!resource),
       take(1)
     ).subscribe(resource => {
       const shareAuthorization: ShareAuthorization = {
-        resource: resource!.id,
         applicationId: this.clientId!,
-        agents: agentOptions.map(opt => opt.value),
-        children: resourceOptions.map(opt => opt.value)
+        resource: resource!.id,
+        accessMode: this.shareData.accessMode,
+        children: this.shareData.children,
+        agents: agentOptions.map(opt => opt.value)
       }
       this.store.dispatch(DataActions.shareResource({ shareAuthorization }));
       // TODO: show spinner
     });
+  }
+
+  accessChanged(value: string) {
+    this.shareData.accessMode = this.chooseAccessMode(value)
+  }
+
+  childChanged(shapeTree: string, value: string) {
+    const child = this.shareData.children.find(c => c.shapeTree === shapeTree)
+    if (child) {
+      child.accessMode = this.chooseAccessMode(value) 
+    } else {
+      throw new Error(`shareData missing ${shapeTree}`)
+    }
+  }
+
+  chooseAccessMode(value: string): string[] {
+    switch (value) {
+      case 'view':
+        return [ AccessModes.Read ]
+      case 'edit':
+        return [ AccessModes.Read, AccessModes.Update ]
+      case 'add':
+        return [ AccessModes.Read, AccessModes.Update, AccessModes.Create ]
+      default:
+        return []
+    }
   }
 }
