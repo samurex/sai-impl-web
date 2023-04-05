@@ -11,6 +11,9 @@ import {
   Authorization,
   AuthorizationData,
   DataRegistry,
+  Resource,
+  ShareAuthorization,
+  ShareAuthorizationConfirmation,
   SocialAgent
 } from '@janeirodigital/sai-api-messages';
 import {provideMockStore} from '@ngrx/store/testing';
@@ -20,7 +23,7 @@ let actions$ = new Observable<Action>();
 let dataServiceSpy: jasmine.SpyObj<DataService>;
 let effects: ApplicationProfileEffects
 
-const spy = jasmine.createSpyObj('DataService', ['getApplicationProfiles', 'getSocialAgentProfiles', 'addSocialAgent', 'getDataRegistries', 'authorizeApplication', 'getDescriptions']);
+const spy = jasmine.createSpyObj('DataService', ['getApplicationProfiles', 'getSocialAgentProfiles', 'addSocialAgent', 'getDataRegistries', 'authorizeApplication', 'getDescriptions', 'getResource', 'shareResource']);
 
 const defaultLang = 'en'
 
@@ -66,6 +69,7 @@ describe('ApplicationProfileEffects', () => {
         type: '[APPLICATION PROFILES] Application Profiles Received',
         profiles: expectedProfiles,
       });
+      expect(dataServiceSpy.getApplicationProfiles).toHaveBeenCalledOnceWith()
       done();
     });
   });
@@ -86,6 +90,7 @@ describe('ApplicationProfileEffects', () => {
         type: '[SOCIAL AGENT PROFILES] Social Agent Profiles Received',
         profiles: expectedProfiles,
       });
+      expect(dataServiceSpy.getSocialAgentProfiles).toHaveBeenCalledOnceWith()
       done();
     });
   });
@@ -102,10 +107,8 @@ describe('ApplicationProfileEffects', () => {
 
     const expectedProfile = { id: 'https://jane.example' } as SocialAgent
 
-    // TODO params
     dataServiceSpy.addSocialAgent.and.resolveTo(expectedProfile);
 
-    // TODO expect spy params
     effects.addSocialAgent$.subscribe((action) => {
       expect(action).toEqual({
         type: '[SOCIAL AGENT PROFILES] Single Social Agent Profile Received',
@@ -117,10 +120,8 @@ describe('ApplicationProfileEffects', () => {
   });
 
   it('loadDataRegistries', (done) => {
-    const lang = 'en'
     actions$ = of({
-      type: '[DATA REGISTRIES] Data Registries Requested',
-      lang
+      type: '[DATA REGISTRIES] Data Registries Requested'
     });
 
     const expectedDataRegistries = [{ id: 'https://data.bob.example/reg-1' }, { id: 'https://data.bob.example/reg-2' }] as DataRegistry[]
@@ -132,7 +133,7 @@ describe('ApplicationProfileEffects', () => {
         type: '[DATA REGISTRIES] Data Registries Received',
         registries: expectedDataRegistries,
       });
-      expect(dataServiceSpy.getDataRegistries).toHaveBeenCalledOnceWith(lang)
+      expect(dataServiceSpy.getDataRegistries).toHaveBeenCalledOnceWith(defaultLang)
       done();
     });
   });
@@ -183,13 +184,75 @@ describe('ApplicationProfileEffects', () => {
           type: '[DESCRIPTIONS] Descriptions received for application',
           authorizationData: expectedAuthorizationData,
         });
+        expect(dataServiceSpy.getDescriptions).toHaveBeenCalledOnceWith(applicationId, defaultLang)
+      },
+      complete: () => done(),
+    });
+  });
+
+  it('loadResource', (done) => {
+    const resourceId = 'https://work.alice.example/some-resource'
+
+    actions$ = of({
+      type: '[RESOURCE] Resource Requested',
+      id: resourceId
+    });
+
+    const expectedResource = {
+        id: resourceId
+    } as unknown as Resource;
+
+    dataServiceSpy.getResource.and.resolveTo(expectedResource);
+
+    effects.loadResource$.subscribe({
+      next: (action) => {
+        if (action.type === '[RESOURCE] Resource Received')
+        expect(action).toEqual({
+          type: '[RESOURCE] Resource Received',
+          resource: expectedResource,
+        });
+        expect(dataServiceSpy.getResource).toHaveBeenCalledOnceWith(resourceId, defaultLang)
+      },
+      complete: () => done(),
+    });
+  });
+
+  it('shareResource', (done) => {
+    const shareAuthorization = {
+      applicationId: 'https://work.alice.example/some-resource'
+    } as unknown as ShareAuthorization      
+
+    actions$ = of({
+      type: '[RESOURCE] Share Resource',
+      shareAuthorization
+    });
+
+    const expectedConfirmation = {
+      confirmation: {}
+    } as unknown as ShareAuthorizationConfirmation;
+
+    dataServiceSpy.shareResource.and.resolveTo(expectedConfirmation);
+
+    effects.shareResource$.subscribe({
+      next: (action) => {
+        if (action.type === '[RESOURCE] Share Confirmation')
+        expect(action).toEqual({
+          type: '[RESOURCE] Share Confirmation',
+          confirmation: expectedConfirmation
+        });
+        expect(dataServiceSpy.shareResource).toHaveBeenCalledOnceWith(shareAuthorization)
       },
       complete: () => done(),
     });
   });
 
   // TODO
-  xit('redirect to callback', async() => {
-    effects.redirectToCallbackEndpoint.subscribe().unsubscribe();
+  xit('redirect to callback after authorization', async() => {
+    effects.redirectToCallbackEndpoint$.subscribe().unsubscribe();
+  });
+
+  // TODO
+  xit('redirect to callback after share', async() => {
+    effects.redirectToCallbackEndpointAfterShare$.subscribe().unsubscribe();
   });
 });

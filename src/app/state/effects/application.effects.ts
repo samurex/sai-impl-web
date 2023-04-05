@@ -63,6 +63,7 @@ export class ApplicationProfileEffects {
     map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),
   ) })
 
+  // TODO move into dedicated navigation.effects
   redirectToCallbackEndpoint$ =  createEffect(() => { return this.actions$.pipe(
     ofType(DataActions.authorizationReceived),
     tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint || '')
@@ -81,6 +82,7 @@ export class ApplicationProfileEffects {
     map(confirmation => DataActions.shareResourceConfirmed({ confirmation })),
   ) })
 
+  // TODO move into dedicated navigation.effects
   redirectToCallbackEndpointAfterShare$ =  createEffect(() => { return this.actions$.pipe(
     ofType(DataActions.shareResourceConfirmed),
     tap(({confirmation}) => window.location.href = confirmation.callbackEndpoint)
