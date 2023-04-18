@@ -1,0 +1,28 @@
+
+<div class="flex flex-col p-5 bg-slate-100 border border-slate-200">
+  <div class="flex items-center ml-5">
+    <img [src]="application.logo" alt="Logo"
+         class="object-cover w-16 h-16 border border-slate-200 mr-5 bg-white">
+    <div class="flex flex-col">
+      <h2 class="text-4xl font-normal">
+<!--        TODO use actual author name and url-->
+        {{application.name}} <span class="text-sm">by <span class="underline"> <a href="https://janeirodigital.com/" target="_blank">Janeiro Digital</a></span></span>
+      </h2>
+      <p *ngIf="application.lastUpdateDate || application.authorizationDate"
+         class="text-slate-500 text-sm">
+        {{'APP.LAST-UPDATE' | translate}} {{(application.lastUpdateDate || application.authorizationDate) | date}}
+      </p>
+    </div>
+  </div>
+  <div class="mt-10 bg-white">
+    <div *ngIf="group" class="px-4 py-2 border border-slate-200">
+      <h6 class="text-2xl text-slate-900">{{group.label}}</h6>
+      <p class="text-slate-500 text-sm">{{group.description}}</p>
+
+      <div *ngFor="let need of needs"
+           class="mt-10 last:mb-5">
+        <p class="pl-5"><span class="text-xl">{{getShapetreesForNeed(need).label}}</span><br><span class="text-sm">{{need.label}}</span></p>
+      </div>
+    </div>
+  </div>
+</div>

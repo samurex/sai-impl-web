@@ -1,0 +1,15 @@
+
+<div *ngIf="(application$ | async) && (group$ | async) && (needs$ | async) && (shapetrees$ | async)"
+     class="flex flex-col p-10">
+  <sai-app-view [expanded]="true"
+                [application]="(application$ | async)!"
+                [group]="group$ | async"
+                [needs]="needs$ | async"
+                [shapetrees]="shapetrees$ | async"
+  ></sai-app-view>
+
+  <div class="flex space-x-12 my-8 mx-auto">
+    <button class="w-44 px-12 py-4 bg-blue-800 text-2xl text-blue-50" (click)="authorize(true)">{{'APP.CTA-SAVE' | translate}}</button>
+    <button class="w-44 px-12 py-4 bg-red-800 text-2xl text-red-50" (click)="authorize(false)">{{'APP.CTA-DISCARD' | translate}}</button>
+  </div>
+</div>

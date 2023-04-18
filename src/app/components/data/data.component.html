@@ -1,7 +1,0 @@
-<div *ngFor="let registry of registries$ | async">
-  <h3>{{registry.id}}</h3>
-  <mat-card *ngFor="let registration of registry.registrations">
-    <mat-card-title>{{registration.label}}</mat-card-title>
-    <mat-card-content>{{registration.count}}</mat-card-content>
-  </mat-card>
-</div>

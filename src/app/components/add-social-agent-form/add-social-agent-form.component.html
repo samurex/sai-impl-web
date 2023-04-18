@@ -1,0 +1,21 @@
+<div class="flex flex-col px-12 py-28 items-center bg-slate-100 text-slate-800">
+  <h2 class="text-4xl mb-8">{{"APP.CTA-ADD-SOCIAL-AGENT" | translate}}</h2>
+  <div>
+    <form [formGroup]="form" (ngSubmit)="submitHandler()"
+          class="flex flex-col space-y-6">
+      <label>
+        <p class="text-sm ml-2">WebId</p>
+        <input type="url" formControlName="webid" required class="border border-slate-200 w-96 p-2">
+      </label>
+      <label>
+        <p class="text-sm ml-2">Name</p>
+        <input type="text" formControlName="label" required class="border border-slate-200 w-96 p-2">
+      </label>
+      <label>
+        <p class="text-sm ml-2">Notes</p>
+        <input type="text" formControlName="note" class="border border-slate-200 w-96 p-2">
+      </label>
+      <button class="bg-blue-900 text-blue-50 text-xl w-1/3 mx-auto py-2 font-bold">Add</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="w-full h-16 bg-slate-700
+            text-xl text-slate-100">
+  <div *ngIf="isLoggedIn else loggedOut"
+       class="flex h-full px-5 items-center no-wrap space-x-6">
+    <button *ngFor="let route of routes" [routerLink]="route.path"
+            class="border-b-slate-100"
+            routerLinkActive="border-b-4">
+      {{route.label | translate}}
+    </button>
+    <div class="grow"></div>
+    <button *ngIf="withNotificationsAction" (click)="notifications.emit()"
+            class="bg-slate-100 text-slate-700 p-2">
+      <fa-icon [icon]="faBell"></fa-icon>
+      {{'APP.NAV-CTA' | translate}}
+    </button>
+  </div>
+</div>
+
+<ng-template #loggedOut>
+</ng-template>

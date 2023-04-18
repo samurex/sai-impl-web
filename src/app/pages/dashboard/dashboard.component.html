@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="section">
+    <button routerLink="/authorize" [queryParams]="{client_id: 'http://localhost:3000/acme/projectron/id'}">
+      <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
+      <br>Add Projectron
+    </button>
+  </div>
+  <div class="section">
+    <button routerLink="/add-social-agent">
+      <fa-icon [icon]="faPerson"></fa-icon>
+      <br>{{'APP.CTA-ADD-SOCIAL-AGENT' | translate}}
+    </button>
+  </div>
+</div>
+

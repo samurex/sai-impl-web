@@ -8,7 +8,13 @@ export const selectCurrentApplication = createSelector(
   state => state.selectedApplication,
 );
 
-export const selectDescriptions = createSelector(
+export const descriptions = (props: {id: string}) =>
+  createSelector(
+    selectDescriptionsFeature,
+    state => state.byId[props.id],
+  )
+
+export const currentApplicationDescriptions = createSelector(
   selectDescriptionsFeature,
   selectCurrentApplication,
   (state, selected) => selected ? state.byId[selected]: null,

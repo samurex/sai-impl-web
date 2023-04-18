@@ -1,0 +1,14 @@
+
+<div class="flex bg-white m-12 justify-between text-slate-800 flex-wrap content-around gap-y-3 gap-x-3">
+  <a routerLink="/add-social-agent" class="flex text-xl font-bold bg-slate-200 align-middle border border-slate-700 p-8 hover:cursor-pointer">
+    <fa-icon [icon]="faPlus" class=""></fa-icon>
+    <p>Add</p>
+  </a>
+  <a *ngFor="let agent of socialAgents$ | async"
+       href="{{agent.id}}" target="_blank"
+        class="bg-slate-100 border border-slate-700 p-8 grow hover:cursor-pointer">
+    <h5 class="text-xl font-bold">{{agent.label}}</h5>
+    <p class="text-xs text-slate-400">{{agent.authorizationDate | date}}</p>
+    <p class="max-w-lg">{{agent.note}}</p>
+  </a>
+</div>

@@ -15,6 +15,19 @@ export const applicationProfileReceived = createAction(
   props<{profile: Application}>(),
 )
 
+export const unregisteredApplicationProfileRequested = createAction(
+  '[APPLICATION] Unregistered Application Profile Requested',
+  props<{applicationId: string }>(),
+)
+
+export const unregisteredApplicationProfileReceived = createAction(
+  '[APPLICATION] Unregistered Application Profile Received',
+  props<{profile: Partial<Application> }>(),
+)
+
+export const unregisteredApplicationProfileError = createAction(
+  '[APPLICATION] Error retrieving Unregistered Application Profile'
+);
 export const socialAgentsPanelLoaded = createAction(
   '[SOCIAL AGENT PROFILES] Social Agent Profiles Requested'
 );
@@ -43,12 +56,3 @@ export const dataRegistriesProvided = createAction(
   props<{registries: DataRegistry[]}>(),
 )
 
-export const authorizeApplication = createAction(
-  '[APPLICATION PROFILES] Authorize Application',
-  props<{ authorization: Authorization }>()
-)
-
-export const authorizationReceived = createAction(
-  '[APPLICATION PROFILES] Authorization Received',
-  props<{ accessAuthorization: AccessAuthorization }>()
-)

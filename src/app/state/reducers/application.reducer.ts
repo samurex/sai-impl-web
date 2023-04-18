@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import {Application, IRI} from '@janeirodigital/sai-api-messages';
-import * as DataActions from "../actions/application.actions";
+import * as Actions from "../actions/application.actions";
 import {createEntityAdapter, EntityState} from "@ngrx/entity";
 
 export const APPLICATION_PROFILE_STATE_KEY = 'applications';
@@ -16,8 +16,9 @@ export const initialState: ApplicationsState =  adapter.getInitialState({
 
 export const applicationProfileReducer = createReducer(
   initialState,
-  on(DataActions.applicationProfileReceived, (state, {profile}) => adapter.addOne(profile, state)),
-  on(DataActions.applicationProfilesReceived, (state, {profiles}) => adapter.addMany(profiles, state)),
+  on(Actions.applicationProfileReceived, (state, {profile}) => adapter.addOne(profile, state)),
+  on(Actions.applicationProfilesReceived, (state, {profiles}) => adapter.addMany(profiles, state)),
+  on(Actions.unregisteredApplicationProfileReceived, (state, {profile}) => adapter.addOne(profile as Application, state)),
 );
 
 export const applicationAdapter = adapter;

@@ -20,6 +20,11 @@ export const selectSelectedApplication = createSelector(
   (state, id) => id ? state.entities[id] : null,
 )
 
+export const applicationProfile = (id: string) =>
+  createSelector(
+    selectApplicationsFeature,
+    state => state.entities[id],
+  )
 
 export const selectApplications = createSelector(
   selectApplicationsFeature,

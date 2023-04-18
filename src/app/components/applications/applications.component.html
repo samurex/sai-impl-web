@@ -1,8 +1,0 @@
-<div *ngFor="let app of allApps$ | async">
-  <sai-app-view (click)="requestDescriptions(app.id)"
-                [application]="app"
-                [group]="currentGroup$ | async"
-                [needs]="currentNeeds$ | async"
-                [shapetrees]="currentShapeTrees$ | async"
-  ></sai-app-view>
-</div>

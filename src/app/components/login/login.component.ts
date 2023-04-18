@@ -1,28 +1,21 @@
-import {Component} from '@angular/core';
-import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
-import {Store} from "@ngrx/store";
-import * as CoreActions from "../../state/actions/core.actions";
-import {ENV} from "../../../environments/environment";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'sai-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  @Input() idps = [
+    { name: 'localhost', url: 'http://localhost:3000' },
+    { name: 'XFORM.id', url: 'http://localhost:3000' },
+    { name: 'pod.gov.tld', url: 'http://localhost:3000' },
+  ];
 
-  defaultIdP = ENV.DEFAULT_IDP;
+  @Output() login = new EventEmitter<string>();
 
-  loginForm = new UntypedFormGroup({
-    issuer: new UntypedFormControl(''),
-  })
-
-  constructor(
-    private store: Store,
-  ) {}
-
-  onSubmit() {
-    const oidcIssuer = this.loginForm.get('issuer')?.value || ENV.DEFAULT_IDP;
-    this.store.dispatch(CoreActions.loginRequested({ oidcIssuer }));
-  }
+  form = new FormGroup({
+    issuer: new FormControl<string>(''),
+  });
 }

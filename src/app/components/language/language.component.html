@@ -1,0 +1,8 @@
+<ng-container>
+  <div class="languageSelector">
+    <fa-icon [icon]="faLanguage"></fa-icon>
+    <select (change)="onChange($event)">
+      <option *ngFor="let language of languages" [value]="language.id" [selected]="language.id === translate.currentLang">{{ language.label }}</option>
+    </select>
+  </div>
+</ng-container>

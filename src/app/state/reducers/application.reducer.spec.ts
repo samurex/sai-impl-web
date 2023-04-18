@@ -1,5 +1,6 @@
 import {Application} from '@janeirodigital/sai-api-messages';
 import {applicationProfileReducer, ApplicationsState} from './application.reducer';
+import {unregisteredApplicationProfileReceived} from "../actions/application.actions";
 
 describe('application profile reducer', () => {
   const profile1 = {
@@ -9,13 +10,17 @@ describe('application profile reducer', () => {
     id: 'app-2',
   } as unknown as Application
 
-  const priorState = {
-    selectedApplication: null,
-    entities: {
-      'app-1': profile1
-    },
-    ids: ['app-1']
-  }
+  let priorState: ApplicationsState;
+
+  beforeEach(() => {
+    priorState = {
+      selectedApplication: null,
+      entities: {
+        'app-1': profile1
+      },
+      ids: ['app-1']
+    }
+  })
 
 
   it('initial state', () => {
@@ -54,5 +59,15 @@ describe('application profile reducer', () => {
       'app-2': profile2,
       'app-3': profile3
     }));
+
+  });
+
+  it('unregistered application profile received', () => {
+    const id = 'https://app.id';
+    const profile = { id  };
+    const action = unregisteredApplicationProfileReceived({profile});
+    const newState = applicationProfileReducer(priorState, action);
+
+    expect(newState.ids).toContain(id);
   })
 });

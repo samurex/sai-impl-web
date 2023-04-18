@@ -1,12 +1,38 @@
 import {Injectable} from '@angular/core';
-import { Request, ResponseMessage, ApplicationsRequest, ApplicationsResponse, ApplicationsResponseMessage,
-  Application, DescriptionsRequest, DescriptionsResponse, IRI, DescriptionsResponseMessage,
-  DataRegistriesRequest, DataRegistriesResponse, DataRegistriesResponseMessage, DataRegistry,
-  SocialAgentsRequest, SocialAgentsResponse, SocialAgent, SocialAgentsResponseMessage,
-  AddSocialAgentRequest, SocialAgentResponse, SocialAgentResponseMessage, AuthorizationData, AccessAuthorization, Authorization, ApplicationAuthorizationRequest, ApplicationAuthorizationResponseMessage, ApplicationAuthorizationResponse
+import {
+  AccessAuthorization,
+  AddSocialAgentRequest,
+  Application,
+  ApplicationAuthorizationRequest,
+  ApplicationAuthorizationResponse,
+  ApplicationAuthorizationResponseMessage,
+  ApplicationsRequest,
+  ApplicationsResponse,
+  ApplicationsResponseMessage,
+  Authorization,
+  AuthorizationData,
+  DataRegistriesRequest,
+  DataRegistriesResponse,
+  DataRegistriesResponseMessage,
+  DataRegistry,
+  DescriptionsRequest,
+  DescriptionsResponse,
+  DescriptionsResponseMessage,
+  IRI,
+  Request,
+  ResponseMessage,
+  SocialAgent,
+  SocialAgentResponse,
+  SocialAgentResponseMessage,
+  SocialAgentsRequest,
+  SocialAgentsResponse,
+  SocialAgentsResponseMessage,
+  UnregisteredApplicationProfileRequest,
+  UnregisteredApplicationProfileResponse,
+  UnregisteredApplicationResponseMessage
 } from '@janeirodigital/sai-api-messages'
 import {ENV} from "../../environments/environment";
-import { SolidClient } from '../utils/solid-client';
+import {SolidClient} from '../utils/solid-client';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +63,13 @@ export class DataService {
     const data = await this.getDataFromApi<ApplicationsResponseMessage>(request)
     const response = new ApplicationsResponse(data)
     return response.payload
+  }
+
+  async getUnregisteredApplicationProfile(applicationId: string): Promise<Partial<Application>> {
+    const request = new UnregisteredApplicationProfileRequest(applicationId);
+    const data = await this.getDataFromApi<UnregisteredApplicationResponseMessage>(request);
+    const response = new UnregisteredApplicationProfileResponse(data);
+    return response.payload;
   }
 
   async getSocialAgentProfiles(): Promise<SocialAgent[]> {

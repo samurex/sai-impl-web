@@ -14,12 +14,12 @@
     "CTA-EDIT": "Edit",
     "CTA-ADD-APP":  "Add Application",
     "CTA-ADD-SOCIAL-AGENT": "Add Social Agent",
-    "LOGIN-TITLE": "Log in",
-    "LOGIN-CTA": "Login",
+    "LOGIN-TITLE": "Log In",
+    "LOGIN-CTA": "Log In",
     "LOGIN-ERROR": "Please provide a valid Solid Provider",
     "NAV-APPS": "Apps",
     "NAV-PEERS": "Peers",
-    "NAV-DATA": "Information",
+    "NAV-DATA": "Your Data",
     "NAV-CTA": "Enable notifications",
     "SOCIAL-AGENT-NAME": "Name",
     "SOCIAL-AGENT-REQUIRED": "Name is required",
@@ -35,7 +35,8 @@
     "SERVER-AUTH-MSG": "Click the button below to authorize.",
     "ACCESS-REGISTRY": "Registries to share from",
     "ACCESS-LEVEL": "Access level to grant",
-    "ACCESS-NEEDS": "has the following access needs",
-    "LAST-UPDATE": "Last update on"
+    "ACCESS-NEEDS": "is requesting access to this part of your personal data",
+    "HOME": "Home",
+    "LAST-UPDATE": "Authorized on"
   }
 }

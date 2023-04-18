@@ -1,12 +1,20 @@
-<mat-card>
-  <mat-card-content>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <h2>{{'APP.LOGIN-TITLE' | translate}}</h2>
-      <mat-form-field class="full-width-input">
-        <input matInput [placeholder]="defaultIdP" formControlName="issuer" pattern="{{defaultIdP}}" required>
-        <mat-error>{{'APP.LOGIN-ERROR' | translate}}</mat-error>
-      </mat-form-field>
-      <button mat-raised-button color="primary">{{'APP.LOGIN-CTA' | translate}}</button>
-    </form>
-  </mat-card-content>
-</mat-card>
+
+<div class="flex flex-col items-center bg-slate-200 p-12 m-12 text-slate-700">
+  <h2 class="text-5xl mb-8">{{'APP.LOGIN-TITLE' | translate}}</h2>
+
+  <div class="flex flex-col space-y-4 mb-12">
+    <button *ngFor="let idp of idps"
+            class="bg-slate-700 text-slate-50 py-4 w-64 text-lg border border-slate-900 rounded"
+            (click)="login.emit(idp.url)"
+    >
+      Sign in using {{idp.name}}</button>
+  </div>
+
+  <p class="mb-6">Or log in with your own Identity Provider</p>
+
+  <form [formGroup]="form" class="flex flex-col space-y-2">
+    <input type="url" formControlName="issuer" required placeholder="https://your.idp"
+           class="w-64 border-2 border-slate-200 rounded h-12 p-2">
+    <button class="bg-slate-700 rounded h-12 text-blue-50 text-xl">Log In</button>
+  </form>
+</div>

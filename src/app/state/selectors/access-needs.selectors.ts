@@ -7,8 +7,9 @@ import {
   SHAPE_TREE_STATE_KEY,
   ShapetreesState,
 } from "../reducers/access-needs.reducer";
-import {selectSelectedApplication} from "./application.selectors";
+import {selectApplicationsFeature, selectSelectedApplication} from "./application.selectors";
 import {AccessNeed, AccessNeedGroup, ShapeTree} from "../models";
+import {ApplicationsState} from "../reducers/application.reducer";
 
 export const selectAccessNeedsFeature = createFeatureSelector<AccessNeedsState>(ACCESS_NEEDS_STATE_KEY);
 export const selectShapetreeFeature = createFeatureSelector<ShapetreesState>(SHAPE_TREE_STATE_KEY);
@@ -21,20 +22,59 @@ export const selectCurrentGroup = createSelector(
   (state, app) => app ? state.entities[app.accessNeedGroup] as AccessNeedGroup : null
 )
 
+export const selectGroupFromClientId = (id: string) =>
+  createSelector(
+    selectApplicationsFeature,
+    selectAccessNeedGroupFeature,
+    (applicationsState: ApplicationsState, groupsState: AccessNeedGroupState) => {
+      const groupId = applicationsState.entities[id]?.accessNeedGroup;
+
+      return groupId ? groupsState.entities[groupId] : undefined;
+    },
+  )
+
 export const selectCurrentNeeds = createSelector(
   selectAccessNeedsFeature,
   selectCurrentGroup,
   (state, group) => group ? childrenOf(state, group.needs): null,
 )
 
+export const selectNeedsFromClientId = (clientId: string) =>
+  createSelector(
+    selectAccessNeedsFeature,
+    selectGroupFromClientId(clientId),
+    (state, group) => {
+      if (!group) return;
+      const needsIds = group.needs;
+
+      return needsIds.map(needId => state.entities[needId]).filter(Boolean) as AccessNeed[]
+    }
+  )
+
+export const selectAccessNeed = (id: string) =>
+  createSelector(
+    selectAccessNeedsFeature,
+    state => state.entities[id],
+  )
+
+export const selectAccessNeeds = (ids: string[]) =>
+  createSelector(
+    selectAccessNeedsFeature,
+    state => ids.map(id => state.entities[id]).filter(Boolean),
+  )
 export const selectCurrentShapeTrees = createSelector(
   selectShapetreeFeature,
   selectCurrentNeeds,
   // TODO ! is it possible to ensure that shapetree is always defined/work around the undefined?
-  function (state, needs) {
-    return needs ? needs.map(need => state.entities[need?.shapeTree]) as ShapeTree[] : null;
-  },
+  (state, needs) => needs ? needs.map(need => state.entities[need?.shapeTree]) as ShapeTree[] : null,
 )
+
+export const selectShapetreesFromClientId = (id: string) =>
+  createSelector(
+    selectShapetreeFeature,
+    selectNeedsFromClientId(id),
+    (state, needs) => needs ? needs.map(need => state.entities[need.shapeTree]) as ShapeTree[] : null,
+  )
 
 /**
  * Recursively traverses the needs and their children through their ids to find all the access needs related to

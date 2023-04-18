@@ -1,0 +1,13 @@
+<div class="flex flex-col gap-y-3 m-6">
+  <a *ngFor="let app of allApps$ | async"
+      routerLink="application"
+      [queryParams]="{client_id: app.id}"
+       class="hover:cursor-pointer bg-slate-200 grow max-w-xs
+              flex p-3 items-center
+              border border-slate-700">
+    <img [src]="app.logo" alt="Logo"
+         class="object-cover w-16 h-16 border border-slate-700 bg-white">
+    <h4 class="ml-5 text-3xl">{{app.name}}</h4>
+  </a>
+</div>
+<router-outlet></router-outlet>
