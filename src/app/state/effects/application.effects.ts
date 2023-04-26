@@ -78,6 +78,13 @@ export class ApplicationProfileEffects {
       ])
     );
   });
+
+  loadResource$ = createEffect(() => { return this.actions$.pipe(
+    ofType(DataActions.loadResource),
+    concatLatestFrom(() => this.store.select(selectors.selectPrefLanguage)),
+    mergeMap(([{id}, lang]) => this.data.getResource(id, lang)),
+    map(resource => DataActions.resourceReceived({resource})),
+  ) })
 }
 
 const mapAuthorizationDataToNeedsActions = (data: AuthorizationData) => {

@@ -20,7 +20,15 @@ import {
   DescriptionsResponseMessage,
   IRI,
   Request,
+  Resource,
+  ResourceRequest,
+  ResourceResponse,
   ResponseMessage,
+  ShareAuthorization,
+  ShareAuthorizationConfirmation,
+  ShareAuthorizationRequest,
+  ShareAuthorizationResponse,
+  ShareAuthorizationResponseMessage,
   SocialAgent,
   SocialAgentResponse,
   SocialAgentResponseMessage,
@@ -104,6 +112,20 @@ export class DataService {
     const request = new ApplicationAuthorizationRequest(authorization)
     const data = await this.getDataFromApi<ApplicationAuthorizationResponseMessage>(request)
     const response = new ApplicationAuthorizationResponse(data)
+    return response.payload
+  }
+
+  async getResource(id: IRI, lang: string): Promise<Resource> {
+    const request = new ResourceRequest(id, lang)
+    const data = await this.getDataFromApi<ResourceResponse>(request)
+    const response = new ResourceResponse(data)
+    return response.payload
+  }
+
+  async shareResource(shareAuthorization: ShareAuthorization): Promise<ShareAuthorizationConfirmation> {
+    const request = new ShareAuthorizationRequest(shareAuthorization)
+    const data = await this.getDataFromApi<ShareAuthorizationResponseMessage>(request)
+    const response = new ShareAuthorizationResponse(data)
     return response.payload
   }
 }

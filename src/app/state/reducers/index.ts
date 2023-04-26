@@ -29,6 +29,12 @@ import {
   SHAPE_TREE_STATE_KEY,
 } from "./access-needs.reducer";
 
+import {
+  ResourceState,
+  resourcesReducer,
+  RESOURCE_STATE_KEY
+} from './resource.reducer';
+
 import { UniqueId } from '@janeirodigital/sai-api-messages';
 import {DESCRIPTIONS_STATE_KEY, descriptionsReducer, DescriptionsState} from "./descriptions.reducer";
 import { localStorageSync } from 'ngrx-store-localstorage';
@@ -54,6 +60,7 @@ export interface RootState {
   [ACCESS_NEEDS_STATE_KEY]: AccessNeedsState,
   [ACCESS_NEEDS_GROUPS_STATE_KEY]: AccessNeedGroupState,
   [SHAPE_TREE_STATE_KEY]: ShapetreesState,
+  [RESOURCE_STATE_KEY]: ResourceState,
 }
 
 export const reducers: ActionReducerMap<RootState> = {
@@ -65,6 +72,7 @@ export const reducers: ActionReducerMap<RootState> = {
   [ACCESS_NEEDS_STATE_KEY]: accessNeedsReducer,
   [ACCESS_NEEDS_GROUPS_STATE_KEY]: accessNeedsGroupReducer,
   [SHAPE_TREE_STATE_KEY]: shapetreeReducer,
+  [RESOURCE_STATE_KEY]: resourcesReducer,
 };
 
 export function localStorageSyncReducer(reducer: ActionReducer<RootState>): ActionReducer<RootState> {

@@ -11,12 +11,13 @@ import {
   unregisteredApplicationProfileReceived
 } from "../actions/application.actions";
 import {descriptionsNeeded} from "../actions/description.actions";
-import {AccessAuthorization, Authorization, BaseAuthorization} from "@janeirodigital/sai-api-messages";
+import {AccessAuthorization, Authorization, BaseAuthorization, ShareAuthorization, ShareAuthorizationConfirmation} from "@janeirodigital/sai-api-messages";
 
 const initialState = {}
 const dataSpy = jasmine.createSpyObj('data service', [
   'getUnregisteredApplicationProfile',
   'authorizeApplication',
+  'shareResource'
 ])
 
 const applicationId = 'https://app.id'
@@ -120,5 +121,38 @@ describe('Authorization Effects', () => {
   // TODO
   xit('redirect to callback', async() => {
     effects.redirectToCallbackEndpoint.subscribe().unsubscribe();
+  });
+
+  it('shareResource', (done) => {
+    const shareAuthorization = {
+      applicationId: 'https://work.alice.example/some-resource'
+    } as unknown as ShareAuthorization      
+
+    actions$ = of({
+      type: '[RESOURCE] Share Resource',
+      shareAuthorization
+    });
+
+    const expectedConfirmation = {
+      confirmation: {}
+    } as unknown as ShareAuthorizationConfirmation;
+
+    dataSpy.shareResource.and.resolveTo(expectedConfirmation);
+
+    effects.shareResource$.subscribe({
+      next: (action) => {
+        if (action.type === '[RESOURCE] Share Confirmation')
+        expect(action).toEqual({
+          type: '[RESOURCE] Share Confirmation',
+          confirmation: expectedConfirmation
+        });
+        expect(dataSpy.shareResource).toHaveBeenCalledOnceWith(shareAuthorization)
+      },
+      complete: () => done(),
+    });
+  });
+
+  xit('redirect to callback after share', async() => {
+    effects.redirectToCallbackEndpointAfterShare$.subscribe().unsubscribe();
   });
 })

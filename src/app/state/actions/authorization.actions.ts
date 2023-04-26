@@ -1,5 +1,5 @@
 import {createAction, props} from "@ngrx/store";
-import {AccessAuthorization, Authorization} from "@janeirodigital/sai-api-messages";
+import {AccessAuthorization, Authorization, ShareAuthorization, ShareAuthorizationConfirmation} from "@janeirodigital/sai-api-messages";
 
 
 /* Authorization page is loaded with a client_id in the url */
@@ -19,4 +19,14 @@ export const authorizationRequested = createAction(
 export const authorizationReceived = createAction(
   '[AUTHORIZATION] Authorization Received',
   props<{ accessAuthorization: AccessAuthorization }>()
+)
+
+export const shareResource = createAction(
+  '[RESOURCE] Share Resource',
+  props<{ shareAuthorization: ShareAuthorization }>()
+)
+
+export const shareResourceConfirmed = createAction(
+  '[RESOURCE] Share Confirmation',
+  props<{ confirmation: ShareAuthorizationConfirmation }>()
 )

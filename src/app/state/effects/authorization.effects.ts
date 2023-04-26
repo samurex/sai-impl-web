@@ -4,6 +4,8 @@ import {
   authorizationPageLoaded,
   authorizationReceived,
   authorizationRequested,
+  shareResource,
+  shareResourceConfirmed
 } from '../actions/authorization.actions';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { from, map, of, tap } from 'rxjs';
@@ -54,6 +56,7 @@ export class AuthorizationEffects {
   });
 
   /* Once an authorization is received then redirect to the application */
+  // TODO move into dedicated navigation.effects
   redirectToCallbackEndpoint = createEffect(
     () => {
       return this.actions$.pipe(
@@ -67,4 +70,18 @@ export class AuthorizationEffects {
     },
     { dispatch: false }
   );
+
+  shareResource$ = createEffect(() => { return this.actions$.pipe(
+    ofType(shareResource),
+    mergeMap(({ shareAuthorization }) => this.data.shareResource(shareAuthorization)),
+    map(confirmation => shareResourceConfirmed({ confirmation })),
+  ) })
+
+  /* Once the resource is shared then redirect to the application */
+  // TODO move into dedicated navigation.effects
+  redirectToCallbackEndpointAfterShare$ =  createEffect(() => { return this.actions$.pipe(
+    ofType(shareResourceConfirmed),
+    tap(({confirmation}) => window.location.href = confirmation.callbackEndpoint)
+  ) }, {dispatch: false});
+
 }

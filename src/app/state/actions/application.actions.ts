@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Application, DataRegistry, IRI, SocialAgent, Authorization, AccessAuthorization } from '@janeirodigital/sai-api-messages';
+import { Application, DataRegistry, IRI, SocialAgent, Authorization, AccessAuthorization, Resource } from '@janeirodigital/sai-api-messages';
 
 export const applicationsPanelLoaded = createAction(
   '[APPLICATION PROFILES] Application Profiles Requested'
@@ -56,3 +56,12 @@ export const dataRegistriesProvided = createAction(
   props<{registries: DataRegistry[]}>(),
 )
 
+export const loadResource = createAction(
+  '[RESOURCE] Resource Requested',
+  props<{ id: IRI }>()
+)
+
+export const resourceReceived = createAction(
+  '[RESOURCE] Resource Received',
+  props<{ resource: Resource }>()
+)
