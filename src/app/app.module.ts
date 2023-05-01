@@ -33,6 +33,8 @@ import { I18nModule } from './i18n.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LoginPage } from './pages/login/login.page';
 import {ApplicationComponent} from "./pages/application/application.component";
+import {AccessModesSelectorComponent} from './components/access-modes-selector/access-modes-selector.component'
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -52,8 +54,10 @@ import {ApplicationComponent} from "./pages/application/application.component";
     AppViewComponent,
     AddSocialAgentFormComponent,
     LoginPage,
+    AccessModesSelectorComponent,
   ],
   imports: [
+    MaterialModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

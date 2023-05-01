@@ -1,15 +1,44 @@
 
-<div *ngIf="(application$ | async) && (group$ | async) && (needs$ | async) && (shapetrees$ | async)"
-     class="flex flex-col p-10">
-  <sai-app-view [expanded]="true"
-                [application]="(application$ | async)!"
-                [group]="group$ | async"
-                [needs]="needs$ | async"
-                [shapetrees]="shapetrees$ | async"
-  ></sai-app-view>
+<ng-container>
+  <div *ngIf="(application$ | async) && (group$ | async) && (needs$ | async) && (shapetrees$ | async) && !(resource$ | async)"
+      class="flex flex-col p-10">
+    <sai-app-view [expanded]="true"
+                  [application]="(application$ | async)!"
+                  [group]="group$ | async"
+                  [needs]="needs$ | async"
+                  [shapetrees]="shapetrees$ | async"
+    ></sai-app-view>
 
-  <div class="flex space-x-12 my-8 mx-auto">
-    <button class="w-44 px-12 py-4 bg-blue-800 text-2xl text-blue-50" (click)="authorize(true)">{{'APP.CTA-SAVE' | translate}}</button>
-    <button class="w-44 px-12 py-4 bg-red-800 text-2xl text-red-50" (click)="authorize(false)">{{'APP.CTA-DISCARD' | translate}}</button>
+    <div class="flex space-x-12 my-8 mx-auto">
+      <button class="w-44 px-12 py-4 bg-blue-800 text-2xl text-blue-50" (click)="authorize(true)">{{'APP.CTA-SAVE' | translate}}</button>
+      <button class="w-44 px-12 py-4 bg-red-800 text-2xl text-red-50" (click)="authorize(false)">{{'APP.CTA-DISCARD' | translate}}</button>
+    </div>
   </div>
-</div>
+  <div *ngIf="(resource$ | async) as resource">
+    <mat-card>
+      <mat-card-title>{{ resource.shapeTree.label }}</mat-card-title>
+      <mat-card-content>
+        {{ resource.label }}
+        <sai-access-modes-selector (change)="accessChanged($event.mode)"></sai-access-modes-selector>
+        <mat-list>
+          <mat-list-item *ngFor="let child of resource.children">
+            {{child.shapeTree.label}} ({{ child.count }})
+            <sai-access-modes-selector [extras]="['add']" (change)="childChanged(child.shapeTree.id, $event.mode)"></sai-access-modes-selector>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+    <mat-selection-list #agents>
+      <mat-list-option *ngFor="let agent of potentialAccessGrantees$ | async" [value]="agent.id">
+        {{agent.label}}
+      </mat-list-option>
+    </mat-selection-list>
+    <button [disabled]="!agents.selectedOptions.selected.length || !shareData.accessMode.length" mat-raised-button color="primary" (click)="share(agents.selectedOptions.selected)">{{'APP.CTA-SHARE' | translate}}</button>
+    <mat-list>
+      <mat-list-item *ngFor="let agent of existingAccessGrantees$ | async">
+        {{ agent.label }}
+        <mat-icon>arrow_forward</mat-icon>
+      </mat-list-item>
+    </mat-list>
+  </div>  
+</ng-container>

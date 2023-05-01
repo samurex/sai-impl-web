@@ -6,20 +6,34 @@ import {
   Authorization,
   DataAuthorization,
   IRI,
+  AccessModes,
+  ShareAuthorizationModes,
+  ShareAuthorization,
+  BaseAuthorization,
+  Resource,
+  SocialAgent,
 } from '@janeirodigital/sai-api-messages';
 import { Store } from '@ngrx/store';
 import {
   authorizationPageLoaded,
   authorizationRequested,
+  shareResource,
 } from '../../state/actions/authorization.actions';
 import { applicationProfile } from '../../state/selectors/application.selectors';
-import { filter, firstValueFrom, Observable } from 'rxjs';
+import { filter, firstValueFrom, map, mergeMap, Observable, take, tap} from 'rxjs';
 import {
   selectAccessNeeds,
   selectGroupFromClientId,
   selectNeedsFromClientId,
   selectShapetreesFromClientId,
 } from '../../state/selectors/access-needs.selectors';
+import { selectResource } from 'src/app/state/selectors/resource.selectors';
+import { selectSocialAgents } from 'src/app/state/selectors/social-agent.selectors';
+import { concatLatestFrom } from '@ngrx/effects';
+import { loadResource, socialAgentsPanelLoaded } from 'src/app/state/actions/application.actions';
+
+// TODO: remove when removing material
+import { MatListOption } from '@angular/material/list';
 
 @Component({
   selector: 'sai-authorization-page',
@@ -28,11 +42,22 @@ import {
 })
 export class AuthorizationPage implements OnInit {
   clientId!: IRI;
+  resourceId?: IRI;
 
   application$!: Observable<Application>;
   group$!: Observable<AccessNeedGroup>;
   needs$!: Observable<AccessNeed[]>;
   shapetrees$!: Observable<ShapeTree[]>;
+
+  shareData: ShareAuthorizationModes = {
+    accessMode: [],
+    children: []
+  }
+  socialAgents$: Observable<SocialAgent[]> = this.store.select(selectSocialAgents);
+  potentialAccessGrantees$?: Observable<SocialAgent[]>;
+  existingAccessGrantees$?: Observable<SocialAgent[]>;
+
+  resource$?: Observable<Resource>;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,6 +80,33 @@ export class AuthorizationPage implements OnInit {
     this.shapetrees$ = this.store
       .select(selectShapetreesFromClientId(this.clientId))
       .pipe(filter(Boolean));
+
+    this.requestShareResourceData();
+    if (this.resourceId) {
+      this.resource$ = this.store
+        .select(selectResource(this.resourceId))
+        .pipe(filter(Boolean));
+
+      this.resource$.subscribe((resource) => {
+        this.shareData.children = resource!.children.map(child => ({
+          shapeTree: child.shapeTree.id,
+          accessMode: []
+        }))
+      })
+      
+      this.potentialAccessGrantees$ = this.resource$.pipe(
+        concatLatestFrom(() => this.socialAgents$),
+        map(([resource, socialAgents]) =>
+          socialAgents.filter(socialAgent => !resource!.accessGrantedTo.includes(socialAgent.id)))
+      )
+
+      this.existingAccessGrantees$ = this.resource$.pipe(
+        concatLatestFrom(() => this.socialAgents$),
+        map(([resource, socialAgents]) =>
+          socialAgents.filter(socialAgent => resource!.accessGrantedTo.includes(socialAgent.id)))
+      )
+
+    }
   }
 
   /**
@@ -62,7 +114,7 @@ export class AuthorizationPage implements OnInit {
    */
   private requestAuthorizationData(): void {
     const applicationId = this.route.snapshot.queryParamMap.get('client_id');
-
+  
     if (!applicationId) {
       this.router
         .navigateByUrl('dashboard')
@@ -72,6 +124,16 @@ export class AuthorizationPage implements OnInit {
 
     this.clientId = applicationId;
     this.store.dispatch(authorizationPageLoaded({ applicationId }));
+  }
+
+  private requestShareResourceData(): void {
+    const resourceId = this.route.snapshot.queryParamMap.get('resource');
+
+    if (resourceId) {
+      this.resourceId = decodeURIComponent(resourceId)
+      this.store.dispatch(loadResource({ id: this.resourceId }))
+      this.store.dispatch(socialAgentsPanelLoaded())
+    }
   }
 
   getScope(accessNeed: AccessNeed): string {
@@ -138,5 +200,48 @@ export class AuthorizationPage implements OnInit {
       };
     }
     this.store.dispatch(authorizationRequested({ authorization }));
+  }
+
+   share(agentOptions: MatListOption[]) {
+    this.resource$?.pipe(
+      filter(resource => !!resource),
+      take(1)
+    ).subscribe(resource => {
+      const shareAuthorization: ShareAuthorization = {
+        applicationId: this.clientId!,
+        resource: resource!.id,
+        accessMode: this.shareData.accessMode,
+        children: this.shareData.children,
+        agents: agentOptions.map(opt => opt.value)
+      }
+      this.store.dispatch(shareResource({ shareAuthorization }));
+      // TODO: show spinner
+    });
+  }
+
+  accessChanged(value: string) {
+    this.shareData.accessMode = this.chooseAccessMode(value)
+  }
+
+  childChanged(shapeTree: string, value: string) {
+    const child = this.shareData.children.find(c => c.shapeTree === shapeTree)
+    if (child) {
+      child.accessMode = this.chooseAccessMode(value) 
+    } else {
+      throw new Error(`shareData missing ${shapeTree}`)
+    }
+  }
+
+  chooseAccessMode(value: string): string[] {
+    switch (value) {
+      case 'view':
+        return [ AccessModes.Read ]
+      case 'edit':
+        return [ AccessModes.Read, AccessModes.Update ]
+      case 'add':
+        return [ AccessModes.Read, AccessModes.Update, AccessModes.Create ]
+      default:
+        return []
+    }
   }
 }
